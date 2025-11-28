@@ -1,7 +1,6 @@
 /* ====== RESET ====== */
 * { box-sizing: border-box; }
 html, body { height: 100%; }
-
 body {
     margin: 0;
     padding: 0;
@@ -13,13 +12,13 @@ body {
     min-height: 100vh;
 }
 
-/* ====== PAPAI NOEL NO TOPO ====== */
+/* ====== PAPAI NOEL NO TOPO DO SITE ====== */
 .papai-noel-topo {
     position: fixed;
-    top: 8px;
-    left: 8px;
-    width: 110px;
-    z-index: 50;
+    top: 10px;
+    left: 10px;
+    width: 120px;
+    z-index: 100;
 }
 
 /* ====== MOLDURA ====== */
@@ -32,7 +31,7 @@ body {
     margin: 30px 0;
     position: relative;
 
-    /* permite rolagem interna do conteudo */
+    /* 🔥 Permite ver TODAS as perguntas novamente */
     overflow-y: auto;
     max-height: 88vh;
 }
@@ -41,7 +40,7 @@ body {
 form {
     width: 100%;
     max-width: 700px;
-    background: rgba(255, 255, 255, 0);
+    background: transparent;
 }
 
 h2 {
@@ -99,7 +98,7 @@ button:hover { opacity: 0.95; }
 }
 
 .qrcode-grande {
-    width: 180px;
+    width: 200px;      /* 🔥 Aumentado para ficar visível no celular */
     border-radius: 8px;
 }
 
@@ -107,18 +106,19 @@ button:hover { opacity: 0.95; }
 @media (max-width: 600px) {
 
     .papai-noel-topo {
-        width: 90px;
+        width: 100px;
+        top: 6px;
+        left: 6px;
     }
 
     .moldura {
-        padding: 40px 18px;
-        background-size: 140% auto;
+        padding: 40px 20px;
+        background-size: 150% auto;
         max-height: 87vh;
     }
 
     .qrcode-grande {
-        width: 150px;
+        width: 160px;
     }
 }
-
 
