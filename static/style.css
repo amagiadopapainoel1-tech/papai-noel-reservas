@@ -1,10 +1,7 @@
 /* ====== RESET ====== */
-* {
-    box-sizing: border-box;
-}
-html, body {
-    height: 100%;
-}
+* { box-sizing: border-box; }
+html, body { height: 100%; }
+
 body {
     margin: 0;
     padding: 0;
@@ -16,36 +13,28 @@ body {
     min-height: 100vh;
 }
 
+/* ====== PAPAI NOEL NO TOPO ====== */
+.papai-noel-topo {
+    position: fixed;
+    top: 8px;
+    left: 8px;
+    width: 110px;
+    z-index: 50;
+}
+
 /* ====== MOLDURA ====== */
 .moldura {
-    width: 100%;                 /* <- AGORA USA 100% DA TELA */
+    width: 95%;
     max-width: 900px;
-    padding: 70px 35px 110px 35px; /* espaço interno mais equilibrado */
+    padding: 60px 40px;
     background: url("/static/moldura_natal.png") no-repeat center;
-    background-size: 100% auto;   /* <- ocupa toda a largura */
-    margin: 0;                    /* <- remove margens */
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
+    background-size: contain;
+    margin: 30px 0;
     position: relative;
-}
 
-/* ====== PAPAI NOEL (canto superior esquerdo) ====== */
-.papai-noel {
-    position: absolute;
-    top: -25px;
-    left: -15px;
-    width: 150px;     /* <- AUMENTADO */
-    z-index: 10;
-}
-
-/* ====== QRCODE PIX (canto inferior direito) ====== */
-.qrcode {
-    position: absolute;
-    bottom: -10px;
-    right: -10px;
-    width: 70px;     /* <- REDUZIDO ~60% */
-    z-index: 10;
+    /* permite rolagem interna do conteudo */
+    overflow-y: auto;
+    max-height: 88vh;
 }
 
 /* ====== FORM ====== */
@@ -54,19 +43,20 @@ form {
     max-width: 700px;
     background: rgba(255, 255, 255, 0);
 }
+
 h2 {
     color: #b00000;
     text-align: center;
-    margin: 0 0 12px 0;
+    margin-bottom: 12px;
 }
+
 label {
     display: block;
     margin-top: 12px;
-    color: #222;
     font-weight: 600;
-    text-align: left;
     font-size: 15px;
 }
+
 input, select, textarea {
     width: 100%;
     padding: 10px;
@@ -75,10 +65,12 @@ input, select, textarea {
     border: 1px solid #ccc;
     font-size: 15px;
 }
+
 textarea {
     resize: vertical;
     min-height: 60px;
 }
+
 button {
     margin-top: 18px;
     width: 100%;
@@ -90,9 +82,9 @@ button {
     border-radius: 8px;
     cursor: pointer;
 }
-button:hover {
-    opacity: 0.95;
-}
+
+button:hover { opacity: 0.95; }
+
 .msg {
     color: #e6b800;
     margin-top: 14px;
@@ -100,23 +92,37 @@ button:hover {
     font-weight: 700;
 }
 
+/* ====== PIX NO FINAL DO FORMULARIO ====== */
+.pix-container {
+    text-align: center;
+    margin-top: 25px;
+}
+
+.qrcode-grande {
+    width: 180px;
+    border-radius: 8px;
+}
+
 /* ====== RESPONSIVO ====== */
 @media (max-width: 600px) {
 
+    .papai-noel-topo {
+        width: 90px;
+    }
+
     .moldura {
-        padding: 55px 20px 90px 20px;
-        background-size: 125% auto; /* Moldura mais equilibrada no celular */
+        padding: 40px 18px;
+        background-size: 140% auto;
+        max-height: 87vh;
     }
 
-    .papai-noel {
-        width: 130px;  /* proporcional */
-        top: -20px;
-        left: -10px;
+    .qrcode-grande {
+        width: 150px;
     }
+}
 
-    .qrcode {
-        width: 65px;   /* reduzido proporcional */
         bottom: -8px;
         right: -8px;
     }
 }
+
