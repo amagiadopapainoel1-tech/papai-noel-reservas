@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify, render_template
+from flask import Flask, render_template, request
 import os
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
@@ -6,9 +6,9 @@ import json
 
 app = Flask(__name__)
 
-# ================================
-#   AUTENTICAÇÃO GOOGLE SHEETS
-# ================================
+# ============================================
+#   1 — GOOGLE CREDENTIALS (Render)
+# ============================================
 google_credentials_json = os.getenv("GOOGLE_CREDENTIALS")
 
 if not google_credentials_json:
@@ -24,28 +24,30 @@ scope = [
 creds = ServiceAccountCredentials.from_json_keyfile_dict(creds_dict, scope)
 client = gspread.authorize(creds)
 
+# ============================================
+#   2 — SUA PLANILHA
+# ============================================
 SHEET_ID = "10HFxgC2k_6VkFyUoTiPMg6h0aBUhUaESYg5knbapktM"
 sheet = client.open_by_key(SHEET_ID).sheet1
 
+# Horários disponíveis
+HORARIOS = [
+    "08:00", "09:00", "10:00", "11:00",
+    "12:00", "13:00", "14:00", "15:00",
+    "16:00", "17:00", "18:00", "19:00",
+    "20:00", "21:00"
+]
 
-# ================================
-#   PÁGINA PRINCIPAL (FORMULÁRIO)
-# ================================
+# ============================================
+#   3 — ROTA PRINCIPAL (formulário)
+# ============================================
 @app.route("/", methods=["GET"])
-def formulario():
-    horarios = [
-        "08:00", "08:30", "09:00", "09:30",
-        "10:00", "10:30", "11:00", "11:30",
-        "12:00", "13:00", "14:00", "15:00",
-        "16:00", "17:00", "18:00", "19:00",
-        "20:00", "21:00", "22:00"
-    ]
-    return render_template("index.html", horarios=horarios)
+def index():
+    return render_template("index.html", horarios=HORARIOS)
 
-
-# ======================================
-#   ROTA PARA RECEBER ENVIO DO FORMULÁRIO
-# ======================================
+# ============================================
+#   4 — ROTA PARA RECEBER O FORMULÁRIO
+# ============================================
 @app.route("/enviar", methods=["POST"])
 def enviar():
     try:
@@ -62,37 +64,22 @@ def enviar():
         bairro = request.form.get("bairro")
         cidade = request.form.get("cidade")
 
+        # Envia para a planilha
         sheet.append_row([
-            data, horario, responsavel, numero_criancas,
-            email, telefone, valor_total, status_pagamento,
-            observacoes, endereco, bairro, cidade
+            data, horario, responsavel, numero_criancas, email, telefone,
+            valor_total, status_pagamento, observacoes, endereco, bairro, cidade
         ])
 
-        mensagem = "Reserva enviada com sucesso!"
-        horarios = [
-            "08:00", "08:30", "09:00", "09:30",
-            "10:00", "10:30", "11:00", "11:30",
-            "12:00", "13:00", "14:00", "15:00",
-            "16:00", "17:00", "18:00", "19:00",
-            "20:00", "21:00", "22:00"
-        ]
-
-        return render_template("index.html", mensagem=mensagem, horarios=horarios)
-
+        return render_template("index.html",
+                               horarios=HORARIOS,
+                               mensagem="Reserva registrada com sucesso!")
     except Exception as e:
-        return f"ERRO ao enviar reserva: {str(e)}", 500
+        return render_template("index.html",
+                               horarios=HORARIOS,
+                               mensagem=f"Erro ao enviar: {str(e)}")
 
-
-# ================================
-#     TESTE DA API
-# ================================
-@app.route("/api", methods=["GET"])
-def api_teste():
-    return jsonify({"status": "online", "mensagem": "API funcionando"})
-
-
-# ================================
-#   EXECUÇÃO LOCAL / RENDER
-# ================================
+# ============================================
+#   5 — EXECUÇÃO LOCAL
+# ============================================
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=10000)
