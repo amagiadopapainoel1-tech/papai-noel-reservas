@@ -1,82 +1,53 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Reserva – Papai Noel Paulo Duarte</title>
-
-    <!-- Arquivo CSS -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reserva - Papai Noel</title>
+    <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
 
-    <!-- FOTO DO PAI NOEL NO CANTO SUPERIOR ESQUERDO -->
-    <img src="{{ url_for('static', filename='recorte papai noel.png') }}" 
-         alt="Papai Noel"
-         class="foto-papai-noel">
-
+    <!-- MOLDURA DE NATAL -->
     <div class="moldura">
 
+        <!-- PAPAI NOEL (TOPO ESQUERDO) -->
+        <img src="/static/papai_noel.png" class="papai-noel" alt="Papai Noel">
+
+        <!-- QRCODE PIX (INFERIOR DIREITO) -->
+        <img src="/static/qrcode_pix.png" class="qrcode" alt="QR Code PIX">
+
+        <!-- FORMULÁRIO -->
         <form action="/enviar" method="POST">
 
-            <h2>Agenda Papai Noel</h2>
+            <h2>Formulário de Reserva</h2>
 
-            <label for="data">Data:</label>
-            <input type="date" id="data" name="data" required>
+            <label>Nome completo:</label>
+            <input type="text" name="nome" required>
 
-            <label for="horario">Horário:</label>
-            <select id="horario" name="horario" required>
-                {% for h in horarios %}
-                    <option value="{{ h }}">{{ h }}</option>
-                {% endfor %}
-            </select>
+            <label>Endereço:</label>
+            <input type="text" name="endereco" required>
 
-            <label for="responsavel">Responsável:</label>
-            <input type="text" id="responsavel" name="responsavel" required>
+            <label>Data da visita:</label>
+            <input type="date" name="data" required>
 
-            <label for="numero_criancas">Número de crianças:</label>
-            <input type="number" id="numero_criancas" name="numero_criancas" required>
+            <label>Horário desejado:</label>
+            <input type="time" name="hora" required>
 
-            <label for="email">E-mail:</label>
-            <input type="email" id="email" name="email" required>
+            <label>Telefone (WhatsApp):</label>
+            <input type="text" name="telefone" required>
 
-            <label for="telefone">Telefone:</label>
-            <input type="text" id="telefone" name="telefone" required>
-
-            <label for="valor_total">Valor total:</label>
-            <input type="text" id="valor_total" name="valor_total" required>
-
-            <label for="status_pagamento">Status do pagamento:</label>
-            <select id="status_pagamento" name="status_pagamento" required>
-                <option value="PAGO">PAGO</option>
-                <option value="PENDENTE">PENDENTE</option>
-            </select>
-
-            <label for="observacoes">Observações:</label>
-            <textarea id="observacoes" name="observacoes" rows="3"></textarea>
-
-            <label for="endereco">Endereço:</label>
-            <input type="text" id="endereco" name="endereco" required>
-
-            <label for="bairro">Bairro:</label>
-            <input type="text" id="bairro" name="bairro" required>
-
-            <label for="cidade">Cidade:</label>
-            <input type="text" id="cidade" name="cidade" required>
+            <label>Mensagem adicional (opcional):</label>
+            <textarea name="mensagem"></textarea>
 
             <button type="submit">Enviar Reserva</button>
 
             {% if mensagem %}
-                <p class="msg">{{ mensagem }}</p>
+            <p class="msg">{{ mensagem }}</p>
             {% endif %}
 
-            <!-- IMAGEM DO PIX NO CANTO INFERIOR DIREITO -->
-            <img src="{{ url_for('static', filename='KrCode pix Paulo.jpg') }}" 
-                 alt="Chave Pix"
-                 class="imagem-pix">
-
         </form>
+
     </div>
 
 </body>
