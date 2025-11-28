@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Agenda do Papai Noel 🎅</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f6f5f7;
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+            color: #B30000;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        th {
+            background: #B30000;
+            color: white;
+            padding: 10px;
+            text-transform: uppercase;
+        }
+        td {
+            padding: 8px;
+            border-bottom: 1px solid #ddd;
+        }
+        tr:hover {
+            background: #f1e1e1;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Agenda do Papai Noel 🎅</h1>
+
+    <table>
+        <tr>
+            <th>Data</th>
+            <th>Hora</th>
+            <th>Criança</th>
+            <th>Responsável</th>
+            <th>Telefone</th>
+            <th>Endereço</th>
+            <th>Bairro</th>
+            <th>Presente</th>
+            <th>Status</th>
+            <th>Observações</th>
+        </tr>
+
+        {% for linha in dados %}
+        <tr>
+            <td>{{ linha[0] }}</td>
+            <td>{{ linha[1] }}</td>
+            <td>{{ linha[2] }}</td>
+            <td>{{ linha[3] }}</td>
+            <td>{{ linha[4] }}</td>
+            <td>{{ linha[5] }}</td>
+            <td>{{ linha[6] }}</td>
+            <td>{{ linha[7] }}</td>
+            <td>{{ linha[8] }}</td>
+            <td>{{ linha[9] }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
