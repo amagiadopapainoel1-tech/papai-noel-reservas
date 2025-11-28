@@ -3,6 +3,7 @@
 ========================= -->
 <div class="header-noel">
     <img src="FOTO_DO_PAPAI_NOEL.png" class="noel-foto" alt="Papai Noel">
+
     <div class="header-textos">
         <h1 class="titulo-form">Agendamento Papai Noel</h1>
         <p class="preco-info">R$ 50,00 por criança</p>
@@ -41,54 +42,5 @@
     <select id="hora" class="input">
         <option value="">Selecione a data primeiro</option>
     </select>
+
 </div>
-
-<!-- ===================================================
-      JAVASCRIPT — CAMPOS DINÂMICOS + HORÁRIOS FILTRADOS
-======================================================= -->
-<script>
-// ============================
-// CAMPOS DINÂMICOS DE CRIANÇAS
-// ============================
-function atualizarCampos() {
-    const qtd = document.getElementById("qtd").value;
-    const container = document.getElementById("nomes-criancas");
-    container.innerHTML = "";
-
-    if (!qtd) return;
-
-    for (let i = 1; i <= qtd; i++) {
-        const campo = `
-            <label class="label">Nome da criança ${i}</label>
-            <input type="text" class="input" placeholder="Digite o nome">
-        `;
-        container.innerHTML += campo;
-    }
-}
-
-// ============================
-// HORÁRIOS POR DIA
-// ============================
-function carregarHorarios() {
-    const dia = document.getElementById("data").value;
-    const selectHora = document.getElementById("hora");
-
-    let horarios24 = ["18:00", "19:00", "20:00", "21:00"];
-    let horarios25 = ["10:00", "11:00", "12:00", "13:00"];
-
-    selectHora.innerHTML = "";
-
-    if (!dia) {
-        selectHora.innerHTML = '<option value="">Selecione a data primeiro</option>';
-        return;
-    }
-
-    const lista = dia == "24" ? horarios24 : horarios25;
-
-    selectHora.innerHTML = '<option value="">Selecione</option>';
-
-    lista.forEach(h => {
-        selectHora.innerHTML += `<option value="${h}">${h}</option>`;
-    });
-}
-</script>
