@@ -1,7 +1,6 @@
 /* ====== RESET ====== */
 * { box-sizing: border-box; }
 html, body { height: 100%; }
-
 body {
     margin: 0;
     padding: 0;
@@ -23,26 +22,31 @@ body {
 }
 
 /* ====== MOLDURA ====== */
+/* Proporção igual à imagem base */
 .moldura {
-    width: 92%;                 /* ligeiramente menor que antes para encaixar igual à imagem */
-    max-width: 420px;           /* limite máximo semelhante à largura de uma tela de celular */
-    padding: 30px 18px;         /* reduzido para manter a borda preta proporcional */
+    width: 95%;
+    max-width: 420px;          /* semelhante ao "preto" da imagem */
+    padding: 30px 22px;        /* borda interna semelhante à moldura */
     background: url("/static/moldura_natal.png") no-repeat center;
     background-size: contain;
-    margin: 25px 0;
+    margin: 30px 0;
     position: relative;
 
-    /* rolagem interna */
+    /* permite rolagem interna */
     overflow-y: auto;
-    max-height: 88vh;          
+    max-height: 88vh;
+
+    /* centralização correta */
+    display: flex;
+    justify-content: center;
 }
 
 /* ====== FORM ====== */
+/* Proporção do "amarelo" exatamente como na imagem */
 form {
     width: 100%;
-    max-width: 360px;      /* ajustado para encaixar certinho dentro da moldura */
-    margin: 0 auto;        /* centraliza dentro da moldura */
-    background: rgba(255, 255, 255, 0);
+    max-width: 350px;          /* largura equivalente ao retângulo amarelo */
+    background: rgba(255,255,255,0);
 }
 
 h2 {
@@ -83,7 +87,6 @@ button {
     border-radius: 8px;
     cursor: pointer;
 }
-
 button:hover { opacity: 0.95; }
 
 .msg {
@@ -98,28 +101,26 @@ button:hover { opacity: 0.95; }
     text-align: center;
     margin-top: 25px;
 }
-
 .qrcode-grande {
     width: 180px;
     border-radius: 8px;
 }
 
-/* ====== RESPONSIVO (CELULAR) ====== */
+/* ====== RESPONSIVO ====== */
 @media (max-width: 600px) {
-
     .papai-noel-topo {
         width: 90px;
     }
 
     .moldura {
-        width: 94%;
-        max-width: 380px;
-        padding: 26px 14px;
+        padding: 25px 16px;
+        background-size: 140% auto;
         max-height: 87vh;
+        max-width: 92%;
     }
 
     form {
-        max-width: 340px;   /* mesma proporção do amarelo da imagem-base */
+        max-width: 100%;
     }
 
     .qrcode-grande {
