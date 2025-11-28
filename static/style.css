@@ -1,5 +1,7 @@
-/* ========== CSS INCLUÍDO ========== */
-* { box-sizing: border-box; }
+/* ====== RESET ====== */
+* {
+    box-sizing: border-box;
+}
 
 html, body {
     height: 100%;
@@ -10,48 +12,56 @@ body {
     padding: 0;
     background: #f2f2f2;
     font-family: Arial, sans-serif;
+
     display: flex;
     justify-content: center;
     align-items: flex-start;
+
     min-height: 100vh;
 }
 
-/* Moldura com formulário dentro */
+/* ====== MOLDURA ====== */
 .moldura {
     width: 95%;
     max-width: 900px;
+
     padding: 60px 40px;
+
     background: url("/static/moldura_natal.png") no-repeat center;
     background-size: contain;
+
     margin: 30px 0;
+
     display: flex;
     justify-content: center;
     align-items: flex-start;
+
     position: relative;
 }
 
-/* FOTO PAPAI NOEL - canto superior esquerdo */
-.foto-papai-noel {
+/* ====== PAPAI NOEL (canto superior esquerdo) ====== */
+.papai-noel {
     position: absolute;
-    top: 10px;
-    left: 10px;
+    top: -20px;
+    left: -10px;
     width: 110px;
     z-index: 10;
 }
 
-/* QR Code PIX - canto inferior direito */
-.qr-pix {
+/* ====== QRCODE PIX (canto inferior direito) ====== */
+.qrcode {
     position: absolute;
-    bottom: 20px;
-    right: 25px;
-    width: 130px;
+    bottom: -20px;
+    right: -10px;
+    width: 115px;
     z-index: 10;
 }
 
+/* ====== FORM ====== */
 form {
     width: 100%;
     max-width: 700px;
-    background: rgba(255,255,255,0);
+    background: rgba(255, 255, 255, 0);
 }
 
 h2 {
@@ -106,19 +116,22 @@ button:hover {
     font-weight: 700;
 }
 
+/* ====== RESPONSIVO ====== */
 @media (max-width: 600px) {
     .moldura {
         padding: 40px 18px;
         background-size: 140% auto;
     }
-    .foto-papai-noel {
-        width: 85px;
-        top: 6px;
-        left: 6px;
+
+    .papai-noel {
+        width: 90px;
+        top: -10px;
+        left: -5px;
     }
-    .qr-pix {
-        width: 110px;
-        right: 10px;
-        bottom: 15px;
+
+    .qrcode {
+        width: 100px;
+        right: -5px;
+        bottom: -10px;
     }
 }
