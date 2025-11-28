@@ -1,55 +1,46 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Agendamento - Papai Noel</title>
-    <link rel="stylesheet" href="/static/style.css">
-</head>
+<!-- =========================
+      CABEÇALHO DO FORMULÁRIO
+========================= -->
+<div class="header-noel">
+    <img src="FOTO_DO_PAPAI_NOEL.png" class="noel-foto" alt="Papai Noel">
 
-<body>
-
-    <!-- PAPAI NOEL TOPO -->
-    <img src="/static/papai_noel.png" class="papai-noel-topo" alt="Papai Noel">
-
-    <div class="moldura">
-
-        <form action="/enviar" method="POST">
-
-            <h2>Agendamento de Visita do Papai Noel</h2>
-
-            <label>Nome Completo:</label>
-            <input type="text" name="nome" required>
-
-            <label>Telefone:</label>
-            <input type="text" name="telefone" required>
-
-            <label>Endereço Completo:</label>
-            <textarea name="endereco" required></textarea>
-
-            <label>Data da Visita:</label>
-            <input type="date" name="data" required>
-
-            <label>Horário Preferido:</label>
-            <input type="time" name="horario" required>
-
-            <label>Observações:</label>
-            <textarea name="obs"></textarea>
-
-            <button type="submit">Enviar Agendamento</button>
-
-            {% if msg %}
-            <p class="msg">{{ msg }}</p>
-            {% endif %}
-
-            <!-- QRCODE PIX NO FINAL DO FORMULÁRIO -->
-            <div class="pix-container">
-                <img src="/static/qrcode_pix.png" class="qrcode-grande" alt="QR Code PIX">
-            </div>
-
-        </form>
-
+    <div class="header-textos">
+        <h1 class="titulo-form">Agendamento Papai Noel</h1>
+        <p class="preco-info">R$ 50,00 por criança</p>
     </div>
+</div>
 
-</body>
-</html>
+<!-- =========================
+      FORMULÁRIO PRINCIPAL
+========================= -->
+<div class="form-container">
+
+    <!-- Quantidade de crianças -->
+    <label for="qtd" class="label">Quantidade de crianças</label>
+    <select id="qtd" onchange="atualizarCampos()" class="input">
+        <option value="">Selecione</option>
+        <option value="1">1 criança</option>
+        <option value="2">2 crianças</option>
+        <option value="3">3 crianças</option>
+        <option value="4">4 crianças</option>
+        <option value="5">5 crianças</option>
+    </select>
+
+    <!-- Campos dinâmicos dos nomes -->
+    <div id="nomes-criancas"></div>
+
+    <!-- Data -->
+    <label for="data" class="label">Data</label>
+    <select id="data" onchange="carregarHorarios()" class="input">
+        <option value="">Selecione</option>
+        <option value="24">24 de Dezembro</option>
+        <option value="25">25 de Dezembro</option>
+    </select>
+
+    <!-- Horário -->
+    <label for="hora" class="label">Horário</label>
+    <select id="hora" class="input">
+        <option value="">Selecione a data primeiro</option>
+    </select>
+
+</div>
