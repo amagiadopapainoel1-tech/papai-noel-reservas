@@ -3,51 +3,52 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reserva - Papai Noel</title>
+    <title>Reservas Papai Noel</title>
     <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
 
-    <!-- MOLDURA DE NATAL -->
+    <!-- MOLDURA (PERFEITA, NÃO ALTERAMOS) -->
     <div class="moldura">
 
-        <!-- PAPAI NOEL (TOPO ESQUERDO) -->
-        <img src="/static/papai_noel.png" class="papai-noel" alt="Papai Noel">
-
-        <!-- QRCODE PIX (INFERIOR DIREITO) -->
-        <img src="/static/qrcode_pix.png" class="qrcode" alt="QR Code PIX">
-
-        <!-- FORMULÁRIO -->
         <form action="/enviar" method="POST">
 
-            <h2>Formulário de Reserva</h2>
+            <!-- FOTO DO PAPAI NOEL (AGORA DENTRO DO FORMULÁRIO) -->
+            <img src="/static/papai_noel.png" class="foto-topo" alt="Papai Noel">
 
-            <label>Nome completo:</label>
+            <h2>Formulário de Agendamento</h2>
+
+            <label>Nome completo</label>
             <input type="text" name="nome" required>
 
-            <label>Endereço:</label>
-            <input type="text" name="endereco" required>
-
-            <label>Data da visita:</label>
-            <input type="date" name="data" required>
-
-            <label>Horário desejado:</label>
-            <input type="time" name="hora" required>
-
-            <label>Telefone (WhatsApp):</label>
+            <label>Telefone</label>
             <input type="text" name="telefone" required>
 
-            <label>Mensagem adicional (opcional):</label>
-            <textarea name="mensagem"></textarea>
+            <label>E-mail</label>
+            <input type="email" name="email" required>
 
-            <button type="submit">Enviar Reserva</button>
+            <label>Endereço completo</label>
+            <textarea name="endereco" required></textarea>
 
-            {% if mensagem %}
-            <p class="msg">{{ mensagem }}</p>
-            {% endif %}
+            <label>Nome das crianças</label>
+            <textarea name="criancas" required></textarea>
+
+            <label>Idade das crianças</label>
+            <textarea name="idades" required></textarea>
+
+            <label>Observações adicionais</label>
+            <textarea name="obs"></textarea>
+
+            <button type="submit">Enviar Pedido</button>
 
         </form>
 
+    </div>
+
+    <!-- QR CODE PIX — AGORA FORA DA MOLDURA E MAIOR -->
+    <div class="pix-container">
+        <img src="/static/qrcode_pix.png" class="pix-img" alt="QR Code PIX">
+        <p class="pix-texto">Pagamento antecipado via PIX</p>
     </div>
 
 </body>
