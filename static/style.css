@@ -1,6 +1,7 @@
 /* ====== RESET ====== */
 * { box-sizing: border-box; }
 html, body { height: 100%; }
+
 body {
     margin: 0;
     padding: 0;
@@ -12,35 +13,36 @@ body {
     min-height: 100vh;
 }
 
-/* ====== PAPAI NOEL NO TOPO DO SITE ====== */
+/* ====== PAPAI NOEL NO TOPO ====== */
 .papai-noel-topo {
     position: fixed;
-    top: 10px;
-    left: 10px;
-    width: 120px;
-    z-index: 100;
+    top: 8px;
+    left: 8px;
+    width: 110px;
+    z-index: 50;
 }
 
 /* ====== MOLDURA ====== */
 .moldura {
-    width: 95%;
-    max-width: 900px;
-    padding: 60px 40px;
+    width: 92%;                 /* ligeiramente menor que antes para encaixar igual à imagem */
+    max-width: 420px;           /* limite máximo semelhante à largura de uma tela de celular */
+    padding: 30px 18px;         /* reduzido para manter a borda preta proporcional */
     background: url("/static/moldura_natal.png") no-repeat center;
     background-size: contain;
-    margin: 30px 0;
+    margin: 25px 0;
     position: relative;
 
-    /* 🔥 Permite ver TODAS as perguntas novamente */
+    /* rolagem interna */
     overflow-y: auto;
-    max-height: 88vh;
+    max-height: 88vh;          
 }
 
 /* ====== FORM ====== */
 form {
     width: 100%;
-    max-width: 700px;
-    background: transparent;
+    max-width: 360px;      /* ajustado para encaixar certinho dentro da moldura */
+    margin: 0 auto;        /* centraliza dentro da moldura */
+    background: rgba(255, 255, 255, 0);
 }
 
 h2 {
@@ -91,34 +93,36 @@ button:hover { opacity: 0.95; }
     font-weight: 700;
 }
 
-/* ====== PIX NO FINAL DO FORMULARIO ====== */
+/* ====== PIX ====== */
 .pix-container {
     text-align: center;
     margin-top: 25px;
 }
 
 .qrcode-grande {
-    width: 200px;      /* 🔥 Aumentado para ficar visível no celular */
+    width: 180px;
     border-radius: 8px;
 }
 
-/* ====== RESPONSIVO ====== */
+/* ====== RESPONSIVO (CELULAR) ====== */
 @media (max-width: 600px) {
 
     .papai-noel-topo {
-        width: 100px;
-        top: 6px;
-        left: 6px;
+        width: 90px;
     }
 
     .moldura {
-        padding: 40px 20px;
-        background-size: 150% auto;
+        width: 94%;
+        max-width: 380px;
+        padding: 26px 14px;
         max-height: 87vh;
     }
 
+    form {
+        max-width: 340px;   /* mesma proporção do amarelo da imagem-base */
+    }
+
     .qrcode-grande {
-        width: 160px;
+        width: 150px;
     }
 }
-
