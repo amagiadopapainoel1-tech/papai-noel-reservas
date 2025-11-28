@@ -6,12 +6,7 @@
     <title>Reserva – Papai Noel Paulo Duarte</title>
 
     <style>
-    /* ========== CSS INCLUÍDO ========== */
     * { box-sizing: border-box; }
-
-    html, body {
-        height: 100%;
-    }
 
     body {
         margin: 0;
@@ -26,10 +21,10 @@
 
     .moldura {
         width: 95%;
-        max-width: 900px;               /* ajustar se quiser maior/menor */
-        padding: 60px 40px;             /* espaço interno para o formulário */
+        max-width: 900px;
+        padding: 60px 40px;
         background: url("{{ url_for('static', filename='moldura_natal.png') }}") no-repeat center;
-        background-size: contain;       /* mantém proporções da imagem */
+        background-size: contain;
         margin: 30px 0;
         display: flex;
         justify-content: center;
@@ -37,10 +32,30 @@
         position: relative;
     }
 
+    /* FOTO PAPAI NOEL - canto superior esquerdo */
+    .img-noel {
+        position: absolute;
+        top: -20px;       /* ajuste fino */
+        left: -20px;      /* ajuste fino */
+        width: 120px;
+        height: auto;
+        z-index: 999;
+    }
+
+    /* PIX - canto inferior direito */
+    .img-pix {
+        position: absolute;
+        bottom: -10px;    /* ajuste fino */
+        right: -10px;     /* ajuste fino */
+        width: 150px;
+        height: auto;
+        z-index: 999;
+    }
+
     form {
         width: 100%;
         max-width: 700px;
-        background: rgba(255,255,255,0); /* transparente para ficar sobre a moldura */
+        background: rgba(255,255,255,0);
     }
 
     h2 {
@@ -54,7 +69,6 @@
         margin-top: 12px;
         color: #222;
         font-weight: 600;
-        text-align: left;
         font-size: 15px;
     }
 
@@ -66,10 +80,6 @@
         border: 1px solid #ccc;
         font-size: 15px;
     }
-
-    input[type="number"] { -moz-appearance: textfield; }
-
-    textarea { resize: vertical; min-height: 60px; }
 
     button {
         margin-top: 18px;
@@ -97,16 +107,29 @@
             padding: 40px 18px;
             background-size: 140% auto;
         }
-        form { max-width: 100%; }
+        .img-noel {
+            width: 80px;
+            top: -10px;
+            left: -10px;
+        }
+        .img-pix {
+            width: 110px;
+            bottom: -5px;
+            right: -5px;
+        }
     }
-    /* ========== FIM DO CSS ========== */
     </style>
 </head>
+
 <body>
-
     <div class="moldura">
-        <form action="/enviar" method="POST">
+        <!-- IMAGEM DO PAPAI NOEL -->
+        <img src="{{ url_for('static', filename='recorte papai noel.png') }}" class="img-noel">
 
+        <!-- IMAGEM DO PIX -->
+        <img src="{{ url_for('static', filename='KrCode pix Paulo.jpg') }}" class="img-pix">
+
+        <form action="/enviar" method="POST">
             <h2>Agenda Papai Noel</h2>
 
             <label for="data">Data:</label>
@@ -157,9 +180,7 @@
             {% if mensagem %}
                 <p class="msg">{{ mensagem }}</p>
             {% endif %}
-
         </form>
     </div>
-
 </body>
 </html>
