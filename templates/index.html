@@ -1,54 +1,54 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reservas Papai Noel</title>
+    <title>Agendamento - Papai Noel</title>
     <link rel="stylesheet" href="/static/style.css">
 </head>
+
 <body>
 
-    <!-- MOLDURA (PERFEITA, NÃO ALTERAMOS) -->
+    <!-- PAPAI NOEL TOPO -->
+    <img src="/static/papai_noel.png" class="papai-noel-topo" alt="Papai Noel">
+
     <div class="moldura">
 
         <form action="/enviar" method="POST">
 
-            <!-- FOTO DO PAPAI NOEL (AGORA DENTRO DO FORMULÁRIO) -->
-            <img src="/static/papai_noel.png" class="foto-topo" alt="Papai Noel">
+            <h2>Agendamento de Visita do Papai Noel</h2>
 
-            <h2>Formulário de Agendamento</h2>
-
-            <label>Nome completo</label>
+            <label>Nome Completo:</label>
             <input type="text" name="nome" required>
 
-            <label>Telefone</label>
+            <label>Telefone:</label>
             <input type="text" name="telefone" required>
 
-            <label>E-mail</label>
-            <input type="email" name="email" required>
-
-            <label>Endereço completo</label>
+            <label>Endereço Completo:</label>
             <textarea name="endereco" required></textarea>
 
-            <label>Nome das crianças</label>
-            <textarea name="criancas" required></textarea>
+            <label>Data da Visita:</label>
+            <input type="date" name="data" required>
 
-            <label>Idade das crianças</label>
-            <textarea name="idades" required></textarea>
+            <label>Horário Preferido:</label>
+            <input type="time" name="horario" required>
 
-            <label>Observações adicionais</label>
+            <label>Observações:</label>
             <textarea name="obs"></textarea>
 
-            <button type="submit">Enviar Pedido</button>
+            <button type="submit">Enviar Agendamento</button>
+
+            {% if msg %}
+            <p class="msg">{{ msg }}</p>
+            {% endif %}
+
+            <!-- QRCODE PIX NO FINAL DO FORMULÁRIO -->
+            <div class="pix-container">
+                <img src="/static/qrcode_pix.png" class="qrcode-grande" alt="QR Code PIX">
+            </div>
 
         </form>
 
-    </div>
-
-    <!-- QR CODE PIX — AGORA FORA DA MOLDURA E MAIOR -->
-    <div class="pix-container">
-        <img src="/static/qrcode_pix.png" class="pix-img" alt="QR Code PIX">
-        <p class="pix-texto">Pagamento antecipado via PIX</p>
     </div>
 
 </body>
