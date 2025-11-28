@@ -1,1 +1,2 @@
-web: gunicorn papai_noel:app
+web: gunicorn app:app
+
