@@ -2,58 +2,49 @@
 * {
     box-sizing: border-box;
 }
-
 html, body {
     height: 100%;
 }
-
 body {
     margin: 0;
     padding: 0;
     background: #f2f2f2;
     font-family: Arial, sans-serif;
-
     display: flex;
     justify-content: center;
     align-items: flex-start;
-
     min-height: 100vh;
 }
 
 /* ====== MOLDURA ====== */
 .moldura {
-    width: 95%;
+    width: 100%;                 /* <- AGORA USA 100% DA TELA */
     max-width: 900px;
-
-    padding: 60px 40px;
-
+    padding: 70px 35px 110px 35px; /* espaço interno mais equilibrado */
     background: url("/static/moldura_natal.png") no-repeat center;
-    background-size: contain;
-
-    margin: 30px 0;
-
+    background-size: 100% auto;   /* <- ocupa toda a largura */
+    margin: 0;                    /* <- remove margens */
     display: flex;
     justify-content: center;
     align-items: flex-start;
-
     position: relative;
 }
 
 /* ====== PAPAI NOEL (canto superior esquerdo) ====== */
 .papai-noel {
     position: absolute;
-    top: -20px;
-    left: -10px;
-    width: 110px;
+    top: -25px;
+    left: -15px;
+    width: 150px;     /* <- AUMENTADO */
     z-index: 10;
 }
 
 /* ====== QRCODE PIX (canto inferior direito) ====== */
 .qrcode {
     position: absolute;
-    bottom: -20px;
+    bottom: -10px;
     right: -10px;
-    width: 115px;
+    width: 70px;     /* <- REDUZIDO ~60% */
     z-index: 10;
 }
 
@@ -63,13 +54,11 @@ form {
     max-width: 700px;
     background: rgba(255, 255, 255, 0);
 }
-
 h2 {
     color: #b00000;
     text-align: center;
     margin: 0 0 12px 0;
 }
-
 label {
     display: block;
     margin-top: 12px;
@@ -78,7 +67,6 @@ label {
     text-align: left;
     font-size: 15px;
 }
-
 input, select, textarea {
     width: 100%;
     padding: 10px;
@@ -87,12 +75,10 @@ input, select, textarea {
     border: 1px solid #ccc;
     font-size: 15px;
 }
-
 textarea {
     resize: vertical;
     min-height: 60px;
 }
-
 button {
     margin-top: 18px;
     width: 100%;
@@ -104,11 +90,9 @@ button {
     border-radius: 8px;
     cursor: pointer;
 }
-
 button:hover {
     opacity: 0.95;
 }
-
 .msg {
     color: #e6b800;
     margin-top: 14px;
@@ -118,20 +102,21 @@ button:hover {
 
 /* ====== RESPONSIVO ====== */
 @media (max-width: 600px) {
+
     .moldura {
-        padding: 40px 18px;
-        background-size: 140% auto;
+        padding: 55px 20px 90px 20px;
+        background-size: 125% auto; /* Moldura mais equilibrada no celular */
     }
 
     .papai-noel {
-        width: 90px;
-        top: -10px;
-        left: -5px;
+        width: 130px;  /* proporcional */
+        top: -20px;
+        left: -10px;
     }
 
     .qrcode {
-        width: 100px;
-        right: -5px;
-        bottom: -10px;
+        width: 65px;   /* reduzido proporcional */
+        bottom: -8px;
+        right: -8px;
     }
 }
