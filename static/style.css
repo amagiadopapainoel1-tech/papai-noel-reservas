@@ -1,129 +1,66 @@
-/* ====== RESET ====== */
-* { box-sizing: border-box; }
-html, body { height: 100%; }
-body {
+/* =========================
+      CABEÇALHO SEPARADO
+========================= */
+.header-noel {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    padding-top: 10px;
+    box-sizing: border-box;
+}
+
+.noel-foto {
+    width: 85px;
+    height: 85px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.header-textos {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-left: 16px;
+}
+
+.titulo-form {
+    font-size: 26px;
     margin: 0;
-    padding: 0;
-    background: #f2f2f2;
-    font-family: Arial, sans-serif;
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    min-height: 100vh;
-}
-
-/* ====== PAPAI NOEL NO TOPO ====== */
-.papai-noel-topo {
-    position: fixed;
-    top: 8px;
-    left: 8px;
-    width: 110px;
-    z-index: 50;
-}
-
-/* ====== MOLDURA ====== */
-/* Proporção igual à imagem base */
-.moldura {
-    width: 95%;
-    max-width: 420px;          /* semelhante ao "preto" da imagem */
-    padding: 30px 22px;        /* borda interna semelhante à moldura */
-    background: url("/static/moldura_natal.png") no-repeat center;
-    background-size: contain;
-    margin: 30px 0;
-    position: relative;
-
-    /* permite rolagem interna */
-    overflow-y: auto;
-    max-height: 88vh;
-
-    /* centralização correta */
-    display: flex;
-    justify-content: center;
-}
-
-/* ====== FORM ====== */
-/* Proporção do "amarelo" exatamente como na imagem */
-form {
-    width: 100%;
-    max-width: 350px;          /* largura equivalente ao retângulo amarelo */
-    background: rgba(255,255,255,0);
-}
-
-h2 {
-    color: #b00000;
-    text-align: center;
-    margin-bottom: 12px;
-}
-
-label {
-    display: block;
-    margin-top: 12px;
-    font-weight: 600;
-    font-size: 15px;
-}
-
-input, select, textarea {
-    width: 100%;
-    padding: 10px;
-    margin-top: 6px;
-    border-radius: 8px;
-    border: 1px solid #ccc;
-    font-size: 15px;
-}
-
-textarea {
-    resize: vertical;
-    min-height: 60px;
-}
-
-button {
-    margin-top: 18px;
-    width: 100%;
-    padding: 12px;
-    border: none;
-    background: #0a7b3a;
-    color: white;
-    font-size: 16px;
-    border-radius: 8px;
-    cursor: pointer;
-}
-button:hover { opacity: 0.95; }
-
-.msg {
-    color: #e6b800;
-    margin-top: 14px;
-    text-align: center;
     font-weight: 700;
 }
 
-/* ====== PIX ====== */
-.pix-container {
-    text-align: center;
-    margin-top: 25px;
+.preco-info {
+    font-size: 15px;
+    margin: 3px 0 0;
+    font-weight: 500;
+    opacity: 0.8;
 }
-.qrcode-grande {
-    width: 180px;
+
+/* =========================
+      ÁREA DO FORMULÁRIO
+========================= */
+.form-container {
+    margin-top: 10px;
+    width: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.label {
+    font-size: 15px;
+    font-weight: 600;
+    margin-top: 15px;
+    display: block;
+}
+
+.input {
+    width: 100%;
+    padding: 12px;
+    margin-top: 4px;
+    border: 1px solid #aaa;
     border-radius: 8px;
+    font-size: 15px;
+    box-sizing: border-box;
 }
 
-/* ====== RESPONSIVO ====== */
-@media (max-width: 600px) {
-    .papai-noel-topo {
-        width: 90px;
-    }
-
-    .moldura {
-        padding: 25px 16px;
-        background-size: 140% auto;
-        max-height: 87vh;
-        max-width: 92%;
-    }
-
-    form {
-        max-width: 100%;
-    }
-
-    .qrcode-grande {
-        width: 150px;
-    }
-}
