@@ -1,63 +1,26 @@
-amagiadopapainoel1-tech
-papai-noel-reservas
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agendamento Papai Noel</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
 
-Type / to search
-Code
-Issues
-Pull requests
-Actions
-Projects
-Wiki
-Security
-Insights
-Settings
-Files
-Go to file
-t
-static
-templates
-agenda.html
-atendimentos.html
-erro.html
-formulario.html
-index.html
-qualquer.html
-sucesso.html
-Agenda_Papai_Noel_Atualizada.xlsx
-Procfile
-README.md
-app.py
-requirements.txt
-reservas_pix_estatico.py
-teste_google.py.txt
-papai-noel-reservas
-/templates/
-amagiadopapainoel1-tech
-amagiadopapainoel1-tech
-Update index.html
-b23bb49
- · 
-19 hours ago
-Name	Last commit message	Last commit date
-..
-agenda.html
-Add files via upload
-2 days ago
-atendimentos.html
-Add files via upload
-2 days ago
-erro.html
-Add files via upload
-2 days ago
-formulario.html
-Add files via upload
-2 days ago
-index.html
-Update index.html
-19 hours ago
-qualquer.html
-Add files via upload
-2 days ago
-sucesso.html
-Add files via upload
-2 days ago
+<!-- CABEÇALHO -->
+<div class="header-noel">
+    <img src="{{ url_for('static', filename='papai_noel.png') }}" class="noel-foto" alt="Papai Noel">
+    <div class="header-textos">
+        <h1 class="titulo-form">Agendamento Papai Noel</h1>
+        <p class="preco-info">R$ 50,00 por criança</p>
+    </div>
+</div>
+
+<!-- BOTÃO DE AGENDAMENTO -->
+<div class="centralizar">
+    <a href="/formulario" class="botao">Agendar Agora</a>
+</div>
+
+</body>
+</html>
