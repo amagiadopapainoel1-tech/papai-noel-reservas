@@ -4,108 +4,120 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reserva Papai Noel</title>
-    <style>
-        body { font-family: Arial; max-width: 600px; margin: 20px auto; }
-        label { font-weight: bold; margin-top: 10px; display: block; }
-        input, select, textarea {
-            width: 100%; padding: 8px; margin-top: 5px; box-sizing: border-box;
-        }
-        button {
-            width: 100%; padding: 10px; background: red; color: white;
-            border: none; margin-top: 15px; font-size: 18px; cursor: pointer;
-        }
-        button:hover { background: darkred; }
-        .msg { background: #d4ffd4; padding: 10px; margin: 10px 0; border-left: 5px solid green; }
-        option[disabled] { background: #ffcccc; color: #555; }
-    </style>
+
+    <!-- IMPORTA O CSS DO STATIC -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
+
 <body>
 
-    <h2>Formulário de Reservas - Papai Noel</h2>
+    <!-- =========================
+            CABEÇALHO
+    ========================== -->
+    <div class="header-noel">
+        <img src="{{ url_for('static', filename='papai_noel.png') }}" class="noel-foto">
+        <div class="header-textos">
+            <h1 class="titulo-form">Agenda Papai Noel • 2024</h1>
+            <p class="preco-info">Visitas entre 24/12 às 14h e 25/12 às 11h</p>
+        </div>
+    </div>
 
-    {% if mensagem %}
+    <!-- =========================
+            FORMULÁRIO
+    ========================== -->
+
+    <div class="form-container">
+
+        {% if mensagem %}
         <div class="msg">{{ mensagem }}</div>
-    {% endif %}
+        {% endif %}
 
-    <form action="/enviar" method="POST">
+        <form action="/enviar" method="POST">
 
-        <label>Data</label>
-        <input type="date" name="data" id="data" required min="2024-12-24" max="2024-12-25">
+            <label class="label">Data</label>
+            <input type="date" name="data" id="data" class="input" required min="2024-12-24" max="2024-12-25">
 
-        <label>Horário</label>
-        <select name="horario" id="horario" required>
-            <option value="">Selecione a data primeiro...</option>
-        </select>
+            <label class="label">Horário</label>
+            <select name="horario" id="horario" class="input" required>
+                <option value="">Selecione a data primeiro...</option>
+            </select>
 
-        <label>Responsável</label>
-        <input type="text" name="responsavel" required>
+            <label class="label">Responsável</label>
+            <input type="text" name="responsavel" class="input" required>
 
-        <label>Nº de crianças</label>
-        <input type="number" name="numero_criancas" required>
+            <label class="label">Nº de crianças</label>
+            <input type="number" name="numero_criancas" class="input" required>
 
-        <label>E-mail</label>
-        <input type="email" name="email" required>
+            <label class="label">E-mail</label>
+            <input type="email" name="email" class="input" required>
 
-        <label>Telefone</label>
-        <input type="text" name="telefone">
+            <label class="label">Telefone</label>
+            <input type="text" name="telefone" class="input">
 
-        <label>Valor Total</label>
-        <input type="text" name="valor_total">
+            <label class="label">Valor Total</label>
+            <input type="text" name="valor_total" class="input">
 
-        <label>Status do Pagamento</label>
-        <select name="status_pagamento">
-            <option value="Pendente">Pendente</option>
-            <option value="Pago">Pago</option>
-        </select>
+            <label class="label">Status do Pagamento</label>
+            <select name="status_pagamento" class="input">
+                <option value="Pendente">Pendente</option>
+                <option value="Pago">Pago</option>
+            </select>
 
-        <label>Observações</label>
-        <textarea name="observacoes"></textarea>
+            <label class="label">Observações</label>
+            <textarea name="observacoes" class="input"></textarea>
 
-        <label>Endereço</label>
-        <input type="text" name="endereco">
+            <label class="label">Endereço</label>
+            <input type="text" name="endereco" class="input">
 
-        <label>Bairro</label>
-        <input type="text" name="bairro">
+            <label class="label">Bairro</label>
+            <input type="text" name="bairro" class="input">
 
-        <label>Cidade</label>
-        <input type="text" name="cidade">
+            <label class="label">Cidade</label>
+            <input type="text" name="cidade" class="input">
 
-        <button type="submit">Enviar Reserva</button>
-    </form>
+            <button type="submit">Enviar Reserva</button>
+        </form>
+    </div>
 
-<script>
-    document.getElementById("data").addEventListener("change", function() {
-        const data = this.value;
-        const select = document.getElementById("horario");
-        select.innerHTML = "<option>Carregando horários...</option>";
+    <!-- =========================
+                SCRIPT
+    ========================== -->
 
-        fetch("/horarios_indisponiveis", {
-            method: "POST",
-            headers: { "Content-Type": "application/x-www-form-urlencoded" },
-            body: "data=" + data
-        })
-        .then(res => res.json())
-        .then(json => {
-            const ocupados = json.ocupados;
-            const horarios = json.horarios_disponiveis;
+    <script>
+        document.getElementById("data").addEventListener("change", function () {
+            const data = this.value;
+            const select = document.getElementById("horario");
 
-            select.innerHTML = "";
+            select.innerHTML = "<option>Carregando horários...</option>";
 
-            horarios.forEach(h => {
-                const opt = document.createElement("option");
-                opt.value = h;
+            fetch("/horarios_indisponiveis", {
+                method: "POST",
+                headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                body: "data=" + data
+            })
+                .then(res => res.json())
+                .then(json => {
+                    const ocupados = json.ocupados;
+                    const horarios = json.horarios_disponiveis;
 
-                if (ocupados.includes(h)) {
-                    opt.disabled = true;
-                    opt.textContent = h + " (indisponível)";
-                } else {
-                    opt.textContent = h;
-                }
-                select.appendChild(opt);
-            });
+                    select.innerHTML = "";
+
+                    horarios.forEach(h => {
+                        const opt = document.createElement("option");
+                        opt.value = h;
+
+                        if (ocupados.includes(h)) {
+                            opt.disabled = true;
+                            opt.textContent = h + " (indisponível)";
+                        } else {
+                            opt.textContent = h;
+                        }
+
+                        select.appendChild(opt);
+                    });
+                });
         });
-    });
-</script>
+    </script>
 
 </body>
 </html>
