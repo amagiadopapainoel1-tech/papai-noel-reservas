@@ -48,6 +48,7 @@
     <h2>Pedido para o Papai Noel</h2>
 
     <form action="/enviar" method="post">
+
         <label>Nome da Criança</label>
         <input type="text" name="crianca" required>
 
@@ -63,11 +64,19 @@
         <label>Bairro</label>
         <input type="text" name="bairro" required>
 
+        <!-- DATA FIXA -->
         <label>Data do Atendimento</label>
-        <input type="date" name="data" required>
+        <select name="data" id="data" required onchange="carregarHorarios()">
+            <option value="">Selecione</option>
+            <option value="24">24 de Dezembro</option>
+            <option value="25">25 de Dezembro</option>
+        </select>
 
+        <!-- HORÁRIOS DINÂMICOS -->
         <label>Horário</label>
-        <input type="time" name="hora" required>
+        <select name="hora" id="hora" required>
+            <option>Selecione a data primeiro</option>
+        </select>
 
         <label>Presente desejado</label>
         <input type="text" name="presente">
@@ -78,5 +87,48 @@
         <button type="submit">Enviar Pedido</button>
     </form>
 </div>
+
+<script>
+function carregarHorarios() {
+    const selectData = document.getElementById("data").value;
+    const selectHora = document.getElementById("hora");
+    selectHora.innerHTML = "";
+
+    let horarios = [];
+
+    if (selectData === "24") {
+        horarios = gerarHorarios("14:00", "23:59");
+    } else if (selectData === "25") {
+        horarios = gerarHorarios("00:00", "11:00");
+    }
+
+    horarios.forEach(h => {
+        const opt = document.createElement("option");
+        opt.value = h;
+        opt.textContent = h;
+        selectHora.appendChild(opt);
+    });
+}
+
+function gerarHorarios(inicio, fim) {
+    let lista = [];
+    let [h, m] = inicio.split(":").map(Number);
+    const [hf, mf] = fim.split(":").map(Number);
+
+    while (h < hf || (h === hf && m <= mf)) {
+        lista.push(
+            (h < 10 ? "0" + h : h) + ":" + (m < 10 ? "0" + m : m)
+        );
+        m += 2;
+        if (m >= 60) {
+            m -= 60;
+            h++;
+        }
+    }
+    return lista;
+}
+</script>
+
 </body>
 </html>
+
