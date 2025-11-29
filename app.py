@@ -1,14 +1,14 @@
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template, request, jsonify
 import os
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 import json
+from datetime import datetime, timedelta
 
 app = Flask(__name__)
 
 # ====== AUTENTICAÇÃO GOOGLE VIA VARIÁVEL DO RENDER ======
 google_credentials_json = os.getenv("GOOGLE_CREDENTIALS")
-
 if not google_credentials_json:
     raise Exception("ERRO: A variável GOOGLE_CREDENTIALS não está definida no Render!")
 
@@ -27,22 +27,64 @@ SHEET_ID = "10HFxgC2k_6VkFyUoTiPMg6h0aBUhUaESYg5knbapktM"
 sheet = client.open_by_key(SHEET_ID).sheet1
 
 
-# ===== ABRIR FORMULÁRIO NA RAIZ "/" =====
+# ==========================================================
+# FUNÇÃO PARA GERAR HORÁRIOS DE 2 EM 2 MINUTOS
+# ==========================================================
+def gerar_horarios(data):
+    if data == "2024-12-24":
+        inicio = datetime(2024, 12, 24, 14, 0)
+        fim = datetime(2024, 12, 24, 23, 59)
+
+    elif data == "2024-12-25":
+        inicio = datetime(2024, 12, 25, 0, 0)
+        fim = datetime(2024, 12, 25, 11, 0)
+
+    else:
+        return []
+
+    horarios = []
+    atual = inicio
+
+    while atual <= fim:
+        horarios.append(atual.strftime("%H:%M"))
+        atual += timedelta(minutes=2)
+
+    return horarios
+
+
+# ==========================================================
+# ROTA PRINCIPAL — CARREGA O FORMULÁRIO
+# ==========================================================
 @app.route("/", methods=["GET"])
 def index():
-    horarios = [
-        "08:00", "08:30", "09:00", "09:30",
-        "10:00", "10:30", "11:00", "11:30",
-        "12:00", "12:30", "13:00", "13:30",
-        "14:00", "14:30", "15:00", "15:30",
-        "16:00", "16:30", "17:00", "17:30",
-        "18:00", "18:30", "19:00", "19:30",
-        "20:00", "20:30", "21:00"
+    return render_template("index.html", horarios=[], mensagem=None)
+
+
+# ==========================================================
+# ROTA PARA VERIFICAR HORÁRIOS OCUPADOS
+# ==========================================================
+@app.route("/horarios_indisponiveis", methods=["POST"])
+def horarios_indisponiveis():
+    data = request.form.get("data")
+
+    if not data:
+        return jsonify({"ocupados": []})
+
+    # Lê todas as linhas da planilha
+    registros = sheet.get_all_records()
+
+    ocupados = [
+        r["horario"]
+        for r in registros
+        if str(r["data"]).strip() == data
     ]
-    return render_template("index.html", horarios=horarios, mensagem=None)
+
+    return jsonify({"ocupados": ocupados})
 
 
-# ===== RECEBER FORMULÁRIO DO SITE =====
+# ==========================================================
+# RECEBER FORMULÁRIO DO SITE
+# ==========================================================
 @app.route("/enviar", methods=["POST"])
 def enviar():
     data = request.form.get("data")
@@ -64,23 +106,12 @@ def enviar():
         valor_total, status_pagamento, observacoes, endereco, bairro, cidade
     ])
 
-    mensagem = "Reserva enviada com sucesso!"
-
-    # recarrega formulário com mensagem
-    horarios = [
-        "08:00", "08:30", "09:00", "09:30",
-        "10:00", "10:30", "11:00", "11:30",
-        "12:00", "12:30", "13:00", "13:30",
-        "14:00", "14:30", "15:00", "15:30",
-        "16:00", "16:30", "17:00", "17:30",
-        "18:00", "18:30", "19:00", "19:30",
-        "20:00", "20:30", "21:00"
-    ]
-
-    return render_template("index.html", horarios=horarios, mensagem=mensagem)
+    return render_template("index.html", horarios=[], mensagem="Reserva enviada com sucesso!")
 
 
-# ===== EXECUÇÃO LOCAL =====
+# ==========================================================
+# EXECUÇÃO LOCAL
+# ==========================================================
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=10000)
 
