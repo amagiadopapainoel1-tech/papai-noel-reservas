@@ -3,30 +3,131 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Agendamento Papai Noel</title>
+    <title>Reserva - Papai Noel</title>
 
-    <!-- CSS -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f2f2f2;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            max-width: 700px;
+            margin: auto;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px #ccc;
+        }
+
+        h2 {
+            text-align: center;
+            color: #b30000;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            margin-bottom: 15px;
+            border: 1px solid #bbb;
+            border-radius: 5px;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background: #b30000;
+            border: none;
+            color: white;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #8a0000;
+        }
+
+        .mensagem {
+            background: #d4edda;
+            color: #155724;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            text-align: center;
+            font-weight: bold;
+        }
+    </style>
+
 </head>
 <body>
 
-<!-- CABEÇALHO -->
-<div class="header-noel">
-    <img src="{{ url_for('static', filename='papai_noel.png') }}" class="noel-foto" alt="Papai Noel">
-    <div class="header-textos">
-        <h1 class="titulo-form">Agendamento Papai Noel</h1>
-        <p class="preco-info">R$ 50,00 por criança</p>
-    </div>
-</div>
+<div class="container">
 
-<!-- BOTÃO PARA ABRIR O FORMULÁRIO COMPLETO -->
-<div class="centralizar">
-    <a href="/formulario" class="botao">Agendar Agora</a>
-</div>
+    <h2>Reserva de Visita - Papai Noel</h2>
 
-<!-- MOLDURA -->
-<img class="moldura-natal" src="{{ url_for('static', filename='moldura_natal.png') }}">
+    {% if mensagem %}
+        <div class="mensagem">{{ mensagem }}</div>
+    {% endif %}
+
+    <form action="/enviar" method="POST">
+
+        <label>Data:</label>
+        <input type="date" name="data" required>
+
+        <label>Horário:</label>
+        <select name="horario" required>
+            <option value="">Selecione...</option>
+            {% for h in horarios %}
+                <option value="{{ h }}">{{ h }}</option>
+            {% endfor %}
+        </select>
+
+        <label>Responsável:</label>
+        <input type="text" name="responsavel" required>
+
+        <label>Número de crianças:</label>
+        <input type="number" name="numero_criancas" required>
+
+        <label>Email:</label>
+        <input type="email" name="email" required>
+
+        <label>Telefone:</label>
+        <input type="text" name="telefone" required>
+
+        <label>Valor total:</label>
+        <input type="text" name="valor_total" required>
+
+        <label>Status do pagamento:</label>
+        <select name="status_pagamento">
+            <option value="Pendente">Pendente</option>
+            <option value="Pago">Pago</option>
+        </select>
+
+        <label>Observações:</label>
+        <textarea name="observacoes" rows="3"></textarea>
+
+        <label>Endereço:</label>
+        <input type="text" name="endereco" required>
+
+        <label>Bairro:</label>
+        <input type="text" name="bairro" required>
+
+        <label>Cidade:</label>
+        <input type="text" name="cidade" required>
+
+        <button type="submit">Enviar Reserva</button>
+
+    </form>
+
+</div>
 
 </body>
 </html>
-
