@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Agendamento Papai Noel</title>
+
+    <!-- CSS -->
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
@@ -17,10 +19,13 @@
     </div>
 </div>
 
-<!-- BOTÃO DE AGENDAMENTO -->
+<!-- BOTÃO PARA ABRIR O FORMULÁRIO COMPLETO -->
 <div class="centralizar">
     <a href="/formulario" class="botao">Agendar Agora</a>
 </div>
+
+<!-- MOLDURA -->
+<img class="moldura-natal" src="{{ url_for('static', filename='moldura_natal.png') }}">
 
 </body>
 </html>
