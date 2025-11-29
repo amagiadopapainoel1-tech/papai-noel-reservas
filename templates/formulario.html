@@ -1,134 +1,166 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <title>Pedido para o Papai Noel</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: #f2f2f2;
-            padding: 20px;
-        }
-        .container {
-            max-width: 600px;
-            margin: auto;
-            background: white;
-            padding: 25px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px #ccc;
-        }
-        h2 {
-            text-align: center;
-            color: #b30000;
-        }
-        label { font-weight: bold; }
-        input, textarea, select {
-            width: 100%;
-            padding: 10px;
-            margin-top: 6px;
-            margin-bottom: 15px;
-            border-radius: 5px;
-            border: 1px solid #aaa;
-        }
-        button {
-            width: 100%;
-            background: #b30000;
-            color: white;
-            padding: 12px;
-            border: none;
-            border-radius: 5px;
-            font-size: 16px;
-            cursor: pointer;
-        }
-        button:hover { background: #8b0000; }
-    </style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Formulário de Agendamento — Papai Noel</title>
+
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+  <style>
+    /* estilos rápidos caso style.css falhe */
+    body{font-family:Arial,Helvetica,sans-serif;background:#f2f2f2;margin:0;padding:20px}
+    .container{max-width:760px;margin:20px auto;background:#fff;padding:20px;border-radius:8px;box-shadow:0 6px 18px rgba(0,0,0,.06)}
+    h2{text-align:center;color:#b30000;margin-top:0}
+    label{display:block;font-weight:600;margin-top:12px}
+    input,select,textarea{width:100%;padding:10px;margin-top:6px;border:1px solid #ccc;border-radius:6px;box-sizing:border-box}
+    .row{display:flex;gap:12px}
+    .row .col{flex:1}
+    .actions{margin-top:16px}
+    .botao{display:inline-block;background:#b30000;color:#fff;padding:12px 18px;border-radius:8px;text-decoration:none;border:none;cursor:pointer;width:100%}
+    .note{font-size:13px;color:#666;margin-top:8px}
+    @media(max-width:600px){.row{flex-direction:column}}
+  </style>
 </head>
 <body>
+
 <div class="container">
-    <h2>Pedido para o Papai Noel</h2>
+  <h2>Agendamento Papai Noel</h2>
 
-    <form action="/enviar" method="post">
+  <form action="/enviar" method="post" id="formReserva">
 
-        <label>Nome da Criança</label>
-        <input type="text" name="crianca" required>
+    <label for="responsavel">Nome do Responsável</label>
+    <input id="responsavel" name="responsavel" type="text" required>
 
-        <label>Nome do Responsável</label>
-        <input type="text" name="responsavel" required>
+    <div class="row">
+      <div class="col">
+        <label for="numero_criancas">Quantidade de crianças</label>
+        <input id="numero_criancas" name="numero_criancas" type="number" min="1" max="8" value="1" required onchange="atualizarValor()">
+      </div>
+      <div class="col">
+        <label for="email">Email</label>
+        <input id="email" name="email" type="email" required>
+      </div>
+    </div>
 
-        <label>Telefone</label>
-        <input type="text" name="telefone" required>
+    <div class="row">
+      <div class="col">
+        <label for="telefone">Telefone</label>
+        <input id="telefone" name="telefone" type="text" required>
+      </div>
+      <div class="col">
+        <label for="cidade">Cidade</label>
+        <input id="cidade" name="cidade" type="text" required>
+      </div>
+    </div>
 
-        <label>Endereço</label>
-        <input type="text" name="endereco" required>
+    <label for="endereco">Endereço</label>
+    <input id="endereco" name="endereco" type="text" required>
 
-        <label>Bairro</label>
-        <input type="text" name="bairro" required>
+    <label for="bairro">Bairro</label>
+    <input id="bairro" name="bairro" type="text" required>
 
-        <!-- DATA FIXA -->
-        <label>Data do Atendimento</label>
-        <select name="data" id="data" required onchange="carregarHorarios()">
-            <option value="">Selecione</option>
-            <option value="24">24 de Dezembro</option>
-            <option value="25">25 de Dezembro</option>
-        </select>
+    <!-- Datas permitidas -->
+    <label for="data">Data do Atendimento</label>
+    <select id="data" name="data" required onchange="carregarHorarios()">
+      <option value="">Selecione</option>
+      <option value="24/12/2025">24 de Dezembro de 2025</option>
+      <option value="25/12/2025">25 de Dezembro de 2025</option>
+    </select>
 
-        <!-- HORÁRIOS DINÂMICOS -->
-        <label>Horário</label>
-        <select name="hora" id="hora" required>
-            <option>Selecione a data primeiro</option>
-        </select>
+    <!-- Horários dinâmicos -->
+    <label for="horario">Horário</label>
+    <select id="horario" name="horario" required>
+      <option value="">Selecione a data primeiro</option>
+    </select>
 
-        <label>Presente desejado</label>
-        <input type="text" name="presente">
+    <label for="presente">Presente desejado (opcional)</label>
+    <input id="presente" name="presente" type="text">
 
-        <label>Observações</label>
-        <textarea name="observacoes" rows="3"></textarea>
+    <label for="observacoes">Observações</label>
+    <textarea id="observacoes" name="observacoes" rows="3"></textarea>
 
-        <button type="submit">Enviar Pedido</button>
-    </form>
+    <div class="note">Valor por criança: R$ 50,00 — o total será calculado automaticamente.</div>
+
+    <!-- Campos que o app.py espera -->
+    <input type="hidden" id="valor_total" name="valor_total" value="50">
+    <input type="hidden" id="status_pagamento" name="status_pagamento" value="pendente">
+
+    <div class="actions">
+      <button type="submit" class="botao">Enviar Reserva</button>
+    </div>
+
+  </form>
 </div>
 
 <script>
-function carregarHorarios() {
-    const selectData = document.getElementById("data").value;
-    const selectHora = document.getElementById("hora");
-    selectHora.innerHTML = "";
+/*
+ Gerador de horários:
+ - 24/12/2025: de 14:00 até 23:58 (passo 2 minutos)
+ - 25/12/2025: de 00:00 até 11:00 (passo 2 minutos)
+ Atualiza o campo valor_total com numero_criancas * 50
+*/
 
-    let horarios = [];
+function pad(n){ return n.toString().padStart(2,'0') }
 
-    if (selectData === "24") {
-        horarios = gerarHorarios("14:00", "23:59");
-    } else if (selectData === "25") {
-        horarios = gerarHorarios("00:00", "11:00");
-    }
-
-    horarios.forEach(h => {
-        const opt = document.createElement("option");
-        opt.value = h;
-        opt.textContent = h;
-        selectHora.appendChild(opt);
-    });
+function gerarListaHorarios(hInicio, mInicio, hFim, mFim, passo=2){
+  const lista = []
+  let h = hInicio, m = mInicio
+  while (h < hFim || (h === hFim && m <= mFim)){
+    lista.push(pad(h) + ":" + pad(m))
+    m += passo
+    if (m >= 60){ m -= 60; h += 1 }
+  }
+  return lista
 }
 
-function gerarHorarios(inicio, fim) {
-    let lista = [];
-    let [h, m] = inicio.split(":").map(Number);
-    const [hf, mf] = fim.split(":").map(Number);
+function carregarHorarios(){
+  const data = document.getElementById("data").value
+  const select = document.getElementById("horario")
+  select.innerHTML = ""
 
-    while (h < hf || (h === hf && m <= mf)) {
-        lista.push(
-            (h < 10 ? "0" + h : h) + ":" + (m < 10 ? "0" + m : m)
-        );
-        m += 2;
-        if (m >= 60) {
-            m -= 60;
-            h++;
-        }
-    }
-    return lista;
+  let horarios = []
+  if (data === "24/12/2025"){
+    horarios = gerarListaHorarios(14,0,23,58,2)
+  } else if (data === "25/12/2025"){
+    horarios = gerarListaHorarios(0,0,11,0,2)
+  }
+
+  if (horarios.length === 0){
+    select.innerHTML = '<option value="">Selecione a data primeiro</option>'
+    return
+  }
+
+  const placeholder = document.createElement("option")
+  placeholder.value = ""
+  placeholder.textContent = "Selecione"
+  select.appendChild(placeholder)
+
+  horarios.forEach(h => {
+    const opt = document.createElement("option")
+    opt.value = h
+    opt.textContent = h
+    select.appendChild(opt)
+  })
 }
+
+function atualizarValor(){
+  const num = Number(document.getElementById("numero_criancas").value) || 0
+  const total = num * 50
+  document.getElementById("valor_total").value = total.toString()
+}
+
+// inicializa valor
+document.addEventListener("DOMContentLoaded", function(){
+  atualizarValor()
+})
 </script>
 
 </body>
 </html>
+
+
+</body>
+</html>
+
 
