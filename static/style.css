@@ -1,5 +1,5 @@
 /* ============================
-   GERAL
+   FUNDO COM MOLDURA
 ============================ */
 body {
     margin: 0;
@@ -7,69 +7,67 @@ body {
     background: #000;
     display: flex;
     justify-content: center;
-    align-items: flex-start;
+    align-items: center;
     height: 100vh;
     overflow: hidden;
 }
 
-/* ============================
-   MOLDURA AJUSTÁVEL
-============================ */
+/* Simulação da tela fixa do celular */
 .phone-frame {
-    width: 100%;
-    max-width: 1080px;
-    aspect-ratio: 1080 / 1920;
-    background: url("moldura_natal.png") no-repeat center top;
-    background-size: contain;
-    overflow-y: auto; /* rola se necessário */
+    width: 1080px;
+    height: 1920px;
+    background: url("moldura_natal.webp") no-repeat center top;
+    background-size: contain;  /* evita corte e mantém proporção */
     position: relative;
+    overflow-y: auto;
 }
 
 /* ============================
-   ÁREA DO FORMULÁRIO
+   Área onde o formulário encaixa
 ============================ */
 .form-wrapper {
+    width: 935px;
+    height: 1635px;
     position: absolute;
-    top: 12.5%;      /* ajustado para alinhar perfeitamente a cabeça do Noel */
+    top: 240px; /* ajuste da arte */
     left: 50%;
     transform: translateX(-50%);
-    width: 86.5%;    /* proporcional ao design original */
-    height: 72%;     /* proporcional e com rolagem */
-    overflow-y: auto;
-    padding-right: 10px;
+    display: flex;
+    justify-content: center;
 }
 
+/* Caixa do formulário */
 .form-container {
     width: 100%;
-    padding-bottom: 40px;
+    padding: 20px;
+    background: transparent;
+    display: flex;
+    flex-direction: column;
 }
 
-/* ============================
-   ESTILOS DO FORMULÁRIO
-============================ */
+/* Inputs */
 .label {
-    font-size: 1.25rem;
+    font-size: 22px;
     font-weight: bold;
     margin-top: 12px;
-    color: #000;
 }
-
 .input, textarea, select {
     width: 100%;
     padding: 14px;
     border-radius: 12px;
     border: 2px solid #ccc;
-    font-size: 1.1rem;
+    font-size: 18px;
     box-sizing: border-box;
 }
 
+/* Botão */
 button {
     margin-top: 25px;
-    padding: 18px;
+    padding: 20px;
     background: #d50000;
     border: none;
     color: white;
-    font-size: 1.3rem;
+    font-size: 24px;
     border-radius: 12px;
     cursor: pointer;
 }
