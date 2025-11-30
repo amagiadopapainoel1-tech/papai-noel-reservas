@@ -1,87 +1,68 @@
-* {
+/* ===== RESET ===== */
+body {
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
-}
-
-html, body {
-    height: 100%;
-}
-
-body {
+    background: #000;
     display: flex;
     justify-content: center;
-    align-items: center;
-    background: #000000;
+    align-items: flex-start;
+    min-height: 100vh;
 }
 
+/* ===== MOLDURA RESPONSIVA ===== */
 .phone-frame {
-    width: 380px;
-    height: 740px;
-    background-image: url("moldura_natal.webp");
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center top;
+    width: 100%;
+    max-width: 420px;       /* TAMANHO IDEAL PARA CELULAR */
+    background: url("moldura_natal.webp") no-repeat top center;
+    background-size: 100% auto;
     position: relative;
+    padding-top: 160px;     /* espaço para o topo da moldura */
+    padding-bottom: 120px;  /* espaço para a parte de baixo */
 }
 
-.safe-area {
-    position: absolute;
-    top: 105px;      /* AJUSTE fino do topo */
-    left: 32px;      /* margem lateral */
-    width: 315px;    /* largura interna */
-    height: 545px;   /* área de rolagem */
-    overflow-y: auto;
-    padding-right: 10px;
+/* ===== FORMULÁRIO ===== */
+.form-wrapper {
+    width: 90%;
+    margin: 0 auto;
 }
 
 .form-container {
-    width: 100%;
+    background: transparent;
+    display: flex;
+    flex-direction: column;
 }
 
 .label {
+    font-size: 18px;
     font-weight: bold;
-    margin-top: 12px;
-    display: block;
-    font-size: 14px;
+    margin-top: 14px;
 }
 
 .input, textarea, select {
     width: 100%;
-    padding: 8px;
-    margin-top: 4px;
-    border-radius: 6px;
-    border: 1px solid #ccc;
-    font-size: 14px;
-}
-
-textarea {
-    height: 70px;
+    padding: 14px;
+    border-radius: 12px;
+    border: 2px solid #ccc;
+    font-size: 16px;
+    box-sizing: border-box;
 }
 
 button {
-    margin-top: 15px;
-    width: 100%;
-    padding: 10px;
-    background: #d40000;
+    margin-top: 25px;
+    padding: 18px;
+    background: #d50000;
     border: none;
     color: white;
-    font-size: 16px;
-    border-radius: 6px;
+    font-size: 20px;
+    border-radius: 12px;
     cursor: pointer;
 }
 
-.radio-group {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-}
-
-.msg {
-    background: #ffd000;
-    padding: 8px;
-    border-radius: 6px;
-    text-align: center;
-    font-weight: bold;
-    margin-bottom: 10px;
+/* ===== PC ===== */
+@media (min-width: 768px) {
+    .phone-frame {
+        max-width: 480px; /* um pouco maior no PC */
+        padding-top: 180px;
+        padding-bottom: 140px;
+    }
 }
