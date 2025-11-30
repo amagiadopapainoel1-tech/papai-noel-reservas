@@ -1,101 +1,62 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reserva Papai Noel</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-</head>
-<body>
-    <div class="phone-frame">
-        <div class="safe-area">
-            <div class="form-container">
+<div class="phone-frame">
+    <div class="form-wrapper">
+        <div class="form-container">
 
-                {% if mensagem %}
-                <div class="msg">{{ mensagem }}</div>
-                {% endif %}
+            {% if mensagem %}
+            <div class="msg">{{ mensagem }}</div>
+            {% endif %}
 
-                <form action="/enviar" method="POST">
-                    
-                    <label class="label">Data</label>
-                    <div class="radio-group">
-                        <label><input type="radio" name="data" value="2024-12-24" required> 24 de Dezembro</label>
-                        <label><input type="radio" name="data" value="2024-12-25"> 25 de Dezembro</label>
-                    </div>
+            <form action="/enviar" method="POST">
 
-                    <label class="label">Horário</label>
-                    <select name="horario" id="horario" class="input" required>
-                        <option value="">Selecione a data...</option>
-                    </select>
+                <label class="label">Data</label>
+                <select name="data" id="data" class="input" required>
+                    <option value="">Selecione...</option>
+                    <option value="2024-12-24">24 de Dezembro</option>
+                    <option value="2024-12-25">25 de Dezembro</option>
+                </select>
 
-                    <label class="label">Responsável</label>
-                    <input type="text" name="responsavel" class="input" required>
+                <label class="label">Horário</label>
+                <select name="horario" id="horario" class="input" required>
+                    <option value="">Selecione a data primeiro...</option>
+                </select>
 
-                    <label class="label">Nº de crianças</label>
-                    <input type="number" name="numero_criancas" class="input" required>
+                <label class="label">Responsável</label>
+                <input type="text" name="responsavel" class="input" required>
 
-                    <label class="label">E-mail</label>
-                    <input type="email" name="email" class="input" required>
+                <label class="label">Nº de crianças</label>
+                <input type="number" name="numero_criancas" class="input" required>
 
-                    <label class="label">Telefone</label>
-                    <input type="text" name="telefone" class="input">
+                <label class="label">E-mail</label>
+                <input type="email" name="email" class="input" required>
 
-                    <label class="label">Valor Total</label>
-                    <input type="text" name="valor_total" class="input">
+                <label class="label">Telefone</label>
+                <input type="text" name="telefone" class="input">
 
-                    <label class="label">Status do Pagamento</label>
-                    <select name="status_pagamento" class="input">
-                        <option value="Pendente">Pendente</option>
-                        <option value="Pago">Pago</option>
-                    </select>
+                <label class="label">Valor Total</label>
+                <input type="text" name="valor_total" class="input">
 
-                    <label class="label">Observações</label>
-                    <textarea name="observacoes" class="input"></textarea>
+                <label class="label">Status do Pagamento</label>
+                <select name="status_pagamento" class="input">
+                    <option value="Pendente">Pendente</option>
+                    <option value="Pago">Pago</option>
+                </select>
 
-                    <label class="label">Endereço</label>
-                    <input type="text" name="endereco" class="input">
+                <label class="label">Observações</label>
+                <textarea name="observacoes" class="input"></textarea>
 
-                    <label class="label">Bairro</label>
-                    <input type="text" name="bairro" class="input">
+                <label class="label">Endereço</label>
+                <input type="text" name="endereco" class="input">
 
-                    <label class="label">Cidade</label>
-                    <input type="text" name="cidade" class="input">
+                <label class="label">Bairro</label>
+                <input type="text" name="bairro" class="input">
 
-                    <button type="submit">Enviar Reserva</button>
-                </form>
+                <label class="label">Cidade</label>
+                <input type="text" name="cidade" class="input">
 
-            </div>
+                <button type="submit">Enviar Reserva</button>
+
+            </form>
         </div>
     </div>
-
-<script>
-    document.querySelectorAll("input[name='data']").forEach(radio => {
-        radio.addEventListener("change", function () {
-            const date = this.value;
-            const select = document.getElementById("horario");
-
-            select.innerHTML = "<option>Carregando horários...</option>";
-
-            fetch("/horarios_indisponiveis", {
-                method: "POST",
-                headers: { "Content-Type": "application/x-www-form-urlencoded" },
-                body: "data=" + date
-            })
-                .then(r => r.json())
-                .then(json => {
-                    select.innerHTML = "";
-                    json.horarios_disponiveis.forEach(h => {
-                        const opt = document.createElement("option");
-                        opt.value = h;
-                        opt.textContent = json.ocupados.includes(h) ? h + " (indisponível)" : h;
-                        if (json.ocupados.includes(h)) opt.disabled = true;
-                        select.appendChild(opt);
-                    });
-                });
-        });
-    });
-</script>
-
-</body>
-</html>
+</div>
 
