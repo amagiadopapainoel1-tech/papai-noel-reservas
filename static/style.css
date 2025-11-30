@@ -1,20 +1,24 @@
-/* ================================
-   RESET / BASE
-================================ */
-body {
+/* REMOVE todos os estilos anteriores antes de colar ESTA versão */
+
+/* ======== RESET ======== */
+* {
     margin: 0;
     padding: 0;
-    background: #000;
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    height: 100vh;
-    overflow: hidden;
+    box-sizing: border-box;
 }
 
-/* ================================
-   TELINHA DO CELULAR ESCALÁVEL
-================================ */
+/* ======== FUNDO ======== */
+body {
+    background: #000;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden; /* evita rolagem da página */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* ======== FRAME (1080 × 1920) ESCALÁVEL ======== */
 .phone-frame {
     width: 1080px;
     height: 1920px;
@@ -23,46 +27,42 @@ body {
     background-size: 100% 100%;
 
     position: relative;
-
     transform-origin: top center;
-    overflow-y: auto;
 }
 
-/* ESCALA AUTOMÁTICA CONFORME TELA */
-@media (max-width: 1080px) {
+/* Ajusta automaticamente o tamanho da moldura para caber na tela */
+@media screen and (max-width: 1080px) {
     .phone-frame {
         transform: scale(calc(100vw / 1080));
     }
 }
 
-/* ================================
-   ÁREA DO FORMULÁRIO
-================================ */
+/* ======== FORMULÁRIO (935×1635) ======== */
 .form-wrapper {
     width: 935px;
     height: 1635px;
 
     position: absolute;
-    top: 240px;
     left: 50%;
+    top: 240px;
     transform: translateX(-50%);
+
+    overflow-y: auto; /* rolagem SOMENTE do formulário */
+    padding-right: 20px; /* evita cortar scroll */
 }
 
 .form-container {
     width: 100%;
-    padding: 20px;
     background: transparent;
     display: flex;
     flex-direction: column;
 }
 
-/* ================================
-   INPUTS
-================================ */
+/* ======== CAMPOS ======== */
 .label {
-    font-size: 32px;
+    font-size: 28px;
     font-weight: bold;
-    margin-top: 20px;
+    margin-top: 18px;
     color: #000;
 }
 
@@ -70,21 +70,21 @@ body {
 textarea,
 select {
     width: 100%;
-    padding: 22px;
-    border-radius: 15px;
-    border: 3px solid #ccc;
-    font-size: 30px;
-    box-sizing: border-box;
+    padding: 18px;
+    font-size: 22px;
+    border-radius: 12px;
+    border: 2px solid #ccc;
 }
 
-/* Botão */
+/* ======== BOTÃO ======== */
 button {
-    margin-top: 35px;
-    padding: 28px;
+    margin-top: 40px;
+    padding: 25px;
+    font-size: 28px;
     background: #d50000;
-    color: white;
-    font-size: 36px;
     border: none;
-    border-radius: 18px;
+    color: white;
+    border-radius: 12px;
     cursor: pointer;
 }
+
