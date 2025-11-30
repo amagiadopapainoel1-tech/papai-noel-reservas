@@ -5,58 +5,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reserva Papai Noel</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    <style>
-        /* Botões de seleção de data */
-        .date-selector {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin-bottom: 15px;
-        }
-
-        .date-btn {
-            padding: 12px 22px;
-            background: #d50000;
-            color: white;
-            border: none;
-            border-radius: 10px;
-            font-size: 20px;
-            cursor: pointer;
-        }
-
-        .date-btn.active {
-            background: #8b0000;
-            transform: scale(1.05);
-        }
-    </style>
 </head>
-
 <body>
+
     <div class="phone-frame">
         <div class="form-wrapper">
             <div class="form-container">
-
                 {% if mensagem %}
                 <div class="msg">{{ mensagem }}</div>
                 {% endif %}
 
                 <form action="/enviar" method="POST">
 
-                    <!-- Seleção por botões -->
                     <label class="label">Data</label>
+                    <select name="data" id="data" class="input" required>
+                        <option value="">Selecione...</option>
+                        <option value="2024-12-24">24 de Dezembro</option>
+                        <option value="2024-12-25">25 de Dezembro</option>
+                    </select>
 
-                    <div class="date-selector">
-                        <button type="button" class="date-btn" data-date="2024-12-24">24/12</button>
-                        <button type="button" class="date-btn" data-date="2024-12-25">25/12</button>
-                    </div>
-
-                    <!-- Campo oculto para receber o valor da data -->
-                    <input type="hidden" name="data" id="data" required>
-
-                    <!-- Horário -->
                     <label class="label">Horário</label>
                     <select name="horario" id="horario" class="input" required>
-                        <option value="">Selecione a data...</option>
+                        <option value="">Selecione a data primeiro...</option>
                     </select>
 
                     <label class="label">Responsável</label>
@@ -99,55 +69,36 @@
     </div>
 
 <script>
-    // Seleção visual dos botões
-    const dateButtons = document.querySelectorAll(".date-btn");
-    const hiddenDateField = document.getElementById("data");
+document.getElementById("data").addEventListener("change", function () {
+    const data = this.value;
+    const select = document.getElementById("horario");
+    select.innerHTML = "<option>Carregando horários...</option>";
+    
+    fetch("/horarios_indisponiveis", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: "data=" + data
+    })
+    .then(res => res.json())
+    .then(json => {
+        const ocupados = json.ocupados;
+        const horarios = json.horarios_disponiveis;
+        select.innerHTML = "";
 
-    dateButtons.forEach(btn => {
-        btn.addEventListener("click", () => {
-            // Marca botão ativo
-            dateButtons.forEach(b => b.classList.remove("active"));
-            btn.classList.add("active");
+        horarios.forEach(h => {
+            const opt = document.createElement("option");
+            opt.value = h;
 
-            // Preenche input oculto
-            hiddenDateField.value = btn.dataset.date;
-
-            // Dispara carregamento de horários
-            loadHorarios(btn.dataset.date);
+            if (ocupados.includes(h)) {
+                opt.disabled = true;
+                opt.textContent = h + " (indisponível)";
+            } else {
+                opt.textContent = h;
+            }
+            select.appendChild(opt);
         });
     });
-
-    // Carregar horários ao selecionar a data
-    function loadHorarios(dataSelecionada) {
-        const select = document.getElementById("horario");
-        select.innerHTML = "<option>Carregando horários...</option>";
-
-        fetch("/horarios_indisponiveis", {
-            method: "POST",
-            headers: { "Content-Type": "application/x-www-form-urlencoded" },
-            body: "data=" + dataSelecionada
-        })
-        .then(res => res.json())
-        .then(json => {
-            const ocupados = json.ocupados;
-            const horarios = json.horarios_disponiveis;
-
-            select.innerHTML = "";
-
-            horarios.forEach(h => {
-                const opt = document.createElement("option");
-                opt.value = h;
-                opt.textContent = ocupados.includes(h)
-                    ? h + " (indisponível)"
-                    : h;
-
-                if (ocupados.includes(h))
-                    opt.disabled = true;
-
-                select.appendChild(opt);
-            });
-        });
-    }
+});
 </script>
 
 </body>
