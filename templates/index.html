@@ -6,15 +6,12 @@
     <title>Reserva Papai Noel</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
-
 <body>
     <div class="form-wrapper">
         <div class="form-container">
-
             {% if mensagem %}
             <div class="msg">{{ mensagem }}</div>
             {% endif %}
-
             <form action="/enviar" method="POST">
 
                 <label class="label">Data</label>
@@ -60,7 +57,6 @@
 
                 <button type="submit">Enviar Reserva</button>
             </form>
-
         </div>
     </div>
 
@@ -79,28 +75,19 @@
         .then(json => {
             const ocupados = json.ocupados;
             const horarios = json.horarios_disponiveis;
-
             select.innerHTML = "";
             horarios.forEach(h => {
                 const opt = document.createElement("option");
                 opt.value = h;
-
-                if (ocupados.includes(h)) {
-                    opt.disabled = true;
-                    opt.textContent = h + " (indisponível)";
-                } else {
-                    opt.textContent = h;
-                }
-
+                opt.textContent = ocupados.includes(h)
+                    ? h + " (indisponível)"
+                    : h;
+                if (ocupados.includes(h)) opt.disabled = true;
                 select.appendChild(opt);
             });
         });
     });
 </script>
-</body>
-</html>
-
 
 </body>
 </html>
-
