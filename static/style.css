@@ -1,53 +1,41 @@
-/* Fundo geral da página */
+/* Fundo com a moldura */
 body {
     margin: 0;
     padding: 0;
-    background: #1a1a1a; /* fundo neutro ao redor da moldura */
+    background-color: #000; /* fallback */
+    background-image: url("{{ url_for('static', filename='moldura_natal.png') }}");
+    background-repeat: no-repeat;
+    background-position: top center;
+    background-size: 1080px 1920px;  /* tamanho real da arte */
     display: flex;
     justify-content: center;
-    align-items: flex-start;
-    min-height: 100vh;
-    overflow-y: auto; /* permite rolagem quando necessário */
+    min-height: 1920px;
 }
 
-/* Moldura fixa com tamanho exato (não estica mais) */
-.moldura {
-    width: 1080px;
-    height: 1920px;
-    background: url("moldura_natal.png") no-repeat top center;
-    background-size: contain; /* garante proporção perfeita */
-    position: relative;
-}
-
-/* Área onde o formulário encaixa */
+/* Wrapper com o tamanho exato da área vazada */
 .form-wrapper {
     width: 935px;
     height: 1635px;
-    position: absolute;
-    top: 240px; /* posição exata dentro da moldura */
-    left: 50%;
-    transform: translateX(-50%);
+    margin-top: 240px; /* ajuste fino já baseado no que você disse */
     display: flex;
     justify-content: center;
 }
 
-/* Caixa do formulário */
+/* Formulário */
 .form-container {
     width: 100%;
-    padding: 20px;
+    padding: 25px;
     background: transparent;
     display: flex;
     flex-direction: column;
 }
 
-/* Labels */
+/* Inputs */
 .label {
     font-size: 20px;
     font-weight: bold;
-    margin-top: 12px;
+    margin-top: 15px;
 }
-
-/* Inputs */
 .input, textarea, select {
     width: 100%;
     padding: 14px;
@@ -67,3 +55,14 @@ button {
     border-radius: 12px;
     cursor: pointer;
 }
+
+/* Comportamento no PC: centralizar e manter proporção */
+@media (min-width: 1100px) {
+    body {
+        display: flex;
+        justify-content: center;
+        background-size: 1080px 1920px;
+        background-position: top center;
+    }
+}
+
