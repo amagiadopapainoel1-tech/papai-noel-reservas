@@ -1,68 +1,74 @@
-/* ===== RESET ===== */
+/* ============================
+   BASE
+============================ */
 body {
     margin: 0;
     padding: 0;
     background: #000;
     display: flex;
     justify-content: center;
-    align-items: flex-start;
-    min-height: 100vh;
 }
 
-/* ===== MOLDURA RESPONSIVA ===== */
+/* ============================
+   MOLDURA FIXA E RESPONSIVA
+============================ */
 .phone-frame {
     width: 100%;
-    max-width: 420px;       /* TAMANHO IDEAL PARA CELULAR */
-    background: url("moldura_natal.webp") no-repeat top center;
-    background-size: 100% auto;
+    max-width: 430px; /* largura de um celular "padrão" */
+    aspect-ratio: 1080 / 1920; /* mantém proporção perfeita da moldura */
+    background: url("moldura_natal.webp") no-repeat center top;
+    background-size: 100% 100%;
     position: relative;
-    padding-top: 160px;     /* espaço para o topo da moldura */
-    padding-bottom: 120px;  /* espaço para a parte de baixo */
+    overflow: hidden;
 }
 
-/* ===== FORMULÁRIO ===== */
+/* ============================
+   ÁREA DO FORMULÁRIO
+============================ */
 .form-wrapper {
-    width: 90%;
-    margin: 0 auto;
+    position: absolute;
+    top: 14%;     /* AJUSTE fino para encaixar dentro da área transparente */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 84%;   /* encaixe exato dentro da área transparente */
+    height: 74%;  /* deixa espaço para cabeçalho e rodapé da moldura */
+    overflow-y: auto;
 }
 
+/* Caixa do formulário */
 .form-container {
-    background: transparent;
+    width: 100%;
     display: flex;
     flex-direction: column;
 }
 
+/* Inputs e textos */
 .label {
-    font-size: 18px;
+    font-size: 16px;
     font-weight: bold;
-    margin-top: 14px;
+    margin-top: 10px;
+    color: #222;
 }
 
 .input, textarea, select {
     width: 100%;
-    padding: 14px;
-    border-radius: 12px;
+    padding: 10px;
+    border-radius: 10px;
     border: 2px solid #ccc;
-    font-size: 16px;
+    font-size: 15px;
     box-sizing: border-box;
 }
 
+/* Botão */
 button {
-    margin-top: 25px;
-    padding: 18px;
+    margin-top: 18px;
+    padding: 14px;
     background: #d50000;
     border: none;
     color: white;
-    font-size: 20px;
-    border-radius: 12px;
+    font-size: 18px;
+    border-radius: 10px;
     cursor: pointer;
 }
 
-/* ===== PC ===== */
-@media (min-width: 768px) {
-    .phone-frame {
-        max-width: 480px; /* um pouco maior no PC */
-        padding-top: 180px;
-        padding-bottom: 140px;
-    }
-}
+
