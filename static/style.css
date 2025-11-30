@@ -1,18 +1,32 @@
-/* Fundo com a moldura */
+/* Fundo geral da página */
 body {
     margin: 0;
     padding: 0;
-    background: url("moldura_natal.png") no-repeat center top;
-    background-size: cover;
+    background: #1a1a1a; /* fundo neutro ao redor da moldura */
     display: flex;
     justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+    overflow-y: auto; /* permite rolagem quando necessário */
 }
 
-/* Área exata onde o formulário deve caber */
+/* Moldura fixa com tamanho exato (não estica mais) */
+.moldura {
+    width: 1080px;
+    height: 1920px;
+    background: url("moldura_natal.png") no-repeat top center;
+    background-size: contain; /* garante proporção perfeita */
+    position: relative;
+}
+
+/* Área onde o formulário encaixa */
 .form-wrapper {
     width: 935px;
     height: 1635px;
-    margin-top: 240px; /* ajuste fino conforme necessário */
+    position: absolute;
+    top: 240px; /* posição exata dentro da moldura */
+    left: 50%;
+    transform: translateX(-50%);
     display: flex;
     justify-content: center;
 }
@@ -20,19 +34,20 @@ body {
 /* Caixa do formulário */
 .form-container {
     width: 100%;
-    padding: 25px;
-    background: rgba(255,255,255,0.0); /* transparente */
+    padding: 20px;
+    background: transparent;
     display: flex;
     flex-direction: column;
 }
 
-/* Inputs */
+/* Labels */
 .label {
     font-size: 20px;
     font-weight: bold;
-    margin-top: 15px;
+    margin-top: 12px;
 }
 
+/* Inputs */
 .input, textarea, select {
     width: 100%;
     padding: 14px;
