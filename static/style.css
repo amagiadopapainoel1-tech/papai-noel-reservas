@@ -1,44 +1,59 @@
-/* Fundo com a moldura */
+/* Garante que todo o site tenha fundo preto ao redor da moldura */
 body {
     margin: 0;
     padding: 0;
-    background-color: #000; /* fallback */
-    background-image: url("{{ url_for('static', filename='moldura_natal.png') }}");
-    background-repeat: no-repeat;
-    background-position: top center;
-    background-size: 1080px 1920px;  /* tamanho real da arte */
+    background: #000;
     display: flex;
     justify-content: center;
-    min-height: 1920px;
+    align-items: flex-start;
+    min-height: 100vh;
+    overflow-x: hidden;
 }
 
-/* Wrapper com o tamanho exato da área vazada */
+/* Moldura fixa, centralizada e NÃO ampliada */
+body::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 1080px;
+    height: 1920px;
+    background: url("moldura_natal.png") no-repeat top center;
+    background-size: 1080px 1920px;
+    z-index: -1;
+}
+
+/* Área onde o formulário deve encaixar */
 .form-wrapper {
     width: 935px;
-    height: 1635px;
-    margin-top: 240px; /* ajuste fino já baseado no que você disse */
+    min-height: 1635px;
+    margin-top: 240px; /* ajuste fino vertical */
     display: flex;
     justify-content: center;
 }
 
-/* Formulário */
+/* Caixa transparente do formulário */
 .form-container {
     width: 100%;
-    padding: 25px;
+    padding: 15px;
     background: transparent;
     display: flex;
     flex-direction: column;
 }
 
-/* Inputs */
+/* Labels */
 .label {
     font-size: 20px;
     font-weight: bold;
-    margin-top: 15px;
+    margin-top: 12px;
+    color: #000;
 }
+
+/* Inputs */
 .input, textarea, select {
     width: 100%;
-    padding: 14px;
+    padding: 12px;
     border-radius: 12px;
     border: 2px solid #ccc;
     font-size: 18px;
@@ -46,8 +61,8 @@ body {
 
 /* Botão */
 button {
-    margin-top: 25px;
-    padding: 20px;
+    margin-top: 20px;
+    padding: 18px;
     background: #d50000;
     border: none;
     color: white;
@@ -56,13 +71,19 @@ button {
     cursor: pointer;
 }
 
-/* Comportamento no PC: centralizar e manter proporção */
-@media (min-width: 1100px) {
-    body {
-        display: flex;
-        justify-content: center;
-        background-size: 1080px 1920px;
-        background-position: top center;
+/* MOBILE — impede zoom e mantém escala perfeita */
+@media (max-width: 1100px) {
+    body::before {
+        width: 100vw;
+        height: calc(100vw * 1.777); /* razão 1080/1920 */
+        background-size: 100% 100%;
+    }
+
+    .form-wrapper {
+        width: 86vw;
+        min-height: calc(86vw * 1.75);
+        margin-top: calc(100vw * 0.22);
     }
 }
+
 
