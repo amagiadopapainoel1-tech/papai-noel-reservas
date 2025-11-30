@@ -1,66 +1,54 @@
-/* =========================
-      CABEÇALHO SEPARADO
-========================= */
-.header-noel {
-    width: 100%;
+/* Fundo com a moldura */
+body {
+    margin: 0;
+    padding: 0;
+    background: url("moldura_natal.png") no-repeat center top;
+    background-size: cover;
     display: flex;
-    align-items: center;
-    padding: 20px;
-    padding-top: 10px;
-    box-sizing: border-box;
+    justify-content: center;
 }
 
-.noel-foto {
-    width: 85px;
-    height: 85px;
-    border-radius: 50%;
-    object-fit: cover;
+/* Área exata onde o formulário deve caber */
+.form-wrapper {
+    width: 935px;
+    height: 1635px;
+    margin-top: 240px; /* ajuste fino conforme necessário */
+    display: flex;
+    justify-content: center;
 }
 
-.header-textos {
+/* Caixa do formulário */
+.form-container {
+    width: 100%;
+    padding: 25px;
+    background: rgba(255,255,255,0.0); /* transparente */
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    margin-left: 16px;
 }
 
-.titulo-form {
-    font-size: 26px;
-    margin: 0;
-    font-weight: 700;
-}
-
-.preco-info {
-    font-size: 15px;
-    margin: 3px 0 0;
-    font-weight: 500;
-    opacity: 0.8;
-}
-
-/* =========================
-      ÁREA DO FORMULÁRIO
-========================= */
-.form-container {
-    margin-top: 10px;
-    width: 100%;
-    padding: 20px;
-    box-sizing: border-box;
-}
-
+/* Inputs */
 .label {
-    font-size: 15px;
-    font-weight: 600;
+    font-size: 20px;
+    font-weight: bold;
     margin-top: 15px;
-    display: block;
 }
 
-.input {
+.input, textarea, select {
     width: 100%;
-    padding: 12px;
-    margin-top: 4px;
-    border: 1px solid #aaa;
-    border-radius: 8px;
-    font-size: 15px;
-    box-sizing: border-box;
+    padding: 14px;
+    border-radius: 12px;
+    border: 2px solid #ccc;
+    font-size: 18px;
 }
 
+/* Botão */
+button {
+    margin-top: 25px;
+    padding: 20px;
+    background: #d50000;
+    border: none;
+    color: white;
+    font-size: 24px;
+    border-radius: 12px;
+    cursor: pointer;
+}
