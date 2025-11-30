@@ -1,90 +1,85 @@
-/* REMOVE todos os estilos anteriores antes de colar ESTA versão */
-
-/* ======== RESET ======== */
+/* ============================
+   RESET
+============================ */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-/* ======== FUNDO ======== */
+/* ============================
+   FUNDO DA PÁGINA
+============================ */
 body {
     background: #000;
-    width: 100vw;
-    height: 100vh;
-    overflow: hidden; /* evita rolagem da página */
     display: flex;
     justify-content: center;
     align-items: center;
+    height: 100vh;
 }
 
-/* ======== FRAME (1080 × 1920) ESCALÁVEL ======== */
+/* ============================
+   MOLDURA DO CELULAR
+============================ */
 .phone-frame {
-    width: 1080px;
-    height: 1920px;
-
-    background: url("moldura_natal.png") no-repeat center top;
+    width: 100%;
+    max-width: 420px; /* TAMANHO REAL DE CELULAR */
+    aspect-ratio: 1080 / 1920;
+    background: url("moldura_natal.png") no-repeat center center;
     background-size: 100% 100%;
-
     position: relative;
-    transform-origin: top center;
+    overflow: hidden; /* impede vazamento */
 }
 
-/* Ajusta automaticamente o tamanho da moldura para caber na tela */
-@media screen and (max-width: 1080px) {
-    .phone-frame {
-        transform: scale(calc(100vw / 1080));
-    }
-}
-
-/* ======== FORMULÁRIO (935×1635) ======== */
+/* ============================
+   ÁREA DO FORMULÁRIO
+============================ */
 .form-wrapper {
-    width: 935px;
-    height: 1635px;
-
     position: absolute;
-    left: 50%;
-    top: 240px;
-    transform: translateX(-50%);
 
-    overflow-y: auto; /* rolagem SOMENTE do formulário */
-    padding-right: 20px; /* evita cortar scroll */
+    /* posição exata da área de preenchimento dentro da moldura */
+    top: 12.5%;
+    left: 7%;
+    width: 86%;
+    height: 76%;
+
+    overflow-y: auto; /* rolagem funciona sempre */
+
+    padding-right: 10px; /* espaço para scroll */
 }
 
 .form-container {
-    width: 100%;
-    background: transparent;
     display: flex;
     flex-direction: column;
+    gap: 10px;
 }
 
-/* ======== CAMPOS ======== */
+/* Inputs */
 .label {
-    font-size: 28px;
+    font-size: 16px;
     font-weight: bold;
-    margin-top: 18px;
     color: #000;
 }
 
-.input,
-textarea,
-select {
+.input, textarea, select {
     width: 100%;
-    padding: 18px;
-    font-size: 22px;
-    border-radius: 12px;
+    padding: 10px;
+    border-radius: 8px;
     border: 2px solid #ccc;
+    font-size: 16px;
 }
 
-/* ======== BOTÃO ======== */
+/* Botão */
 button {
-    margin-top: 40px;
-    padding: 25px;
-    font-size: 28px;
+    margin-top: 15px;
+    padding: 16px;
     background: #d50000;
     border: none;
     color: white;
-    border-radius: 12px;
+    font-size: 18px;
+    border-radius: 10px;
     cursor: pointer;
 }
+
+
 
