@@ -1,72 +1,88 @@
 /* ============================
-   FUNDO COM MOLDURA
+   RESET
 ============================ */
 body {
     margin: 0;
     padding: 0;
-    background: #000; /* prevenção caso a imagem falhe */
+    background: #000;
+    overflow: hidden; /* impede rolagem fora da moldura */
     display: flex;
     justify-content: center;
+    align-items: center;
+    height: 100vh;
 }
 
-/* Contêiner que simula a tela do celular (1080x1920) */
+/* ============================
+   CONTÊINER QUE ESCALA A SIMULAÇÃO DO CELULAR
+============================ */
+.scale-wrapper {
+    width: 1080px;
+    height: 1920px;
+    transform-origin: top center;
+}
+
+/* Escala AUTOMÁTICA para caber em qualquer tela */
+@media screen {
+    .scale-wrapper {
+        transform: scale(calc(100vh / 1920));
+    }
+}
+
+/* ============================
+   MOLDURA
+============================ */
 .phone-frame {
     width: 1080px;
     height: 1920px;
     background: url("moldura_natal.png") no-repeat center top;
-    background-size: 1080px 1920px; /* NÃO cover — mantém proporção da arte */
+    background-size: contain; /* mantém a arte perfeita */
     position: relative;
-    overflow-y: auto; /* permite rolagem caso o form ultrapasse */
+    overflow: hidden;
 }
 
 /* ============================
-   ÁREA DO FORMULÁRIO
+   FORMULÁRIO ENCAIXADO
 ============================ */
 .form-wrapper {
     width: 935px;
     height: 1635px;
     position: absolute;
-    top: 240px; /* posição EXATA informada por você */
+    top: 240px;
     left: 50%;
     transform: translateX(-50%);
-    display: flex;
-    justify-content: center;
 }
 
-/* Caixa do formulário */
 .form-container {
     width: 100%;
-    padding: 20px;
-    background: rgba(255,255,255,0); /* transparente */
+    height: 100%;
+    padding: 25px;
+    background: rgba(255,255,255,0);
     display: flex;
     flex-direction: column;
 }
 
-/* Inputs e textos */
 .label {
-    font-size: 22px;
+    font-size: 32px;
     font-weight: bold;
-    margin-top: 12px;
+    margin-top: 18px;
 }
 
 .input, textarea, select {
     width: 100%;
-    padding: 14px;
+    padding: 22px;
     border-radius: 12px;
     border: 2px solid #ccc;
-    font-size: 18px;
+    font-size: 28px;
     box-sizing: border-box;
 }
 
-/* Botão */
 button {
-    margin-top: 25px;
-    padding: 20px;
+    margin-top: 35px;
+    padding: 28px;
     background: #d50000;
     border: none;
     color: white;
-    font-size: 24px;
+    font-size: 32px;
     border-radius: 12px;
     cursor: pointer;
 }
-
