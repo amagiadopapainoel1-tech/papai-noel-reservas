@@ -6,71 +6,63 @@
     <title>Reserva Papai Noel</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
 </head>
-
 <body>
     <div class="background-frame"></div>
 
-    <div class="phone-frame">
-        <div class="form-wrapper">
+    <div class="form-wrapper">
+        <div class="scroll-area">  <!-- ÁREA COM ROLAGEM -->
+            {% if mensagem %}
+            <div class="msg">{{ mensagem }}</div>
+            {% endif %}
+            
+            <form action="/enviar" method="POST">
+                <label class="label">Data</label>
+                <select name="data" id="data" class="input" required>
+                    <option value="">Selecione...</option>
+                    <option value="2024-12-24">24 de Dezembro</option>
+                    <option value="2024-12-25">25 de Dezembro</option>
+                </select>
 
-            <div class="form-container">
+                <label class="label">Horário</label>
+                <select name="horario" id="horario" class="input" required>
+                    <option value="">Selecione a data...</option>
+                </select>
 
-                {% if mensagem %}
-                <div class="msg">{{ mensagem }}</div>
-                {% endif %}
+                <label class="label">Responsável</label>
+                <input type="text" name="responsavel" class="input" required />
 
-                <form action="/enviar" method="POST">
+                <label class="label">Nº de crianças</label>
+                <input type="number" name="numero_criancas" class="input" required />
 
-                    <label class="label">Data</label>
-                    <select name="data" id="data" class="input" required>
-                        <option value="">Selecione...</option>
-                        <option value="2024-12-24">24 de Dezembro</option>
-                        <option value="2024-12-25">25 de Dezembro</option>
-                    </select>
+                <label class="label">E-mail</label>
+                <input type="email" name="email" class="input" required />
 
-                    <label class="label">Horário</label>
-                    <select name="horario" id="horario" class="input" required>
-                        <option value="">Selecione a data...</option>
-                    </select>
+                <label class="label">Telefone</label>
+                <input type="text" name="telefone" class="input" />
 
-                    <label class="label">Responsável</label>
-                    <input type="text" name="responsavel" class="input" required />
+                <label class="label">Valor Total</label>
+                <input type="text" name="valor_total" class="input" />
 
-                    <label class="label">Nº de crianças</label>
-                    <input type="number" name="numero_criancas" class="input" required />
+                <label class="label">Status do Pagamento</label>
+                <select name="status_pagamento" class="input">
+                    <option value="Pendente">Pendente</option>
+                    <option value="Pago">Pago</option>
+                </select>
 
-                    <label class="label">E-mail</label>
-                    <input type="email" name="email" class="input" required />
+                <label class="label">Observações</label>
+                <textarea name="observacoes" class="input"></textarea>
 
-                    <label class="label">Telefone</label>
-                    <input type="text" name="telefone" class="input" />
+                <label class="label">Endereço</label>
+                <input type="text" name="endereco" class="input" />
 
-                    <label class="label">Valor Total</label>
-                    <input type="text" name="valor_total" class="input" />
+                <label class="label">Bairro</label>
+                <input type="text" name="bairro" class="input" />
 
-                    <label class="label">Status do Pagamento</label>
-                    <select name="status_pagamento" class="input">
-                        <option value="Pendente">Pendente</option>
-                        <option value="Pago">Pago</option>
-                    </select>
+                <label class="label">Cidade</label>
+                <input type="text" name="cidade" class="input" />
 
-                    <label class="label">Observações</label>
-                    <textarea name="observacoes" class="input"></textarea>
-
-                    <label class="label">Endereço</label>
-                    <input type="text" name="endereco" class="input" />
-
-                    <label class="label">Bairro</label>
-                    <input type="text" name="bairro" class="input" />
-
-                    <label class="label">Cidade</label>
-                    <input type="text" name="cidade" class="input" />
-
-                    <button type="submit">Enviar Reserva</button>
-
-                </form>
-
-            </div>
+                <button type="submit">Enviar Reserva</button>
+            </form>
         </div>
     </div>
 
@@ -90,7 +82,6 @@
             const ocupados = json.ocupados;
             const horarios = json.horarios_disponiveis;
             select.innerHTML = "";
-
             horarios.forEach(h => {
                 const opt = document.createElement("option");
                 opt.value = h;
@@ -104,3 +95,9 @@
 
 </body>
 </html>
+
+</script>
+
+</body>
+</html>
+
