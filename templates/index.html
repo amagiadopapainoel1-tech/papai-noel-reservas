@@ -8,7 +8,7 @@
 </head>
 <body>
 
-    <!-- 🔴 MOLDURA DE FUNDO (AGORA INCLUÍDA!) -->
+    <!-- Moldura fixa -->
     <div class="background-frame"></div>
 
     <div class="phone-frame">
@@ -35,94 +35,82 @@
                         <option value="">Selecione a data...</option>
                     </select>
 
-                    <!-- RESPONSÁVEL -->
+                    <!-- RESTANTE DOS CAMPOS -->
                     <label class="label">Responsável</label>
                     <input type="text" name="responsavel" class="input" required>
 
-                    <!-- Nº CRIANÇAS -->
                     <label class="label">Nº de crianças</label>
-                    <input type="number" name="numero_criancas" id="numero_criancas" class="input" required>
+                    <input type="number" id="numero_criancas" name="numero_criancas" class="input" required>
 
-                    <!-- VALOR TOTAL (CALCULADO AUTOMATICAMENTE) -->
                     <label class="label">Valor Total</label>
-                    <input type="text" name="valor_total" id="valor_total" class="input" readonly>
+                    <input type="text" id="valor_total" name="valor_total" class="input" readonly>
 
-                    <!-- E-MAIL -->
                     <label class="label">E-mail</label>
                     <input type="email" name="email" class="input" required>
 
-                    <!-- TELEFONE -->
                     <label class="label">Telefone</label>
                     <input type="text" name="telefone" class="input">
 
-                    <!-- STATUS -->
                     <label class="label">Status do Pagamento</label>
                     <select name="status_pagamento" class="input">
                         <option value="Pendente">Pendente</option>
                         <option value="Pago">Pago</option>
                     </select>
 
-                    <!-- OBSERVAÇÕES -->
                     <label class="label">Observações</label>
                     <textarea name="observacoes" class="input"></textarea>
 
-                    <!-- ENDEREÇO -->
                     <label class="label">Endereço</label>
                     <input type="text" name="endereco" class="input">
 
-                    <!-- BAIRRO -->
                     <label class="label">Bairro</label>
                     <input type="text" name="bairro" class="input">
 
-                    <!-- CIDADE -->
                     <label class="label">Cidade</label>
                     <input type="text" name="cidade" class="input">
 
                     <button type="submit">Enviar Reserva</button>
                 </form>
+
             </div>
         </div>
     </div>
 
-
 <script>
-/* --- Atualiza horários conforme a data selecionada --- */
-document.getElementById("data").addEventListener("change", function () {
-    const data = this.value;
-    const select = document.getElementById("horario");
-    select.innerHTML = "<option>Carregando horários...</option>";
+    // Carregar horários
+    document.getElementById("data").addEventListener("change", function () {
+        const data = this.value;
+        const select = document.getElementById("horario");
+        select.innerHTML = "<option>Carregando horários...</option>";
 
-    fetch("/horarios_indisponiveis", {
-        method: "POST",
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: "data=" + data
-    })
-    .then(res => res.json())
-    .then(json => {
-        const ocupados = json.ocupados;
-        const horarios = json.horarios_disponiveis;
-        select.innerHTML = "";
-        horarios.forEach(h => {
-            const opt = document.createElement("option");
-            opt.value = h;
-            opt.textContent = ocupados.includes(h)
-                ? h + " (indisponível)"
-                : h;
-            if (ocupados.includes(h)) opt.disabled = true;
-            select.appendChild(opt);
+        fetch("/horarios_indisponiveis", {
+            method: "POST",
+            headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            body: "data=" + data
+        })
+        .then(res => res.json())
+        .then(json => {
+            select.innerHTML = "";
+            json.horarios_disponiveis.forEach(h => {
+                const opt = document.createElement("option");
+                opt.value = h;
+                opt.textContent = json.ocupados.includes(h)
+                    ? h + " (indisponível)"
+                    : h;
+                if (json.ocupados.includes(h)) opt.disabled = true;
+                select.appendChild(opt);
+            });
         });
     });
-});
 
-/* --- Calcula valor automaticamente (crianças x 50) --- */
-document.getElementById("numero_criancas").addEventListener("input", function () {
-    const qtd = parseInt(this.value) || 0;
-    const valor = qtd * 50;
-    document.getElementById("valor_total").value = 
-        "R$ " + valor.toFixed(2).replace(".", ",");
-});
+    // Auto cálculo do valor
+    document.getElementById("numero_criancas").addEventListener("input", function () {
+        const qtd = parseInt(this.value) || 0;
+        const total = qtd * 50;
+        document.getElementById("valor_total").value = 
+            `R$ ${total},00 (${qtd} crianças x R$ 50,00)`;
+    });
 </script>
 
 </body>
 </html>
-
