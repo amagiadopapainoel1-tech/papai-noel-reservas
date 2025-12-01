@@ -1,21 +1,10 @@
-body {
-    margin: 0;
-    padding: 0;
-    background: #000;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    overflow: hidden; /* impede scroll total da página */
-}
-
-/* Moldura fixa e 100% visível */
+/* Moldura fixa */
 .background-frame {
     position: fixed;
     top: 0;
     left: 0;
-    width: 100vw;
-    height: 100vh;
+    width: 100%;
+    height: 100%;
     background-image: url('/static/moldura_natal.webp');
     background-size: contain;
     background-repeat: no-repeat;
@@ -23,66 +12,30 @@ body {
     z-index: -1;
 }
 
-/* Área onde o formulário fica encaixado */
+/* Container externo da área útil */
 .phone-frame {
+    position: relative;
     width: 100%;
-    max-width: 420px; /* formulário MENOR  → 10% menor que antes */
-    height: 70vh;     /* mais baixo → deve encaixar dentro da moldura */
-    margin-top: 12vh; /* desce o formulário → deixa o rosto livre */
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    overflow: hidden; /* impede que algo escape pro lado */
+    max-width: 430px;
+    margin: 0 auto;
+    padding-top: 160px;    /* empurra o formulário para baixo (ajusta para não pegar o rosto do Noel) */
+    padding-bottom: 70px;  /* margem inferior para não encostar na moldura */
 }
 
-/* Área com rolagem interna */
+/* Área rolável REAL */
 .form-wrapper {
-    width: 100%;
-    height: 100%;
-    overflow-y: auto; /* rolagem só aqui */
-    padding-right: 8px; /* evita cortar barra de rolagem */
+    width: 85%;               /* Diminuímos 15% da largura */
+    height: 58vh;             /* Área de rolagem reduzida ~40% */
+    margin: 0 auto;
+    overflow-y: auto;         /* rolagem interna */
+    padding-right: 10px;      /* espaço para scrollbar */
 }
 
-/* O formulário mantém o estilo original */
+/* estilo visual do formulário */
 .form-container {
-    background: rgba(255, 255, 255, 0.88);
+    background: rgba(255, 255, 255, 0.85);
     padding: 18px;
     border-radius: 10px;
     box-shadow: 0 0 10px #0004;
 }
-
-/* Labels e inputs originais */
-.label {
-    font-weight: bold;
-    margin-top: 10px;
-    display: block;
-}
-.input {
-    width: 100%;
-    padding: 10px;
-    margin-top: 5px;
-    border-radius: 5px;
-    border: 1px solid #888;
-    font-size: 16px;
-}
-textarea.input {
-    height: 70px;
-}
-button {
-    width: 100%;
-    padding: 12px;
-    background: #b30000;
-    color: #fff;
-    border: none;
-    margin-top: 15px;
-    font-size: 18px;
-    border-radius: 8px;
-    cursor: pointer;
-}
-button:hover {
-    background: #7a0000;
-}
-
-
-
 
