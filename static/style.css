@@ -1,53 +1,86 @@
+/* Fundo preto */
 body {
     margin: 0;
     padding: 0;
     background: #000;
     display: flex;
     justify-content: center;
-    align-items: center;
-    height: 100vh;
+    align-items: flex-start;
+    min-height: 100vh;
+    overflow: hidden; /* impede o fundo de rolar */
 }
 
-/* MOLDURA – agora um pouco menor e sempre 100% visível */
+/* Moldura fixa */
 .background-frame {
     position: fixed;
     top: 0;
     left: 50%;
     transform: translateX(-50%);
-    width: 360px;          /* diminuímos a moldura */
+    width: 430px;
     height: 100vh;
     background-image: url('/static/moldura_natal.webp');
     background-size: contain;
     background-repeat: no-repeat;
-    background-position: center top;
+    background-position: top center;
     z-index: -1;
 }
 
-/* ÁREA INTERNA QUE CORRESPONDE AO “VIDRO” DA MOLDURA */
-.phone-frame {
+/* ÁREA DA MOLDURA (define o espaço do scroll) */
+.frame-scroll-area {
     position: relative;
-    width: 360px;          /* acompanha a moldura */
-    height: 100vh;
-    padding-top: 140px;    /* deixa o rosto / topo livre */
-    padding-bottom: 120px; /* deixa espaço para a base da moldura */
-    box-sizing: border-box;
-    overflow-y: auto;       /* rolagem SOMENTE aqui */
+    width: 430px;
+    height: 87vh; /* deixa margem superior e inferior */
+    margin-top: 7vh;  /* distância do topo da moldura */
+    overflow-y: auto; /* rolagem SOMENTE AQUI */
+    padding-right: 10px; /* evita scroll colado */
 }
 
-/* Wrapper */
-.form-wrapper {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-}
-
-/* Formulário central */
+/* Formulário original restaurado */
 .form-container {
-    width: 85%;
-    background: rgba(255, 255, 255, 0.92);
+    background: rgba(255, 255, 255, 0.90);
     padding: 18px;
     border-radius: 10px;
+    width: 82%;               /* encaixa dentro da moldura */
+    margin: 0 auto;           /* centraliza */
     box-shadow: 0 0 10px #0004;
+}
+
+/* Labels */
+.label {
+    font-weight: bold;
+    margin-top: 10px;
+    display: block;
+}
+
+/* Inputs */
+.input {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border-radius: 5px;
+    border: 1px solid #888;
+    font-size: 16px;
+}
+
+textarea.input {
+    height: 70px;
+}
+
+/* Botão */
+button {
+    width: 100%;
+    padding: 12px;
+    background: #b30000;
+    color: #fff;
+    border: none;
+    margin-top: 15px;
+    font-size: 18px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #7a0000;
 }
 
 
