@@ -4,12 +4,12 @@ body {
     background: #000;
     display: flex;
     justify-content: center;
-    align-items: flex-start;
+    align-items: flex-start; /* IMPORTANTE: fixo no topo */
     min-height: 100vh;
     overflow-x: hidden;
 }
 
-/* Moldura fixa no fundo */
+/* Moldura fixa */
 .background-frame {
     position: fixed;
     top: 0;
@@ -24,31 +24,26 @@ body {
     z-index: -1;
 }
 
-/* Área do conteúdo que deve rolar */
+/* Área do formulário */
 .phone-frame {
-    width: 430px;
-    display: flex;
-    justify-content: center;
-    padding-top: 90px;    /* <<< “Cabeçalho invisível” */
-    padding-bottom: 40px; /* margem inferior */
+    width: 100%;
+    max-width: 300px;     /* 🔥 30% MENOR */
+    margin-top: 160px;    /* 🔥 FORMULÁRIO MAIS BAIXO */
+    padding: 0 12px;
     box-sizing: border-box;
 }
 
 /* Wrapper */
 .form-wrapper {
     width: 100%;
-    display: flex;
-    justify-content: center;
 }
 
-/* FORMULÁRIO AJUSTADO PARA CABER */
+/* Container */
 .form-container {
-    width: 82%;   /* <<< ANTES 100%, agora ENCAIXA NA MOLDURA */
-    max-width: 360px;  /* <<< limite real da moldura */
-    background: rgba(255, 255, 255, 0.90);
+    background: rgba(255, 255, 255, 0.88);
     padding: 18px;
     border-radius: 10px;
-    box-shadow: 0 0 10px #0004;
+    box-shadow: 0 0 10px #0005;
 }
 
 /* Labels */
@@ -61,11 +56,11 @@ body {
 /* Inputs */
 .input {
     width: 100%;
-    padding: 10px;
+    padding: 9px;
     margin-top: 5px;
-    border-radius: 5px;
-    border: 1px solid #888;
-    font-size: 16px;
+    border-radius: 6px;
+    border: 1px solid #777;
+    font-size: 15px;
 }
 
 textarea.input {
@@ -89,20 +84,3 @@ button:hover {
     background: #7a0000;
 }
 
-/* Ajuste mobile */
-@media (max-width: 460px) {
-    .background-frame {
-        width: 100%;
-        background-size: contain;
-    }
-
-    .phone-frame {
-        width: 100%;
-        padding-top: 70px;  /* cabeçalho proporcional */
-    }
-
-    .form-container {
-        width: 90%;
-        max-width: none;
-    }
-}
