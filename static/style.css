@@ -1,4 +1,3 @@
-/* Fundo preto */
 body {
     margin: 0;
     padding: 0;
@@ -7,64 +6,51 @@ body {
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    overflow: hidden; /* impede scroll do body */
+    overflow: hidden; /* Mantém moldura fixa */
 }
 
-/* Moldura fixa */
+/* Moldura fixa ao fundo */
 .background-frame {
     position: fixed;
     top: 0;
     left: 50%;
     transform: translateX(-50%);
-    width: 430px;
+    width: auto;
     height: 100vh;
     background-image: url('/static/moldura_natal.webp');
-    background-size: 430px auto;
+    background-size: contain;
     background-repeat: no-repeat;
-    background-position: top center;
+    background-position: center;
     z-index: -1;
 }
 
-/* Área total da coluna central */
-.phone-frame {
-    width: 430px;
-    height: 100vh;
-
-    /* Espaços que deixam a moldura aparecer */
-    padding-top: 150px;   /* desce o formulário e libera o rosto do Noel */
-    padding-bottom: 80px; /* libera a parte de baixo da moldura */
-
-    box-sizing: border-box;
+/* Área geral do formulário */
+.form-wrapper {
+    width: 100%;
+    max-width: 480px; /* Aumentamos mais a largura */
     display: flex;
     justify-content: center;
-    align-items: flex-start;
 }
 
-/* Área que rola dentro da moldura */
-.form-wrapper {
-    width: 80%;          /* diminui a largura para caber dentro da moldura */
-    max-width: 330px;
-    height: 100%;        /* ocupa o espaço útil */
-    overflow-y: auto;    /* ativa scroll interno */
-    padding-right: 10px; /* evita cortar scroll no lado direito */
+/* Área de rolagem ajustada */
+.scroll-area {
+    width: 88%;                 /* Agora ocupa mais espaço lateral */
+    height: 70vh;               /* Aumentamos a altura */
+    margin-top: 12vh;           /* Sobe um pouco para alinhar pela base */
+    margin-bottom: 6vh;         /* Menor distância inferior */
+    padding: 15px;
+    overflow-y: auto;
+    background: rgba(255,255,255,0.85);
+    border-radius: 12px;
+    box-shadow: 0 0 10px #0005;
 }
 
-/* Formulário */
-.form-container {
-    background: rgba(255, 255, 255, 0.88);
-    padding: 18px;
-    border-radius: 10px;
-    box-shadow: 0 0 10px #0004;
-}
-
-/* Labels */
+/* Campos internos do formulário */
 .label {
     font-weight: bold;
     margin-top: 10px;
     display: block;
 }
-
-/* Inputs */
 .input {
     width: 100%;
     padding: 10px;
@@ -73,12 +59,9 @@ body {
     border: 1px solid #888;
     font-size: 16px;
 }
-
 textarea.input {
     height: 70px;
 }
-
-/* Botão */
 button {
     width: 100%;
     padding: 12px;
@@ -90,13 +73,6 @@ button {
     border-radius: 8px;
     cursor: pointer;
 }
-
 button:hover {
     background: #7a0000;
 }
-
-    .form-container {
-        width: 90%;
-    }
-}
-
