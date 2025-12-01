@@ -1,42 +1,14 @@
-/* FUNDO PRETO DA PÁGINA */
-body {
-    margin: 0;
-    background: #000;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-}
-
-/* MOLDURA EM IMAGEM FIXA AO FUNDO */
+/* MOLDURA DE NATAL */
 .background-frame {
     position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-
-    width: 1080px;        /* tamanho original da arte */
-    height: 1920px;
-
-    background-image: url("/static/moldura.webp");  /* caminho da sua moldura */
-    background-size: cover;
-    background-position: center;
-
-    z-index: 1;   /* atrás do formulário */
-}
-
-/* ENVOLVE O FORMULÁRIO (NÃO MUDEI NADA AQUI, SÓ Z-INDEX) */
-.form-wrapper {
-    position: relative;
-    z-index: 2;
-    width: 960px;     /* o tamanho que estava bom para você */
-    height: 1480px;
-    margin-top: 70px; /* para encaixar certinho dentro da moldura */
-}
-
-/* ÁREA DE SCROLL – IGUAL ESTAVA FUNCIONANDO */
-.scroll-area {
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
-    overflow-y: auto;
+    background-image: url("{{ url_for('static', filename='moldura_natal.webp') }}");
+    background-size: cover;     /* cobre a tela inteira */
+    background-position: center;
+    background-repeat: no-repeat;
+    z-index: -1;                /* FICA ATRÁS DO FORMULÁRIO */
 }
+
