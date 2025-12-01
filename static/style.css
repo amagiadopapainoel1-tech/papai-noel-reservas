@@ -1,19 +1,96 @@
-/*===============================
-  MOLDURA — APENAS ISSO!
-================================*/
+/* ====== RESET ====== */
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+
+/* ====== BACKGROUND PRETO PARA GARANTIR FUNDO ====== */
+body {
+    background: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* ====== MOLDURA ====== */
 .background-frame {
-    position: fixed;            /* Sempre atrás e cobrindo a tela toda */
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    width: 100%;
+    max-width: 430px;              /* Mesmo tamanho do layout que estava bom */
+    height: auto;
 
     background-image: url("/static/moldura.webp");
-    background-size: contain;   /* Mantém proporção, sem cortar */
+    background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
 
-    z-index: -1;                /* Garante que o formulário fique na frente */
-    pointer-events: none;       /* Não interfere nos cliques */
+    z-index: 1;                     /* Moldura ATRÁS */
+    pointer-events: none;           /* Evita interferência */
 }
 
+/* ====== FORMULÁRIO ====== */
+.form-wrapper {
+    position: relative;
+    width: 100%;
+    max-width: 360px;               /* EXATAMENTE o tamanho que estava funcionando */
+    z-index: 2;                     /* Formulário NA FRENTE da moldura */
+
+    display: flex;
+    justify-content: center;
+}
+
+/* ====== ÁREA DE ROLAGEM ====== */
+.scroll-area {
+    width: 100%;
+    height: 500px;                  /* Valor que estava funcionando perfeitamente */
+    overflow-y: auto;
+    padding: 15px;
+    box-sizing: border-box;
+
+    background: rgba(0,0,0,0);      /* 100% transparente */
+    border-radius: 10px;
+}
+
+/* ====== CAMPOS ====== */
+.label {
+    color: white;
+    font-size: 16px;
+    margin-top: 10px;
+    display: block;
+}
+
+.input {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    margin-bottom: 10px;
+
+    border-radius: 8px;
+    border: none;
+    background: white;
+}
+
+button {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    background: red;
+    border: none;
+    border-radius: 10px;
+    color: white;
+    font-weight: bold;
+    margin-top: 15px;
+}
+
+/* ====== CENTRALIZAR NO PC ====== */
+@media (min-width: 768px) {
+    body {
+        justify-content: center;
+        align-items: center;
+    }
+}
