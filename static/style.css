@@ -1,58 +1,62 @@
-/* Fundo preto */
 body {
     margin: 0;
     padding: 0;
     background: #000;
     display: flex;
     justify-content: center;
-    align-items: flex-start;
+    align-items: center;
     min-height: 100vh;
-    overflow: hidden; /* impede o fundo de rolar */
+    overflow: hidden; /* impede scroll total da página */
 }
 
-/* Moldura fixa */
+/* Moldura fixa e 100% visível */
 .background-frame {
     position: fixed;
     top: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 430px;
+    left: 0;
+    width: 100vw;
     height: 100vh;
     background-image: url('/static/moldura_natal.webp');
     background-size: contain;
     background-repeat: no-repeat;
-    background-position: top center;
+    background-position: center;
     z-index: -1;
 }
 
-/* ÁREA DA MOLDURA (define o espaço do scroll) */
-.frame-scroll-area {
-    position: relative;
-    width: 430px;
-    height: 87vh; /* deixa margem superior e inferior */
-    margin-top: 7vh;  /* distância do topo da moldura */
-    overflow-y: auto; /* rolagem SOMENTE AQUI */
-    padding-right: 10px; /* evita scroll colado */
+/* Área onde o formulário fica encaixado */
+.phone-frame {
+    width: 100%;
+    max-width: 420px; /* formulário MENOR  → 10% menor que antes */
+    height: 70vh;     /* mais baixo → deve encaixar dentro da moldura */
+    margin-top: 12vh; /* desce o formulário → deixa o rosto livre */
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    overflow: hidden; /* impede que algo escape pro lado */
 }
 
-/* Formulário original restaurado */
+/* Área com rolagem interna */
+.form-wrapper {
+    width: 100%;
+    height: 100%;
+    overflow-y: auto; /* rolagem só aqui */
+    padding-right: 8px; /* evita cortar barra de rolagem */
+}
+
+/* O formulário mantém o estilo original */
 .form-container {
-    background: rgba(255, 255, 255, 0.90);
+    background: rgba(255, 255, 255, 0.88);
     padding: 18px;
     border-radius: 10px;
-    width: 82%;               /* encaixa dentro da moldura */
-    margin: 0 auto;           /* centraliza */
     box-shadow: 0 0 10px #0004;
 }
 
-/* Labels */
+/* Labels e inputs originais */
 .label {
     font-weight: bold;
     margin-top: 10px;
     display: block;
 }
-
-/* Inputs */
 .input {
     width: 100%;
     padding: 10px;
@@ -61,12 +65,9 @@ body {
     border: 1px solid #888;
     font-size: 16px;
 }
-
 textarea.input {
     height: 70px;
 }
-
-/* Botão */
 button {
     width: 100%;
     padding: 12px;
@@ -78,9 +79,10 @@ button {
     border-radius: 8px;
     cursor: pointer;
 }
-
 button:hover {
     background: #7a0000;
 }
+
+
 
 
