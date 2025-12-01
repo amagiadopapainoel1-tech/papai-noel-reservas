@@ -6,10 +6,13 @@
     <title>Reserva Papai Noel</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
+
 <body>
 
-    <div class="phone-frame">
+    <!-- Moldura de fundo (NOVA VERSÃO .webp) -->
+    <div class="background-frame"></div>
 
+    <div class="phone-frame">
         <div class="form-wrapper">
             <div class="form-container">
 
@@ -69,14 +72,12 @@
                 </form>
             </div>
         </div>
-
     </div>
 
 <script>
     document.getElementById("data").addEventListener("change", function () {
         const data = this.value;
         const select = document.getElementById("horario");
-
         select.innerHTML = "<option>Carregando horários...</option>";
 
         fetch("/horarios_indisponiveis", {
@@ -90,7 +91,6 @@
             const horarios = json.horarios_disponiveis;
 
             select.innerHTML = "";
-
             horarios.forEach(h => {
                 const opt = document.createElement("option");
                 opt.value = h;
@@ -108,3 +108,5 @@
 
 </body>
 </html>
+
+
