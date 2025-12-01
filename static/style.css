@@ -1,99 +1,28 @@
-body {
-    margin: 0;
-    padding: 0;
-    background: #000;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    overflow: hidden;
-}
-
-/* Moldura fixa responsiva */
-.background-frame {
-    position: fixed;
-    top: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    height: 100vh;
-    width: auto;
-    max-width: 100vw;              /* garante exibição no celular */
-    background-image: url('/static/moldura_natal.webp');
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center;
-    z-index: -1;
-}
-
-/* Wrapper fixo ao centro */
-.form-wrapper {
-    width: 100%;
-    max-width: 480px;
-    display: flex;
-    justify-content: center;
-}
-
-/* Área de rolagem central dentro da moldura */
-.scroll-area {
-    width: 88%;
-    max-width: 350px;              /* impede que ultrapasse a moldura no celular */
-    height: 70vh;
-    margin-top: 13vh;              /* ajusta para não pegar rosto do Noel */
-    margin-bottom: 6vh;
-    padding: 15px;
-    overflow-y: auto;
-    background: rgba(255,255,255,0.85);
-    border-radius: 12px;
-    box-shadow: 0 0 10px #0005;
-}
-
-/* Ajustes dos campos */
-.label {
-    font-weight: bold;
-    margin-top: 10px;
-    display: block;
-}
-.input {
-    width: 100%;
-    padding: 10px;
-    margin-top: 5px;
-    border-radius: 5px;
-    border: 1px solid #888;
-    font-size: 16px;
-}
-textarea.input {
-    height: 70px;
-}
-button {
-    width: 100%;
-    padding: 12px;
-    background: #b30000;
-    color: #fff;
-    border: none;
-    margin-top: 15px;
-    font-size: 18px;
-    border-radius: 8px;
-    cursor: pointer;
-}
-button:hover {
-    background: #7a0000;
-}
-
-/* 📱 Ajustes EXCLUSIVOS para celulares */
-@media (max-width: 480px) {
+/* ----- AJUSTES EXCLUSIVOS PARA CELULAR ----- */
+@media (max-width: 600px) {
 
     .background-frame {
         height: 100vh;
-        width: 100vw;             /* força moldura aparecer inteira */
-        transform: none;
-        left: 0;
+        width: auto;
+        background-size: contain;
+    }
+
+    .form-wrapper {
+        max-width: 100%;
+        display: flex;
+        justify-content: center;
     }
 
     .scroll-area {
-        width: 80%;
-        max-width: none;
-        height: 68vh;  
-        margin-top: 15vh;         /* abaixa mais no celular */
+        width: 75%;              /* encaixa dentro da moldura no celular */
+        height: 68vh;            /* mantém área de rolagem proporcional */
+        margin-top: 14vh;        /* não invade o rosto do Noel */
         margin-bottom: 5vh;
+        padding: 12px;
+        border-radius: 10px;
+    }
+
+    body {
+        overflow: hidden; /* continua mantendo moldura fixa */
     }
 }
