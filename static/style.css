@@ -1,73 +1,19 @@
-/* Fundo preto básico */
-body {
-    margin: 0;
-    padding: 0;
-    background: #000;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    overflow: hidden;
-}
-
-/* MOLDURA — atrás de tudo */
+/*===============================
+  MOLDURA — APENAS ISSO!
+================================*/
 .background-frame {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 360px;         /* NÃO altera o tamanho do formulário */
-    height: 640px;
-    transform: translate(-50%, -50%);
-    background: url("{{ url_for('static', filename='frame.webp') }}") no-repeat center;
-    background-size: contain;
-    z-index: 1;           /* fica atrás */
-    pointer-events: none; /* evita interferir no formulário */
+    position: fixed;            /* Sempre atrás e cobrindo a tela toda */
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+
+    background-image: url("/static/moldura.webp");
+    background-size: contain;   /* Mantém proporção, sem cortar */
+    background-repeat: no-repeat;
+    background-position: center;
+
+    z-index: -1;                /* Garante que o formulário fique na frente */
+    pointer-events: none;       /* Não interfere nos cliques */
 }
 
-/* Wrapper do formulário */
-.form-wrapper {
-    position: relative;
-    width: 280px;        /* o tamanho que estava perfeito pra você */
-    height: 500px;       /* mesma proporção do ajuste anterior */
-    z-index: 2;          /* fica acima da moldura */
-}
-
-/* Área de scroll DO JEITO QUE VOCÊ ELOGIOU */
-.scroll-area {
-    width: 100%;
-    height: 100%;
-    overflow-y: auto;
-    background: transparent;  /* TIRA o cinza */
-    padding: 10px 0;
-}
-
-/* Formulário */
-form {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    background: transparent;  /* garante que nada cinza apareça */
-}
-
-/* Inputs */
-.input, textarea, select {
-    width: 100%;
-    padding: 8px;
-    border-radius: 6px;
-    border: 1px solid #ccc;
-}
-
-/* Texto das labels */
-.label {
-    color: white;
-    font-size: 14px;
-}
-
-button {
-    padding: 10px;
-    border: none;
-    background: #e60023;
-    color: white;
-    border-radius: 6px;
-    margin-top: 10px;
-}
