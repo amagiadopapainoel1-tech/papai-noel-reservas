@@ -1,3 +1,4 @@
+/* ===== RESET DO BODY ===== */
 body {
     margin: 0;
     padding: 0;
@@ -6,10 +7,10 @@ body {
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    overflow: hidden; /* mantém moldura fixa */
+    overflow: hidden; /* Mantém a moldura fixa */
 }
 
-/* Moldura fixa, sempre centralizada */
+/* ===== MOLDURA FIXA E SEM DISTORCER ===== */
 .background-frame {
     position: fixed;
     top: 0;
@@ -17,44 +18,45 @@ body {
     transform: translateX(-50%);
     height: 100vh;
     width: auto;
+
     background-image: url('/static/moldura_natal.webp');
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
+
     z-index: -1;
 }
 
-/* Área geral do formulário */
+/* ===== ÁREA DO FORMULÁRIO ===== */
 .form-wrapper {
-    position: relative;
     width: 100%;
-    max-width: 420px; /* Reduzido para caber dentro da moldura */
+    max-width: 420px;       /* Ajustado para caber certinho dentro da moldura */
     display: flex;
     justify-content: center;
 }
 
-/* Área rolável dentro da moldura */
+/* ===== ÁREA DE ROLAGEM AJUSTADA ===== */
 .scroll-area {
-    width: 80%;          /* Agora cabe dentro da moldura */
-    max-width: 340px;    /* Largura segura para PC e celular */
-    height: 60vh;        /* Área de rolagem reduzida */
-    margin-top: 18vh;    /* Evita pegar rosto do Noel */
-    margin-bottom: 10vh; /* Agora deixa margem inferior */
-    
+    width: 90%;             /* Ajuste fino lateral */
+    height: 72vh;           /* Altura ideal dentro da moldura */
+    margin-top: 14vh;       /* Alinha abaixo do topo da moldura */
+    margin-bottom: 6vh;     /* Mostra parte inferior da moldura */
     padding: 15px;
+
     overflow-y: auto;
-    
+
     background: rgba(255,255,255,0.88);
     border-radius: 12px;
     box-shadow: 0 0 10px #0006;
 }
 
-/* Campos internos */
+/* ===== CAMPOS DO FORMULÁRIO ===== */
 .label {
     font-weight: bold;
     margin-top: 10px;
     display: block;
 }
+
 .input {
     width: 100%;
     padding: 10px;
@@ -63,9 +65,12 @@ body {
     border: 1px solid #888;
     font-size: 16px;
 }
+
 textarea.input {
     height: 70px;
 }
+
+/* ===== BOTÃO ===== */
 button {
     width: 100%;
     padding: 12px;
@@ -77,26 +82,24 @@ button {
     border-radius: 8px;
     cursor: pointer;
 }
+
 button:hover {
     background: #7a0000;
 }
 
-/* 🔥 Ajuste REAL para celular */
+/* ======== MOBILE FIX: AJUSTE GARANTIDO ======== */
 @media (max-width: 600px) {
-
     .background-frame {
-        height: 100vh;      /* mantém moldura inteira */
+        height: 100vh; /* Mantém a moldura no centro */
         width: auto;
     }
 
     .scroll-area {
-        width: 78%;
-        max-width: 300px;
-        height: 55vh;       /* área um pouco menor no celular */
-        margin-top: 22vh;   /* desce mais para não pegar o topo da moldura */
-        margin-bottom: 8vh;
+        width: 82%;
+        height: 68vh;
+        margin-top: 15vh; /* Desce para não cobrir o rosto do Noel */
+        margin-bottom: 7vh;
     }
-
 }
 
 
