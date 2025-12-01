@@ -10,7 +10,6 @@
     <div class="phone-frame">
         <div class="form-wrapper">
             <div class="form-container">
-
                 {% if mensagem %}
                 <div class="msg">{{ mensagem }}</div>
                 {% endif %}
@@ -28,41 +27,33 @@
                     <!-- HORÁRIO -->
                     <label class="label">Horário</label>
                     <select name="horario" id="horario" class="input" required>
-                        <option value="">Selecione a data...</option>
+                        <option value="">Selecione o horário...</option>
                     </select>
 
-                    <!-- RESPONSÁVEL -->
                     <label class="label">Responsável</label>
                     <input type="text" name="responsavel" class="input" required>
 
-                    <!-- NÚMERO DE CRIANÇAS -->
                     <label class="label">Nº de crianças</label>
-                    <input type="number" name="numero_criancas" id="numero_criancas" class="input" required>
+                    <input type="number" id="numero_criancas" name="numero_criancas" class="input" required>
 
-                    <!-- VALOR TOTAL (AUTOMÁTICO) -->
                     <label class="label">Valor Total</label>
-                    <input type="text" name="valor_total" id="valor_total" class="input" readonly>
+                    <input type="text" id="valor_total" name="valor_total" class="input" readonly>
 
-                    <!-- EMAIL -->
                     <label class="label">E-mail</label>
                     <input type="email" name="email" class="input" required>
 
-                    <!-- TELEFONE -->
                     <label class="label">Telefone</label>
                     <input type="text" name="telefone" class="input">
 
-                    <!-- STATUS -->
                     <label class="label">Status do Pagamento</label>
                     <select name="status_pagamento" class="input">
                         <option value="Pendente">Pendente</option>
                         <option value="Pago">Pago</option>
                     </select>
 
-                    <!-- OBSERVAÇÕES -->
                     <label class="label">Observações</label>
                     <textarea name="observacoes" class="input"></textarea>
 
-                    <!-- ENDEREÇO -->
                     <label class="label">Endereço</label>
                     <input type="text" name="endereco" class="input">
 
@@ -74,13 +65,12 @@
 
                     <button type="submit">Enviar Reserva</button>
                 </form>
-
             </div>
         </div>
     </div>
 
 <script>
-    /* ------- CARREGA HORÁRIOS CONFORME A DATA ------- */
+    /* CARREGAR HORÁRIOS */
     document.getElementById("data").addEventListener("change", function () {
         const data = this.value;
         const select = document.getElementById("horario");
@@ -95,35 +85,33 @@
         .then(json => {
             const ocupados = json.ocupados;
             const horarios = json.horarios_disponiveis;
-            select.innerHTML = "";
+
+            select.innerHTML = '<option value="">Selecione o horário...</option>';
 
             horarios.forEach(h => {
                 const opt = document.createElement("option");
                 opt.value = h;
+                opt.textContent = ocupados.includes(h)
+                    ? h + " (indisponível)"
+                    : h;
 
-                if (ocupados.includes(h)) {
-                    opt.textContent = h + " (indisponível)";
-                    opt.disabled = true;
-                } else {
-                    opt.textContent = h;
-                }
+                if (ocupados.includes(h)) opt.disabled = true;
+
                 select.appendChild(opt);
             });
-
         });
     });
 
-    /* ------- CÁLCULO AUTOMÁTICO DO VALOR ------- */
+    /* CÁLCULO AUTOMÁTICO DO VALOR */
     document.getElementById("numero_criancas").addEventListener("input", function () {
-        const num = parseInt(this.value) || 0;
-        const valor = num * 50;
-
-        document.getElementById("valor_total").value = 
-            valor.toLocaleString("pt-BR", {
-                style: "currency",
-                currency: "BRL"
-            });
+        const n = parseInt(this.value) || 0;
+        const total = n * 50;
+        document.getElementById("valor_total").value =
+            "R$ " + total.toFixed(2).replace(".", ",") + " (" + n + " crianças × R$ 50,00)";
     });
 </script>
+
 </body>
 </html>
+
+
