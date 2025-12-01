@@ -1,103 +1,81 @@
-/* Remove fundo preto cobrindo tudo */
+/* Remove margens padrão */
 body {
     margin: 0;
     padding: 0;
-    background: #000; 
+    background: #000; /* fundo preto para destacar se algo der errado */
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 100vh;
-    overflow: hidden; 
-    position: relative;
+    height: 100vh;
+    overflow: hidden;
 }
 
-/* MOLDURA — sempre visível atrás de tudo */
+/* MOLDURA DO CELULAR */
 .background-frame {
-    position: fixed;
+    position: absolute;
     top: 50%;
     left: 50%;
+    width: 95vw;       /* grande no celular */
+    max-width: 430px;  /* tamanho padrão de um celular */
     transform: translate(-50%, -50%);
-    height: 100vh;             /* Garante moldura inteira */
-    width: auto;
-    background-image: url('/static/moldura_natal.webp');
+    z-index: 1;        /* fica ATRÁS DO FORMULÁRIO */
+    background-image: url('/static/celular.webp');
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
-    z-index: 0;                 /* Moldura fica no fundo */
+    height: 95vh;
+    pointer-events: none;
 }
 
-/* Envolve área com rolagem */
+/* ÁREA QUE SEGURA O FORMULÁRIO */
 .form-wrapper {
-    position: relative;
-    z-index: 2;                 /* Fica acima da moldura */
-    width: 100%;
-    max-width: 420px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 78vw;         /* largura do formulário dentro da moldura */
+    max-width: 310px;    /* largura perfeita para caber na moldura */
+    max-height: 70vh;    /* área interna da moldura */
+    transform: translate(-50%, -50%);
+    z-index: 2;          /* FICA NA FRENTE DA MOLDURA */
+    overflow: hidden;
     display: flex;
     justify-content: center;
 }
 
-/* Área interna com rolagem */
+/* ÁREA COM ROLAGEM */
 .scroll-area {
-    width: 85%;
-    max-width: 360px;           /* Perfeito para caber na moldura */
-    height: 68vh;               /* Ajusta para não ultrapassar moldura */
-    margin-top: 14vh;           /* Afasta do topo (não cobrir a cabeça do Noel) */
-    margin-bottom: 6vh;
-    padding: 15px;
+    width: 100%;
+    height: 100%;
     overflow-y: auto;
-    background: rgba(255,255,255,0.85);
-    border-radius: 10px;
-    box-shadow: 0 0 10px #0005;
+    padding: 10px;
+    box-sizing: border-box;
+    background: rgba(255, 255, 255, 0.0); /* fundo transparente */
 }
 
-/* Estilização dos campos */
-.label {
-    font-weight: bold;
-    margin-top: 10px;
-    display: block;
-}
-.input {
+/* ESTILO DO FORMULÁRIO */
+form {
     width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* Inputs */
+.input, textarea, select {
+    width: 100%;
+    padding: 8px;
+    font-size: 15px;
+    border-radius: 6px;
+    border: 1px solid #bbb;
+}
+
+/* Botão */
+button {
     padding: 10px;
-    margin-top: 5px;
-    border-radius: 5px;
-    border: 1px solid #888;
+    background: #d40000;
+    color: white;
+    border: none;
+    border-radius: 6px;
     font-size: 16px;
 }
-textarea.input {
-    height: 70px;
-}
-
-button {
-    width: 100%;
-    padding: 12px;
-    background: #b30000;
-    color: #fff;
-    border: none;
-    margin-top: 15px;
-    font-size: 18px;
-    border-radius: 8px;
-    cursor: pointer;
-}
-button:hover {
-    background: #7a0000;
-}
-
-/* AJUSTE ESPECIAL PARA CELULAR */
-@media (max-width: 600px) {
-
-    .scroll-area {
-        width: 78%;          /* reduz pra caber melhor na moldura */
-        max-width: 310px;
-        height: 63vh;
-        margin-top: 13vh;
-        margin-bottom: 4vh;
-    }
-
-    .background-frame {
-        height: 100vh;
-        width: auto;
-    }
-}
-
 
