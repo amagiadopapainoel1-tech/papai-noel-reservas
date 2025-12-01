@@ -1,4 +1,3 @@
-/* ======== CONFIGURAÇÃO GERAL ======== */
 body {
     margin: 0;
     padding: 0;
@@ -7,51 +6,55 @@ body {
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    overflow: hidden; /* mantém moldura fixa */
+    overflow: hidden;
 }
 
-/* ======== MOLDURA FIXA ======== */
+/* Moldura fixa ao centro */
 .background-frame {
     position: fixed;
-    top: 50%;
+    top: 0;
     left: 50%;
-    transform: translate(-50%, -50%);
-    height: 100vh;
+    transform: translateX(-50%);
     width: auto;
+    height: 100vh;
     background-image: url('/static/moldura_natal.webp');
-    background-repeat: no-repeat;
     background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
     z-index: -1;
 }
 
-/* ======== ÁREA DO FORMULÁRIO ======== */
+/* Wrapper geral */
 .form-wrapper {
     width: 100%;
-    height: 100%;
+    max-width: 480px;
     display: flex;
     justify-content: center;
+    pointer-events: none; /* impede clique fora da área de rolagem */
 }
 
-/* ESTA É A ÁREA DE ROLAGEM DENTRO DA MOLDURA */
+/* ÁREA DE ROLAGEM DENTRO DA MOLDURA */
 .scroll-area {
-    width: 82%;          /* AJUSTE: mais estreito para caber dentro da moldura */
-    height: 69vh;        /* altura controlada */
-    margin-top: 14vh;    /* empurra para baixo, deixando o topo da moldura livre */
-    margin-bottom: 4vh;  /* deixa base da moldura visível */
+    width: 80%;                 /* largura ajustada para caber na moldura */
+    max-width: 360px;           /* trava para não ultrapassar */
+    height: 68vh;               /* ajustado para equilibrar PC e celular */
+    margin-top: 13vh;           /* desce para não pegar a cabeça do Noel */
+    margin-bottom: 5vh;         /* cria espaço antes da base da moldura */
     padding: 15px;
-
     overflow-y: auto;
-    background: rgba(255, 255, 255, 0.88);
+    background: rgba(255,255,255,0.88);
     border-radius: 12px;
     box-shadow: 0 0 10px #0006;
+    pointer-events: auto; /* reativa interação dentro da área */
 }
 
-/* ======== CAMPOS DO FORMULÁRIO ======== */
+/* Campos internos */
 .label {
     font-weight: bold;
     margin-top: 10px;
     display: block;
 }
+
 .input {
     width: 100%;
     padding: 10px;
@@ -60,9 +63,11 @@ body {
     border: 1px solid #888;
     font-size: 16px;
 }
+
 textarea.input {
     height: 70px;
 }
+
 button {
     width: 100%;
     padding: 12px;
@@ -74,22 +79,8 @@ button {
     border-radius: 8px;
     cursor: pointer;
 }
+
 button:hover {
     background: #7a0000;
 }
 
-/* ======== CORREÇÃO PARA CELULAR ======== */
-@media (max-width: 600px) {
-
-    .background-frame {
-        height: 100vh;
-        width: auto;
-    }
-
-    .scroll-area {
-        width: 78%;        /* reduz um pouco para caber melhor */
-        height: 63vh;      /* diminui altura para não transbordar */
-        margin-top: 17vh;  /* abaixa mais o formulário */
-        margin-bottom: 5vh;
-    }
-}
