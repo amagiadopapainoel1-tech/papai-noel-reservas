@@ -4,83 +4,50 @@ body {
     background: #000;
     display: flex;
     justify-content: center;
-    align-items: flex-start; /* IMPORTANTE: fixo no topo */
-    min-height: 100vh;
-    overflow-x: hidden;
+    align-items: center;
+    height: 100vh;
 }
 
-/* Moldura fixa */
+/* MOLDURA – agora um pouco menor e sempre 100% visível */
 .background-frame {
     position: fixed;
     top: 0;
     left: 50%;
     transform: translateX(-50%);
-    width: 430px;
+    width: 360px;          /* diminuímos a moldura */
     height: 100vh;
     background-image: url('/static/moldura_natal.webp');
-    background-size: 430px auto;
+    background-size: contain;
     background-repeat: no-repeat;
-    background-position: top center;
+    background-position: center top;
     z-index: -1;
 }
 
-/* Área do formulário */
+/* ÁREA INTERNA QUE CORRESPONDE AO “VIDRO” DA MOLDURA */
 .phone-frame {
-    width: 100%;
-    max-width: 300px;     /* 🔥 30% MENOR */
-    margin-top: 160px;    /* 🔥 FORMULÁRIO MAIS BAIXO */
-    padding: 0 12px;
+    position: relative;
+    width: 360px;          /* acompanha a moldura */
+    height: 100vh;
+    padding-top: 140px;    /* deixa o rosto / topo livre */
+    padding-bottom: 120px; /* deixa espaço para a base da moldura */
     box-sizing: border-box;
+    overflow-y: auto;       /* rolagem SOMENTE aqui */
 }
 
 /* Wrapper */
 .form-wrapper {
     width: 100%;
+    display: flex;
+    justify-content: center;
 }
 
-/* Container */
+/* Formulário central */
 .form-container {
-    background: rgba(255, 255, 255, 0.88);
+    width: 85%;
+    background: rgba(255, 255, 255, 0.92);
     padding: 18px;
     border-radius: 10px;
-    box-shadow: 0 0 10px #0005;
+    box-shadow: 0 0 10px #0004;
 }
 
-/* Labels */
-.label {
-    font-weight: bold;
-    margin-top: 10px;
-    display: block;
-}
-
-/* Inputs */
-.input {
-    width: 100%;
-    padding: 9px;
-    margin-top: 5px;
-    border-radius: 6px;
-    border: 1px solid #777;
-    font-size: 15px;
-}
-
-textarea.input {
-    height: 70px;
-}
-
-/* Botão */
-button {
-    width: 100%;
-    padding: 12px;
-    background: #b30000;
-    color: #fff;
-    border: none;
-    margin-top: 15px;
-    font-size: 18px;
-    border-radius: 8px;
-    cursor: pointer;
-}
-
-button:hover {
-    background: #7a0000;
-}
 
