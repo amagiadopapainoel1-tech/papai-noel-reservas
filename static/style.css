@@ -1,54 +1,52 @@
+/* ======== CONFIGURAÇÃO GERAL ======== */
 body {
     margin: 0;
     padding: 0;
     background: #000;
     display: flex;
     justify-content: center;
-    align-items: flex-start;   /* ← evita bug do mobile */
+    align-items: center;
     min-height: 100vh;
-    overflow-x: hidden;
+    overflow: hidden; /* mantém moldura fixa */
 }
 
-/* Moldura */
+/* ======== MOLDURA FIXA ======== */
 .background-frame {
     position: fixed;
-    top: 0;
+    top: 50%;
     left: 50%;
-    transform: translateX(-50%);
-    width: 100%;
-    max-width: 520px;           /* ← largura máxima da moldura */
+    transform: translate(-50%, -50%);
     height: 100vh;
+    width: auto;
     background-image: url('/static/moldura_natal.webp');
-    background-size: contain;
     background-repeat: no-repeat;
-    background-position: top center;
+    background-size: contain;
     z-index: -1;
 }
 
-/* Wrapper do formulário (centralizado, mas sem ocupar tela toda no mobile) */
+/* ======== ÁREA DO FORMULÁRIO ======== */
 .form-wrapper {
     width: 100%;
-    max-width: 520px;
-    padding: 0 12px;            /* bordas laterais */
-    margin-top: 18vh;           /* NÃO cola no rosto do Noel */
+    height: 100%;
     display: flex;
     justify-content: center;
 }
 
-/* Área rolável */
+/* ESTA É A ÁREA DE ROLAGEM DENTRO DA MOLDURA */
 .scroll-area {
-    width: 88%;
-    max-width: 420px;           /* cabe dentro da moldura */
-    height: 62vh;               /* ajustado para caber no mobile */
-    background: rgba(255,255,255,0.85);
+    width: 82%;          /* AJUSTE: mais estreito para caber dentro da moldura */
+    height: 69vh;        /* altura controlada */
+    margin-top: 14vh;    /* empurra para baixo, deixando o topo da moldura livre */
+    margin-bottom: 4vh;  /* deixa base da moldura visível */
     padding: 15px;
+
     overflow-y: auto;
+    background: rgba(255, 255, 255, 0.88);
     border-radius: 12px;
-    box-shadow: 0 0 10px #0005;
-    margin-bottom: 8vh;         /* pequena margem inferior */
+    box-shadow: 0 0 10px #0006;
 }
 
-/* Form padrão */
+/* ======== CAMPOS DO FORMULÁRIO ======== */
 .label {
     font-weight: bold;
     margin-top: 10px;
@@ -80,26 +78,18 @@ button:hover {
     background: #7a0000;
 }
 
-/* --------- Ajustes específicos para CELULAR --------- */
+/* ======== CORREÇÃO PARA CELULAR ======== */
 @media (max-width: 600px) {
 
-    body {
-        align-items: flex-start;   /* importante p/ evitar tela branca */
-        overflow-y: auto;
-    }
-
     .background-frame {
-        width: 100%;
-        max-width: 100%;           /* moldura ocupa tela inteira no mobile */
-        background-size: cover;    /* para caber e não cortar */
-    }
-
-    .form-wrapper {
-        margin-top: 22vh;          /* espaço seguro para o rosto do Noel */
+        height: 100vh;
+        width: auto;
     }
 
     .scroll-area {
-        width: 90%;
-        height: 60vh;              /* reduz altura para evitar estourar viewport */
+        width: 78%;        /* reduz um pouco para caber melhor */
+        height: 63vh;      /* diminui altura para não transbordar */
+        margin-top: 17vh;  /* abaixa mais o formulário */
+        margin-bottom: 5vh;
     }
 }
