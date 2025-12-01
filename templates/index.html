@@ -7,15 +7,19 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
 </head>
 <body>
+
+    <!-- FUNDO COM A MOLDURA -->
     <div class="background-frame"></div>
 
     <div class="form-wrapper">
-        <div class="scroll-area">  <!-- ÁREA COM ROLAGEM -->
+        <div class="scroll-area">
+
             {% if mensagem %}
             <div class="msg">{{ mensagem }}</div>
             {% endif %}
-            
+
             <form action="/enviar" method="POST">
+
                 <label class="label">Data</label>
                 <select name="data" id="data" class="input" required>
                     <option value="">Selecione...</option>
@@ -62,40 +66,37 @@
                 <input type="text" name="cidade" class="input" />
 
                 <button type="submit">Enviar Reserva</button>
+
             </form>
         </div>
     </div>
 
 <script>
-    document.getElementById("data").addEventListener("change", function () {
-        const data = this.value;
-        const select = document.getElementById("horario");
-        select.innerHTML = "<option>Carregando horários...</option>";
-        
-        fetch("/horarios_indisponiveis", {
-            method: "POST",
-            headers: { "Content-Type": "application/x-www-form-urlencoded" },
-            body: "data=" + data
-        })
-        .then(r => r.json())
-        .then(json => {
-            const ocupados = json.ocupados;
-            const horarios = json.horarios_disponiveis;
-            select.innerHTML = "";
-            horarios.forEach(h => {
-                const opt = document.createElement("option");
-                opt.value = h;
-                opt.textContent = ocupados.includes(h) ? h + " (indisponível)" : h;
-                if (ocupados.includes(h)) opt.disabled = true;
-                select.appendChild(opt);
-            });
+document.getElementById("data").addEventListener("change", function () {
+    const data = this.value;
+    const select = document.getElementById("horario");
+    select.innerHTML = "<option>Carregando horários...</option>";
+
+    fetch("/horarios_indisponiveis", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: "data=" + data
+    })
+    .then(r => r.json())
+    .then(json => {
+        const ocupados = json.ocupados;
+        const horarios = json.horarios_disponiveis;
+
+        select.innerHTML = "";
+        horarios.forEach(h => {
+            const opt = document.createElement("option");
+            opt.value = h;
+            opt.textContent = ocupados.includes(h) ? h + " (indisponível)" : h;
+            if (ocupados.includes(h)) opt.disabled = true;
+            select.appendChild(opt);
         });
     });
-</script>
-
-</body>
-</html>
-
+});
 </script>
 
 </body>
