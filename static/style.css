@@ -1,74 +1,79 @@
-/* ============================
-   BASE
-============================ */
 body {
     margin: 0;
     padding: 0;
     background: #000;
     display: flex;
     justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    overflow-x: hidden;
 }
 
-/* ============================
-   MOLDURA FIXA E RESPONSIVA
-============================ */
+/* Moldura de fundo */
+.background-frame {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('/static/moldura_natal.webp');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: top center;
+    z-index: -1;
+}
+
+/* Área do formulário */
 .phone-frame {
     width: 100%;
-    max-width: 430px; /* largura de um celular "padrão" */
-    aspect-ratio: 1080 / 1920; /* mantém proporção perfeita da moldura */
-    background: url("moldura_natal.webp") no-repeat center top;
-    background-size: 100% 100%;
-    position: relative;
-    overflow: hidden;
-}
-
-/* ============================
-   ÁREA DO FORMULÁRIO
-============================ */
-.form-wrapper {
-    position: absolute;
-    top: 14%;     /* AJUSTE fino para encaixar dentro da área transparente */
-    left: 50%;
-    transform: translateX(-50%);
-    width: 84%;   /* encaixe exato dentro da área transparente */
-    height: 74%;  /* deixa espaço para cabeçalho e rodapé da moldura */
-    overflow-y: auto;
-}
-
-/* Caixa do formulário */
-.form-container {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-}
-
-/* Inputs e textos */
-.label {
-    font-size: 16px;
-    font-weight: bold;
-    margin-top: 10px;
-    color: #222;
-}
-
-.input, textarea, select {
-    width: 100%;
-    padding: 10px;
-    border-radius: 10px;
-    border: 2px solid #ccc;
-    font-size: 15px;
+    max-width: 430px;
+    padding: 20px;
     box-sizing: border-box;
 }
 
-/* Botão */
-button {
-    margin-top: 18px;
-    padding: 14px;
-    background: #d50000;
-    border: none;
-    color: white;
-    font-size: 18px;
+.form-wrapper {
+    width: 100%;
+}
+
+.form-container {
+    background: rgba(255, 255, 255, 0.85);
+    padding: 18px;
     border-radius: 10px;
+    box-shadow: 0 0 10px #0004;
+}
+
+.label {
+    font-weight: bold;
+    margin-top: 10px;
+    display: block;
+}
+
+.input {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border-radius: 5px;
+    border: 1px solid #888;
+    font-size: 16px;
+}
+
+textarea.input {
+    height: 70px;
+}
+
+button {
+    width: 100%;
+    padding: 12px;
+    background: #b30000;
+    color: #fff;
+    border: none;
+    margin-top: 15px;
+    font-size: 18px;
+    border-radius: 8px;
     cursor: pointer;
 }
 
+button:hover {
+    background: #7a0000;
+}
 
