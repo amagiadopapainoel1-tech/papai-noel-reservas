@@ -6,17 +6,18 @@ body {
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    overflow: hidden; /* Mantém moldura fixa */
+    overflow: hidden;
 }
 
-/* Moldura fixa ao fundo */
+/* Moldura fixa responsiva */
 .background-frame {
     position: fixed;
     top: 0;
     left: 50%;
     transform: translateX(-50%);
-    width: auto;
     height: 100vh;
+    width: auto;
+    max-width: 100vw;              /* garante exibição no celular */
     background-image: url('/static/moldura_natal.webp');
     background-size: contain;
     background-repeat: no-repeat;
@@ -24,20 +25,21 @@ body {
     z-index: -1;
 }
 
-/* Área geral do formulário */
+/* Wrapper fixo ao centro */
 .form-wrapper {
     width: 100%;
-    max-width: 480px; /* Aumentamos mais a largura */
+    max-width: 480px;
     display: flex;
     justify-content: center;
 }
 
-/* Área de rolagem ajustada */
+/* Área de rolagem central dentro da moldura */
 .scroll-area {
-    width: 88%;                 /* Agora ocupa mais espaço lateral */
-    height: 70vh;               /* Aumentamos a altura */
-    margin-top: 12vh;           /* Sobe um pouco para alinhar pela base */
-    margin-bottom: 6vh;         /* Menor distância inferior */
+    width: 88%;
+    max-width: 350px;              /* impede que ultrapasse a moldura no celular */
+    height: 70vh;
+    margin-top: 13vh;              /* ajusta para não pegar rosto do Noel */
+    margin-bottom: 6vh;
     padding: 15px;
     overflow-y: auto;
     background: rgba(255,255,255,0.85);
@@ -45,7 +47,7 @@ body {
     box-shadow: 0 0 10px #0005;
 }
 
-/* Campos internos do formulário */
+/* Ajustes dos campos */
 .label {
     font-weight: bold;
     margin-top: 10px;
@@ -75,4 +77,23 @@ button {
 }
 button:hover {
     background: #7a0000;
+}
+
+/* 📱 Ajustes EXCLUSIVOS para celulares */
+@media (max-width: 480px) {
+
+    .background-frame {
+        height: 100vh;
+        width: 100vw;             /* força moldura aparecer inteira */
+        transform: none;
+        left: 0;
+    }
+
+    .scroll-area {
+        width: 80%;
+        max-width: none;
+        height: 68vh;  
+        margin-top: 15vh;         /* abaixa mais no celular */
+        margin-bottom: 5vh;
+    }
 }
