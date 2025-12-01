@@ -1,48 +1,56 @@
+/* RESET */
 body {
     margin: 0;
     padding: 0;
     background: #000;
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
     min-height: 100vh;
+    overflow-x: hidden;
 }
 
-/* Moldura */
+/* MOLDURA FIXA */
 .background-frame {
     position: fixed;
     top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+
+    width: 430px;
+    height: 100vh;
+
     background-image: url('/static/moldura_natal.webp');
-    background-size: cover;
     background-repeat: no-repeat;
+    background-size: contain;
     background-position: top center;
-    opacity: 1;  /* Moldura forte */
+
     z-index: -1;
 }
 
-/* Área central */
+/* ÁREA CENTRAL QUE FICA ALINHADA COM A MOLDURA */
 .phone-frame {
-    width: 100%;
-    max-width: 420px;
-    padding: 20px;
+    width: 430px;
+    padding-top: 35px;
     box-sizing: border-box;
 }
 
+/* CONTAINER DO FORMULÁRIO */
 .form-wrapper {
     width: 100%;
+    display: flex;
+    justify-content: center;
 }
 
 .form-container {
-    background: rgba(255, 255, 255, 0.92);
+    width: 88%;
+    background: rgba(255, 255, 255, 0.90);
     padding: 18px;
     border-radius: 10px;
-    box-shadow: 0 0 10px #0006;
-    backdrop-filter: blur(2px);
+    box-shadow: 0 0 10px #0004;
 }
 
+/* LABELS E INPUTS */
 .label {
     font-weight: bold;
     margin-top: 10px;
@@ -53,15 +61,16 @@ body {
     width: 100%;
     padding: 10px;
     margin-top: 5px;
+    font-size: 15px;
     border-radius: 5px;
-    border: 1px solid #777;
-    font-size: 16px;
+    border: 1px solid #888;
 }
 
 textarea.input {
     height: 70px;
 }
 
+/* BOTÃO */
 button {
     width: 100%;
     padding: 12px;
@@ -73,6 +82,23 @@ button {
     border-radius: 8px;
     cursor: pointer;
 }
+
 button:hover {
     background: #7a0000;
+}
+
+/* AJUSTES PARA CELULAR */
+@media (max-width: 480px) {
+
+    .background-frame {
+        width: 100vw;
+    }
+
+    .phone-frame {
+        width: 100vw;
+    }
+
+    .form-container {
+        width: 90%;
+    }
 }
