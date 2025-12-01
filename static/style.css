@@ -19,7 +19,7 @@ body {
     width: 430px;
     height: 100vh;
     background-image: url('/static/moldura_natal.webp');
-    background-size: 430px auto; /* tamanho real, sem esticar */
+    background-size: 430px auto; 
     background-repeat: no-repeat;
     background-position: top center;
     z-index: -1;
@@ -27,22 +27,22 @@ body {
 
 /* Área que garante que tudo fique exatamente dentro da moldura */
 .phone-frame {
-    width: 430px; /* EXATAMENTE o tamanho da moldura */
-    margin-top: 40px; /* desce o formulário */
+    width: 430px;
+    margin-top: 40px;
     display: flex;
     justify-content: center;
 }
 
-/* Ajusta wrapper */
+/* Ajusta o wrapper */
 .form-wrapper {
     width: 100%;
     display: flex;
     justify-content: center;
 }
 
-/* Formulário ENCAIXADO na moldura */
+/* Formulário ENCAIXADO */
 .form-container {
-    width: 86%; /* Ajuste perfeito dentro da moldura */
+    width: 86%;
     background: rgba(255, 255, 255, 0.92);
     padding: 18px;
     border-radius: 10px;
@@ -87,21 +87,15 @@ button:hover {
     background: #7a0000;
 }
 
-/* Ajustes para CELULAR */
+/* Ajuste para CELULAR */
 @media (max-width: 460px) {
-
-    /* Moldura se adapta ao celular */
     .background-frame {
         width: 100%;
-        background-size: contain; /* mantém proporção e encaixe */
+        background-size: contain;
     }
-
-    /* Área do conteúdo acompanha a moldura */
     .phone-frame {
         width: 100%;
     }
-
-    /* Formulário reduz para caber certinho */
     .form-container {
         width: 90%;
     }
