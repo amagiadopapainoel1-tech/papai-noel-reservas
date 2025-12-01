@@ -1,14 +1,26 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Reserva Papai Noel</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+</head>
+
 <body>
     <div class="background-frame"></div>
 
     <div class="phone-frame">
         <div class="form-wrapper">
+
             <div class="form-container">
+
                 {% if mensagem %}
                 <div class="msg">{{ mensagem }}</div>
                 {% endif %}
 
                 <form action="/enviar" method="POST">
+
                     <label class="label">Data</label>
                     <select name="data" id="data" class="input" required>
                         <option value="">Selecione...</option>
@@ -22,19 +34,19 @@
                     </select>
 
                     <label class="label">Responsável</label>
-                    <input type="text" name="responsavel" class="input" required>
+                    <input type="text" name="responsavel" class="input" required />
 
                     <label class="label">Nº de crianças</label>
-                    <input type="number" name="numero_criancas" class="input" required>
+                    <input type="number" name="numero_criancas" class="input" required />
 
                     <label class="label">E-mail</label>
-                    <input type="email" name="email" class="input" required>
+                    <input type="email" name="email" class="input" required />
 
                     <label class="label">Telefone</label>
-                    <input type="text" name="telefone" class="input">
+                    <input type="text" name="telefone" class="input" />
 
                     <label class="label">Valor Total</label>
-                    <input type="text" name="valor_total" class="input">
+                    <input type="text" name="valor_total" class="input" />
 
                     <label class="label">Status do Pagamento</label>
                     <select name="status_pagamento" class="input">
@@ -46,19 +58,49 @@
                     <textarea name="observacoes" class="input"></textarea>
 
                     <label class="label">Endereço</label>
-                    <input type="text" name="endereco" class="input">
+                    <input type="text" name="endereco" class="input" />
 
                     <label class="label">Bairro</label>
-                    <input type="text" name="bairro" class="input">
+                    <input type="text" name="bairro" class="input" />
 
                     <label class="label">Cidade</label>
-                    <input type="text" name="cidade" class="input">
+                    <input type="text" name="cidade" class="input" />
 
                     <button type="submit">Enviar Reserva</button>
+
                 </form>
+
             </div>
         </div>
     </div>
+
+<script>
+    document.getElementById("data").addEventListener("change", function () {
+        const data = this.value;
+        const select = document.getElementById("horario");
+        select.innerHTML = "<option>Carregando horários...</option>";
+        
+        fetch("/horarios_indisponiveis", {
+            method: "POST",
+            headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            body: "data=" + data
+        })
+        .then(r => r.json())
+        .then(json => {
+            const ocupados = json.ocupados;
+            const horarios = json.horarios_disponiveis;
+            select.innerHTML = "";
+
+            horarios.forEach(h => {
+                const opt = document.createElement("option");
+                opt.value = h;
+                opt.textContent = ocupados.includes(h) ? h + " (indisponível)" : h;
+                if (ocupados.includes(h)) opt.disabled = true;
+                select.appendChild(opt);
+            });
+        });
+    });
+</script>
+
 </body>
-
-
+</html>
