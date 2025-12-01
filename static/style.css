@@ -1,83 +1,88 @@
-/* ===== RESET ===== */
-body, html {
+/* GERAL --------------------------------------------- */
+
+body {
     margin: 0;
     padding: 0;
-    height: 100%;
-    overflow: hidden;
     background: #000;
-    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    overflow: hidden;
 }
 
-/* ===== MOLDURA ===== */
+/* MOLDURA ------------------------------------------- */
+
 .background-frame {
-    position: fixed;
-    inset: 0;
-    background-image: url('/static/moldura.webp');
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center;
-    z-index: 1; /* fica atrás */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    max-width: 1080px;
+    height: auto;
+    transform: translate(-50%, -50%);
+    z-index: 1;
     pointer-events: none;
+    background: url('/static/moldura.webp') no-repeat center;
+    background-size: contain;
+    aspect-ratio: 1080 / 1920;
 }
 
-/* ===== ÁREA DO FORMULÁRIO (scroll dentro da moldura) ===== */
+/* ÁREA DO FORMULÁRIO ------------------------------- */
+
+/* Área exata proporcional 960 x 1480 */
 .form-wrapper {
-    position: fixed;
-    inset: 0;
+    position: absolute;
+    z-index: 2;
+    width: 89%; /* 960 / 1080 */
+    height: 77%; /* 1480 / 1920 */
+    top: 11%;    /* centralização vertical proporcional */
+    left: 50%;
+    transform: translateX(-50%);
     display: flex;
     justify-content: center;
     align-items: flex-start;
-    z-index: 2; /* acima da moldura */
 }
 
-/* Cálculo da área interna respeitando proporções da arte */
-/* (960 x 1480 dentro de 1080 x 1920) */
+/* a área que rola */
 .scroll-area {
-    width: 88.9%;     /* 960 / 1080 */
-    height: 77%;      /* 1480 / 1920 */
-    margin-top: calc(440 / 1920 * 100%); /* deslocamento exato */
+    width: 100%;
+    height: 100%;
     overflow-y: auto;
-
-    background: transparent;
     padding: 20px;
-
-    /* evita que o fundo branco apareça */
     box-sizing: border-box;
+    background: transparent; /* sem bloco */
 }
 
-/* ===== FORM ===== */
+/* FORMULÁRIO ---------------------------------------- */
+
 form {
+    width: 100%;
     display: flex;
     flex-direction: column;
-    gap: 12px;
-    background: rgba(255,255,255,0.92);
-    padding: 20px;
-    border-radius: 16px;
-
-    /* Sem sombra para não vazar além da moldura */
+    gap: 14px;
 }
 
 .label {
+    color: #fff;
+    font-size: 1rem;
     font-weight: bold;
-    color: #333;
 }
 
 .input, textarea, select {
     width: 100%;
     padding: 10px;
-    border-radius: 8px;
-    border: 1px solid #999;
-    font-size: 16px;
-    box-sizing: border-box;
+    border-radius: 6px;
+    border: none;
+    font-size: 1rem;
 }
 
 button {
     margin-top: 10px;
-    padding: 12px;
-    font-size: 18px;
-    background: #b00000;
+    padding: 14px;
+    background: crimson;
     color: #fff;
     border: none;
-    border-radius: 8px;
+    border-radius: 10px;
+    font-size: 1.2rem;
 }
-
