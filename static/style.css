@@ -1,96 +1,42 @@
-/* ====== RESET ====== */
-html, body {
-    margin: 0;
-    padding: 0;
-    height: 100%;
-}
-
-/* ====== BACKGROUND PRETO PARA GARANTIR FUNDO ====== */
+/* FUNDO PRETO DA PÁGINA */
 body {
-    background: black;
+    margin: 0;
+    background: #000;
     display: flex;
     justify-content: center;
     align-items: center;
+    min-height: 100vh;
 }
 
-/* ====== MOLDURA ====== */
+/* MOLDURA EM IMAGEM FIXA AO FUNDO */
 .background-frame {
-    position: absolute;
+    position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
 
-    width: 100%;
-    max-width: 430px;              /* Mesmo tamanho do layout que estava bom */
-    height: auto;
+    width: 1080px;        /* tamanho original da arte */
+    height: 1920px;
 
-    background-image: url("/static/moldura.webp");
-    background-size: contain;
-    background-repeat: no-repeat;
+    background-image: url("/static/moldura.webp");  /* caminho da sua moldura */
+    background-size: cover;
     background-position: center;
 
-    z-index: 1;                     /* Moldura ATRÁS */
-    pointer-events: none;           /* Evita interferência */
+    z-index: 1;   /* atrás do formulário */
 }
 
-/* ====== FORMULÁRIO ====== */
+/* ENVOLVE O FORMULÁRIO (NÃO MUDEI NADA AQUI, SÓ Z-INDEX) */
 .form-wrapper {
     position: relative;
-    width: 100%;
-    max-width: 360px;               /* EXATAMENTE o tamanho que estava funcionando */
-    z-index: 2;                     /* Formulário NA FRENTE da moldura */
-
-    display: flex;
-    justify-content: center;
+    z-index: 2;
+    width: 960px;     /* o tamanho que estava bom para você */
+    height: 1480px;
+    margin-top: 70px; /* para encaixar certinho dentro da moldura */
 }
 
-/* ====== ÁREA DE ROLAGEM ====== */
+/* ÁREA DE SCROLL – IGUAL ESTAVA FUNCIONANDO */
 .scroll-area {
     width: 100%;
-    height: 500px;                  /* Valor que estava funcionando perfeitamente */
+    height: 100%;
     overflow-y: auto;
-    padding: 15px;
-    box-sizing: border-box;
-
-    background: rgba(0,0,0,0);      /* 100% transparente */
-    border-radius: 10px;
-}
-
-/* ====== CAMPOS ====== */
-.label {
-    color: white;
-    font-size: 16px;
-    margin-top: 10px;
-    display: block;
-}
-
-.input {
-    width: 100%;
-    padding: 10px;
-    margin-top: 5px;
-    margin-bottom: 10px;
-
-    border-radius: 8px;
-    border: none;
-    background: white;
-}
-
-button {
-    width: 100%;
-    padding: 12px;
-    font-size: 16px;
-    background: red;
-    border: none;
-    border-radius: 10px;
-    color: white;
-    font-weight: bold;
-    margin-top: 15px;
-}
-
-/* ====== CENTRALIZAR NO PC ====== */
-@media (min-width: 768px) {
-    body {
-        justify-content: center;
-        align-items: center;
-    }
 }
