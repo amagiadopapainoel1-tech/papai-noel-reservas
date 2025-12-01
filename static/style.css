@@ -9,41 +9,33 @@ body {
     overflow-x: hidden;
 }
 
-/* MOLDURA – tamanho fixo e centralizada */
+/* MOLDURA CENTRALIZADA COM TAMANHO FIXO */
 .background-frame {
     position: fixed;
     top: 0;
     left: 50%;
     transform: translateX(-50%);
-    width: 430px;
+    width: 430px;            /* TAMANHO EXATO DA IMAGEM */
     height: 100vh;
     background-image: url('/static/moldura_natal.webp');
-    background-size: contain;      /* **IMPORTANTE**: contém a moldura sem distorcer */
+    background-size: contain;
     background-repeat: no-repeat;
     background-position: top center;
     z-index: -1;
 }
 
-/* Área TOTAL que segue exatamente o tamanho da moldura */
+/* ÁREA QUE SEGUE EXATAMENTE A LARGURA DA MOLDURA */
 .phone-frame {
-    width: 430px;          /* fixa igual à moldura */
-    max-width: 100%;
-    padding-top: 90px;     /* espaço para encaixar abaixo do topo da moldura */
-    box-sizing: border-box;
+    width: 430px;
+    padding-top: 40px;
 }
 
-/* Centraliza o formulário dentro da moldura */
-.form-wrapper {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-}
-
-/* Formulário reduzido para ficar dentro da moldura */
+/* FORMULÁRIO MENOR QUE A MOLDURA (85%) */
 .form-container {
-    width: 88%;                         /* reduzido — encaixa certinho */
-    background: rgba(255, 255, 255, 0.90);
-    padding: 16px;
+    width: 85%;
+    margin: 0 auto;
+    background: rgba(255, 255, 255, 0.88);
+    padding: 18px;
     border-radius: 10px;
     box-shadow: 0 0 10px #0004;
 }
@@ -54,18 +46,21 @@ body {
     margin-top: 10px;
     display: block;
 }
+
 .input {
     width: 100%;
     padding: 10px;
     margin-top: 5px;
+    font-size: 16px;
     border-radius: 5px;
     border: 1px solid #888;
-    font-size: 16px;
 }
+
 textarea.input {
     height: 70px;
 }
 
+/* Botão */
 button {
     width: 100%;
     padding: 12px;
@@ -80,3 +75,4 @@ button {
 button:hover {
     background: #7a0000;
 }
+
