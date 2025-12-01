@@ -1,107 +1,73 @@
-/* ======== RESET ======== */
-* {
+/* Fundo preto básico */
+body {
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
-}
-
-body {
     background: #000;
-    width: 100vw;
-    height: 100vh;
-    overflow: hidden;
     display: flex;
     justify-content: center;
     align-items: center;
-    font-family: Arial, sans-serif;
+    height: 100vh;
+    overflow: hidden;
 }
 
-/* ======== MOLDURA (FUNDO) ======== */
+/* MOLDURA — atrás de tudo */
 .background-frame {
     position: absolute;
     top: 50%;
     left: 50%;
-    width: 95vw;
-    max-width: 420px;      /* Mantém proporção para celular/PC */
+    width: 360px;         /* NÃO altera o tamanho do formulário */
+    height: 640px;
     transform: translate(-50%, -50%);
-    z-index: 1;
+    background: url("{{ url_for('static', filename='frame.webp') }}") no-repeat center;
+    background-size: contain;
+    z-index: 1;           /* fica atrás */
+    pointer-events: none; /* evita interferir no formulário */
 }
 
-.background-frame img {
-    width: 100%;
-    height: auto;
-    display: block;
-}
-
-/* ======== ÁREA DO FORMULÁRIO ======== */
+/* Wrapper do formulário */
 .form-wrapper {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 82vw;
-    max-width: 330px;
-    height: 78vh;
-    max-height: 650px;
-
-    transform: translate(-50%, -50%);
-    z-index: 2; /* Fica acima da moldura */
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    position: relative;
+    width: 280px;        /* o tamanho que estava perfeito pra você */
+    height: 500px;       /* mesma proporção do ajuste anterior */
+    z-index: 2;          /* fica acima da moldura */
 }
 
-/* ======== ÁREA DE ROLAGEM INTERNA ======== */
+/* Área de scroll DO JEITO QUE VOCÊ ELOGIOU */
 .scroll-area {
     width: 100%;
     height: 100%;
-    padding: 18px;
     overflow-y: auto;
-    background: #ffffff; /* branco como você já tinha */
-    border-radius: 12px;
+    background: transparent;  /* TIRA o cinza */
+    padding: 10px 0;
 }
 
-/* ======== CAMPOS ======== */
-.label {
-    font-size: 14px;
-    margin-top: 10px;
-    display: block;
-    font-weight: bold;
+/* Formulário */
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    background: transparent;  /* garante que nada cinza apareça */
 }
 
-.input, .scroll-area select, .scroll-area textarea {
+/* Inputs */
+.input, textarea, select {
     width: 100%;
-    padding: 10px;
-    margin-top: 4px;
+    padding: 8px;
     border-radius: 6px;
-    border: 1px solid #999;
+    border: 1px solid #ccc;
+}
+
+/* Texto das labels */
+.label {
+    color: white;
     font-size: 14px;
 }
 
-textarea {
-    height: 80px;
-    resize: none;
-}
-
-/* ======== BOTÃO ======== */
 button {
-    width: 100%;
-    margin-top: 16px;
-    padding: 12px;
+    padding: 10px;
     border: none;
-    background: #c62828;
-    color: #fff;
-    font-size: 16px;
-    border-radius: 8px;
-}
-
-/* ======== CENTRALIZAÇÃO NO PC ======== */
-@media (min-width: 1000px) {
-    .background-frame {
-        max-width: 450px;
-    }
-    .form-wrapper {
-        max-width: 350px;
-        max-height: 700px;
-    }
+    background: #e60023;
+    color: white;
+    border-radius: 6px;
+    margin-top: 10px;
 }
