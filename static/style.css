@@ -1,20 +1,106 @@
-/* Área que contém o formulário dentro da moldura */
-.phone-frame {
-    width: 100%;
-    max-width: 380px;   /* DIMINUI 12% para caber perfeitamente */
-    margin-top: 140px;  /* DESCE para não pegar o rosto do Noel */
-    margin-bottom: 60px; /* margem inferior menor, quase no limite */
-    height: calc(100vh - 200px); /* define a área de rolagem */
-    overflow-y: auto; 
-    padding: 0 5px; /* pequeno respiro lateral */
-    box-sizing: border-box;
+/* Fundo preto */
+body {
+    margin: 0;
+    padding: 0;
+    background: #000;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    overflow: hidden;            /* impede o body de rolar */
+    height: 100vh;
 }
 
-/* Formulário dentro do espaço correto */
-.form-container {
+/* Moldura fixa 100% visível */
+.background-frame {
+    position: fixed;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 430px;
+    height: 100vh;
+    background-image: url('/static/moldura_natal.webp');
+    background-size: 430px auto;
+    background-repeat: no-repeat;
+    background-position: top center;
+    z-index: -1;
+}
+
+/* Área interna onde o formulário deve caber */
+.phone-frame {
+    width: 430px;
+    height: 100vh;
+    padding-top: 130px;         /* desce para não cobrir o rosto do Noel */
+    padding-bottom: 40px;       /* espaço inferior para aparecer a arte */
+    box-sizing: border-box;
+    overflow-y: auto;           /* rolagem SOMENTE aqui */
+}
+
+/* Wrapper */
+.form-wrapper {
     width: 100%;
-    background: rgba(255, 255, 255, 0.90);
-    padding: 16px;
+    display: flex;
+    justify-content: center;
+}
+
+/* Formulário com aspecto original */
+.form-container {
+    width: 86%;
+    background: rgba(255, 255, 255, 0.92);
+    padding: 18px;
     border-radius: 10px;
     box-shadow: 0 0 10px #0004;
+}
+
+/* Labels */
+.label {
+    font-weight: bold;
+    margin-top: 10px;
+    display: block;
+}
+
+/* Campos */
+.input {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid #888;
+}
+
+textarea.input {
+    height: 70px;
+}
+
+/* Botão */
+button {
+    width: 100%;
+    padding: 12px;
+    background: #b30000;
+    color: #fff;
+    border: none;
+    margin-top: 15px;
+    font-size: 18px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #7a0000;
+}
+
+/* Ajuste celular */
+@media (max-width: 460px) {
+    .background-frame {
+        width: 100%;
+        background-size: contain;
+    }
+
+    .phone-frame {
+        width: 100%;
+    }
+
+    .form-container {
+        width: 90%;
+    }
 }
