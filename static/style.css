@@ -5,12 +5,12 @@ body {
     background: #000;
     display: flex;
     justify-content: center;
-    align-items: flex-start;
-    overflow: hidden;            /* impede o body de rolar */
-    height: 100vh;
+    align-items: center;
+    min-height: 100vh;
+    overflow: hidden; /* impede scroll do body */
 }
 
-/* Moldura fixa 100% visível */
+/* Moldura fixa */
 .background-frame {
     position: fixed;
     top: 0;
@@ -25,27 +25,33 @@ body {
     z-index: -1;
 }
 
-/* Área interna onde o formulário deve caber */
+/* Área total da coluna central */
 .phone-frame {
     width: 430px;
     height: 100vh;
-    padding-top: 130px;         /* desce para não cobrir o rosto do Noel */
-    padding-bottom: 40px;       /* espaço inferior para aparecer a arte */
-    box-sizing: border-box;
-    overflow-y: auto;           /* rolagem SOMENTE aqui */
-}
 
-/* Wrapper */
-.form-wrapper {
-    width: 100%;
+    /* Espaços que deixam a moldura aparecer */
+    padding-top: 150px;   /* desce o formulário e libera o rosto do Noel */
+    padding-bottom: 80px; /* libera a parte de baixo da moldura */
+
+    box-sizing: border-box;
     display: flex;
     justify-content: center;
+    align-items: flex-start;
 }
 
-/* Formulário com aspecto original */
+/* Área que rola dentro da moldura */
+.form-wrapper {
+    width: 80%;          /* diminui a largura para caber dentro da moldura */
+    max-width: 330px;
+    height: 100%;        /* ocupa o espaço útil */
+    overflow-y: auto;    /* ativa scroll interno */
+    padding-right: 10px; /* evita cortar scroll no lado direito */
+}
+
+/* Formulário */
 .form-container {
-    width: 86%;
-    background: rgba(255, 255, 255, 0.92);
+    background: rgba(255, 255, 255, 0.88);
     padding: 18px;
     border-radius: 10px;
     box-shadow: 0 0 10px #0004;
@@ -58,14 +64,14 @@ body {
     display: block;
 }
 
-/* Campos */
+/* Inputs */
 .input {
     width: 100%;
     padding: 10px;
     margin-top: 5px;
-    font-size: 16px;
     border-radius: 5px;
     border: 1px solid #888;
+    font-size: 16px;
 }
 
 textarea.input {
@@ -89,18 +95,8 @@ button:hover {
     background: #7a0000;
 }
 
-/* Ajuste celular */
-@media (max-width: 460px) {
-    .background-frame {
-        width: 100%;
-        background-size: contain;
-    }
-
-    .phone-frame {
-        width: 100%;
-    }
-
     .form-container {
         width: 90%;
     }
 }
+
