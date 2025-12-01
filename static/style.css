@@ -1,90 +1,100 @@
-/* GERAL --------------------------------------------- */
-
-body {
+/* ======== RESET ======== */
+* {
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
+}
+
+/* ======== TELA ======== */
+body {
     background: #000;
+    height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
     overflow: hidden;
 }
 
-/* MOLDURA ------------------------------------------- */
-
+/* ======== MOLDURA ======== */
 .background-frame {
     position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 100%;
-    max-width: 1080px;
-    height: auto;
-    transform: translate(-50%, -50%);
-    z-index: 1;
-    pointer-events: none;
-    background: url('/static/moldura.webp') no-repeat center;
+    width: 360px; /* 1080px proporcional */
+    height: 640px; /* 1920px proporcional */
+    background-image: url("/static/frame.webp");
     background-size: contain;
-    aspect-ratio: 1080 / 1920;
+    background-repeat: no-repeat;
+    background-position: center;
+    z-index: 1; /* FICA ATRÁS */
+    pointer-events: none;
 }
 
-/* ÁREA DO FORMULÁRIO ------------------------------- */
-
-/* Área exata proporcional 960 x 1480 */
+/* ======== ÁREA DO FORMULÁRIO (DENTRO DA MOLDURA) ======== */
 .form-wrapper {
     position: absolute;
-    z-index: 2;
-    width: 89%; /* 960 / 1080 */
-    height: 77%; /* 1480 / 1920 */
-    top: 11%;    /* centralização vertical proporcional */
+    width: 320px;   /* 960px proporcional */
+    height: 493px;  /* 1480px proporcional */
+    top: 50%;
     left: 50%;
-    transform: translateX(-50%);
+    transform: translate(-50%, -50%);
+    z-index: 2; /* FICA NA FRENTE DA MOLDURA */
     display: flex;
     justify-content: center;
-    align-items: flex-start;
+    align-items: center;
 }
 
-/* a área que rola */
+/* ÁREA COM ROLAGEM */
 .scroll-area {
     width: 100%;
     height: 100%;
     overflow-y: auto;
-    padding: 20px;
-    box-sizing: border-box;
-    background: transparent; /* sem bloco */
+    background: transparent;
+    padding: 10px 15px;
 }
 
-/* FORMULÁRIO ---------------------------------------- */
-
+/* ======== FORMULÁRIO ======== */
 form {
     width: 100%;
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
 }
 
 .label {
-    color: #fff;
-    font-size: 1rem;
+    font-size: 14px;
     font-weight: bold;
+    color: white;
+    margin-top: 10px;
+    display: block;
 }
 
 .input, textarea, select {
     width: 100%;
-    padding: 10px;
+    padding: 8px;
     border-radius: 6px;
     border: none;
-    font-size: 1rem;
+    margin-bottom: 10px;
 }
 
 button {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    font-weight: bold;
     margin-top: 10px;
-    padding: 14px;
-    background: crimson;
-    color: #fff;
     border: none;
-    border-radius: 10px;
-    font-size: 1.2rem;
+    background: #b70000;
+    color: white;
+    border-radius: 6px;
 }
+
+/* ======== PC — MANTER PROPORÇÃO ======== */
+@media (min-width: 650px) {
+    .background-frame {
+        width: 450px;  /* aumenta só um pouco no PC */
+        height: 800px;
+    }
+    .form-wrapper {
+        width: 400px;
+        height: 615px;
+    }
+}
+
 
 
