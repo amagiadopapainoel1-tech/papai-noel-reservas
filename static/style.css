@@ -1,97 +1,70 @@
-/* Fundo preto geral */
+/* ===== FUNDO DA PÁGINA ===== */
 body {
     margin: 0;
-    background: #000;
+    background-color: black; /* preto atrás da moldura */
     display: flex;
     justify-content: center;
-    align-items: flex-start; /* importante: não centralizar verticalmente */
-    min-height: 100vh;
-    overflow-x: hidden;
+    padding-top: 40px; /* desce tudo */
 }
 
-/* Moldura de fundo */
+/* ===== MOLDURA ===== */
 .background-frame {
-    background-image: url("static/moldura_natal.webp");
+    position: relative;
+    width: 360px;              /* tamanho fixo ideal p/ celular e PC */
+    height: 640px;
+    background-image: url("{{ url_for('static', filename='moldura_natal.webp') }}");
     background-size: contain;
     background-repeat: no-repeat;
     background-position: top center;
-    width: 100%;
-    max-width: 480px;
-    height: 100vh;
+}
+
+/* ===== CAIXA DO FORMULÁRIO ===== */
+.form-wrapper {
     position: absolute;
-    top: 0;
+    top: 110px;   /* <<< ALTERE ESTE VALOR PARA AJUSTAR ALTURA */
     left: 50%;
     transform: translateX(-50%);
-    z-index: 1;
+    width: 300px;
 }
 
-/* Caixa do formulário */
-.form-wrapper {
-    position: relative;
-    width: 90%;
-    max-width: 360px;
-    background: rgba(255,255,255,0.85);
-    border-radius: 15px;
-    padding: 20px;
-    z-index: 2;
-
-    /* 🔥 Aqui baixamos o formulário para não pegar o rosto do Noel */
-    margin-top: 120px;
-}
-
-/* Área rolável */
 .scroll-area {
-    max-height: 70vh;
+    background: rgba(255,255,255,0.90);
+    padding: 15px;
+    border-radius: 10px;
+    max-height: 460px;
     overflow-y: auto;
-    padding-right: 10px;
-}
-
-/* Inputs */
-.input, select, textarea {
-    width: 100%;
-    padding: 10px;
-    border-radius: 6px;
-    border: 1px solid #000;
-    margin-bottom: 12px;
-    font-size: 16px;
-    color: #000;
-    background: #fff;
+    box-shadow: 0 0 8px rgba(0,0,0,0.4);
 }
 
 .label {
     font-weight: bold;
-    color: #000;
+    margin-top: 12px;
+    display: block;
+}
+
+.input,
+textarea,
+select {
+    width: 100%;
+    padding: 10px;
+    margin-top: 4px;
+    border-radius: 6px;
+    border: 1px solid #999;
+    font-size: 16px;
 }
 
 button {
     width: 100%;
     padding: 12px;
-    background: #c00;
-    color: #fff;
+    margin-top: 20px;
+    background-color: darkred;
     border: none;
-    border-radius: 8px;
+    color: white;
     font-size: 18px;
-    cursor: pointer;
+    border-radius: 6px;
 }
 
-/* 📱 Ajuste especial para CELULAR */
-@media (max-width: 480px) {
-    .form-wrapper {
-        margin-top: 140px; /* um pouco mais para compensar monitores mais baixos */
-        max-width: 330px;
-    }
 
-    .scroll-area {
-        max-height: 65vh;
-    }
-}
-
-/* 🖥 Ajuste especial para PC */
-@media (min-width: 800px) {
-    .form-wrapper {
-        margin-top: 160px; /* PC costuma ter mais espaço */
-    }
-}
 
 
 
