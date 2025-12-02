@@ -1,46 +1,35 @@
-from flask import Flask, render_template, request, redirect, send_file
-import sqlite3
+import os
+from flask import Flask, render_template, request, redirect, jsonify
 from datetime import datetime, timedelta
+import sqlite3
 import smtplib
 from email.message import EmailMessage
-import os
-import json
-from openpyxl import Workbook, load_workbook
-from dotenv import load_dotenv
 
-# ------------------------------------------------
-# 🔧 CONFIGURA AMBIENTE (.env ou Variáveis Render)
-# ------------------------------------------------
-load_dotenv()
-
+# ==========================
+# CONFIGURAÇÃO DO FLASK
+# ==========================
 app = Flask(__name__)
 app.secret_key = os.getenv("SECRET_KEY")
 
-# ------------------------------------------------
-# 📧 CONFIGURAÇÕES DO EMAIL
-# ------------------------------------------------
+# ==========================
+# VARIÁVEIS DE AMBIENTE
+# ==========================
 EMAIL_REMETENTE = os.getenv("EMAIL_REMETENTE")
 EMAIL_PASSWORD = os.getenv("EMAIL_PASSWORD")
-NOME_REMETENTE = "Central de Distribuição de Presentes do Papai Noel"
 
-# anexos
+NOME_REMETENTE = "Central de Distribuição de Presentes do Papai Noel 🎅"
+
 QR_CODE_PATH = "static/KrCode pix Paulo.jpg"
 NOEL_FOTO_PATH = "static/noel.png"
 
-# ------------------------------------------------
-# 🔰 CONFIG GOOGLE (caso use planilhas Google)
-# ------------------------------------------------
-GOOGLE_CREDENTIALS = os.getenv("GOOGLE_CREDENTIALS")
 
-if GOOGLE_CREDENTIALS:
-    GOOGLE_CREDENTIALS = json.loads(GOOGLE_CREDENTIALS)
-
-# ------------------------------------------------
-# 🗄️ CRIA TABELA LOCAL
-# ------------------------------------------------
+# ==========================
+# BANCO DE DADOS
+# ==========================
 def criar_tabela():
     conn = sqlite3.connect("database.db")
     cursor = conn.cursor()
+
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS agendamentos (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -57,54 +46,62 @@ def criar_tabela():
             status TEXT
         )
     """)
+
     conn.commit()
     conn.close()
 
+
 criar_tabela()
 
-# ------------------------------------------------
-# ⏰ GERAR HORÁRIOS DE 2 EM 2 MINUTOS
-# ------------------------------------------------
+# ==========================
+# GERAR HORÁRIOS
+# ==========================
 def gerar_horarios_reais():
     inicio = datetime(2025, 12, 24, 14, 0)
     fim = datetime(2025, 12, 25, 11, 0)
+
     horarios = []
     atual = inicio
+
     while atual <= fim:
         horarios.append(atual.strftime("%d/%m/%Y %H:%M"))
         atual += timedelta(minutes=2)
+
     return horarios
+
 
 HORARIOS_REAIS = gerar_horarios_reais()
 
-# ------------------------------------------------
-# ⛔ VERIFICAR HORÁRIOS JÁ OCUPADOS
-# ------------------------------------------------
+
 def horarios_ocupados():
     conn = sqlite3.connect("database.db")
     cursor = conn.cursor()
+
     cursor.execute("SELECT horario_real FROM agendamentos")
     dados = cursor.fetchall()
+
     conn.close()
     return {linha[0] for linha in dados}
 
-# ------------------------------------------------
-# 🔍 SELECIONAR O HORÁRIO REAL DISPONÍVEL
-# ------------------------------------------------
+
 def encontrar_horario_real(horario_desejado):
     ocupados = horarios_ocupados()
+
     h = datetime.strptime(horario_desejado, "%H:%M")
     base = datetime(2025, 12, 24, h.hour, h.minute)
 
     for hr in HORARIOS_REAIS:
         dt_hr = datetime.strptime(hr, "%d/%m/%Y %H:%M")
+
         if dt_hr >= base and hr not in ocupados:
             return hr
+
     return None
 
-# ------------------------------------------------
-# ✉️ ENVIAR EMAIL
-# ------------------------------------------------
+
+# ==========================
+# ENVIO DE EMAIL
+# ==========================
 def enviar_email(destinatario, nome, horario_real, valor):
     msg = EmailMessage()
     msg["Subject"] = "Confirmação de Agendamento - Papai Noel 🎅"
@@ -114,46 +111,43 @@ def enviar_email(destinatario, nome, horario_real, valor):
     corpo = f"""
 Olá {nome}!
 
-🎅 Seu agendamento foi confirmado!
+Sua visita do Papai Noel foi confirmada! 🎅✨
 
-📅 **Horário:** {horario_real}  
+📅 **Horário confirmado:** {horario_real}  
 💰 **Valor da entrega:** R$ {valor:.2f}
 
-Formas de pagamento no anexo.
+Finalize o pagamento via PIX para garantir sua reserva!
 
-A Magia do Natal começa agora! ✨
+A magia do Natal agradece sua confiança ❤️🎄
 """
 
     msg.set_content(corpo)
 
-    # anexos
-    if os.path.exists(QR_CODE_PATH):
-        with open(QR_CODE_PATH, "rb") as f:
-            msg.add_attachment(f.read(),
-                maintype="image", subtype="jpeg",
-                filename="qrcode_pix.jpg")
+    # anexos (opcional)
+    for caminho in [QR_CODE_PATH, NOEL_FOTO_PATH]:
+        if os.path.exists(caminho):
+            with open(caminho, "rb") as f:
+                msg.add_attachment(
+                    f.read(),
+                    maintype="image",
+                    subtype="jpeg" if caminho.endswith(".jpg") else "png",
+                    filename=os.path.basename(caminho)
+                )
 
-    if os.path.exists(NOEL_FOTO_PATH):
-        with open(NOEL_FOTO_PATH, "rb") as f:
-            msg.add_attachment(f.read(),
-                maintype="image", subtype="png",
-                filename="papai_noel.png")
-
-    # envia
+    # envio
     with smtplib.SMTP_SSL("smtp.gmail.com", 465) as smtp:
         smtp.login(EMAIL_REMETENTE, EMAIL_PASSWORD)
         smtp.send_message(msg)
 
-# ------------------------------------------------
-# 🏠 ROTA PRINCIPAL
-# ------------------------------------------------
+
+# ==========================
+# ROTAS
+# ==========================
 @app.route("/")
 def index():
     return render_template("index.html")
 
-# ------------------------------------------------
-# 📝 ROTA DO FORMULÁRIO
-# ------------------------------------------------
+
 @app.route("/agendar", methods=["POST"])
 def agendar():
     nome = request.form["nome"]
@@ -168,25 +162,33 @@ def agendar():
 
     horario_real = encontrar_horario_real(horario_escolhido)
 
+    if not horario_real:
+        return "Não há horário disponível!", 400
+
     conn = sqlite3.connect("database.db")
     cursor = conn.cursor()
+
     cursor.execute("""
-        INSERT INTO agendamentos (
-            nome, idade, data, horario_escolhido, horario_real,
-            endereco, email, telefone, presente, valor, status
-        )
+        INSERT INTO agendamentos
+        (nome, idade, data, horario_escolhido, horario_real, endereco, email, telefone, presente, valor, status)
         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-    """, (nome, idade, data, horario_escolhido, horario_real,
-          endereco, email, telefone, presente, valor, "PENDENTE"))
+    """, (nome, idade, data, horario_escolhido, horario_real, endereco, email, telefone, presente, valor, "Pendente"))
+
     conn.commit()
     conn.close()
 
     enviar_email(email, nome, horario_real, valor)
 
-    return render_template("confirmacao.html", nome=nome, horario=horario_real)
+    return redirect("/confirmado")
 
-# ------------------------------------------------
-# ▶️ RODAR LOCAL
-# ------------------------------------------------
+
+@app.route("/confirmado")
+def confirmado():
+    return "Agendamento confirmado! Verifique seu e-mail."
+
+
+# ==========================
+# INICIAR SERVIDOR
+# ==========================
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(host="0.0.0.0", port=10000)
