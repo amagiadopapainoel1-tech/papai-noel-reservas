@@ -1,97 +1,96 @@
-/* ----------------------------- */
-/*   RESET BÁSICO                */
-/* ----------------------------- */
-* {
+/* ======== RESET ======== */
+body, html {
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
-}
-
-/* ----------------------------- */
-/*   FUNDO COM MOLDURA           */
-/* ----------------------------- */
-body {
-    width: 100vw;
-    height: 100vh;
-    overflow: hidden;
-    background: #000; /* fundo padrão caso a imagem falhe */
-
-    background-image: url("{{ url_for('static', filename='moldura_natal.webp') }}");
-    background-repeat: no-repeat;
-    background-size: contain;   /* mantém proporção da moldura */
-    background-position: center;
-}
-
-/* ----------------------------- */
-/*   ÁREA DO FORMULÁRIO          */
-/* ----------------------------- */
-.form-wrapper {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-
-    width: 85vw;
-    max-width: 360px;   /* FORMULÁRIO FIXO — NÃO EXPANDE NO PC */
-    height: 70vh;
-
-    display: flex;
-    justify-content: center;
-
-    background: transparent; /* sem caixa cinza */
-}
-
-/* ----------------------------- */
-/*   ROLAGEM INTERNA             */
-/* ----------------------------- */
-.scroll-area {
     width: 100%;
     height: 100%;
+    background: #000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden; /* evita scroll da página inteira */
+    font-family: Arial, sans-serif;
+}
+
+/* ======== MOLDURA ======== */
+.background-frame {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 1080px;       /* tamanho real da sua moldura */
+    height: 1920px;
+    transform: translate(-50%, -50%);
+    background-image: url("/static/moldura_natal.webp");
+    background-size: contain;   /* mostra a moldura exatamente */
+    background-repeat: no-repeat;
+    background-position: center;
+    z-index: 1; /* atrás do formulário */
+    pointer-events: none;
+}
+
+/* Ajuste para telas pequenas (celular) */
+@media (max-width: 600px) {
+    .background-frame {
+        width: 100vw;
+        height: calc(100vw * 1.777); /* mantém proporção 1080x1920 */
+    }
+}
+
+/* ======== FORMULÁRIO ======== */
+.form-wrapper {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 85%;         /* mantém o tamanho que você aprovou */
+    max-width: 420px;   /* NÃO muda mais no PC */
+    height: 75%;        /* mantém o tamanho exato que você gostou */
+    transform: translate(-50%, -50%);
+    z-index: 2;         /* NA FRENTE DA MOLDURA */
+    background: transparent; /* sem caixa cinza */
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+}
+
+/* Área de rolagem PERFEITA */
+.scroll-area {
+    width: 90%;
+    height: 90%;
     overflow-y: auto;
-    padding: 15px;
+    padding: 10px;
+    background: rgba(255, 255, 255, 0.7); /* mantém legível */
+    border-radius: 10px;
 }
 
-/* ----------------------------- */
-/*   ITENS DO FORMULÁRIO         */
-/* ----------------------------- */
-
+/* Inputs */
 .label {
-    margin-top: 12px;
-    color: #000;   /* TEXTO PRETO — evita sumir no fundo */
-    font-weight: bold;
+    font-size: 16px;
+    color: #000;
+    margin-top: 10px;
+    display: block;
 }
 
-.input,
-textarea,
-select {
+.input, textarea, select {
     width: 100%;
     padding: 10px;
-    margin-top: 4px;
-    margin-bottom: 12px;
-    font-size: 16px;
-
-    background: rgba(255, 255, 255, 0.9); /* fundo branco */
-    color: #000;  /* texto preto */
-    border: 1px solid #999;
-    border-radius: 4px;
+    margin-top: 5px;
+    margin-bottom: 10px;
+    border: 1px solid #444;
+    border-radius: 6px;
+    background: white;
+    color: black;
+    font-size: 15px;
 }
 
 button {
     width: 100%;
     padding: 12px;
-    margin-top: 12px;
-
-    background: #b30000;
-    color: #fff;
+    background: red;
+    color: white;
     border: none;
     border-radius: 6px;
-
-    font-size: 18px;
-    font-weight: bold;
-}
-
-button:hover {
-    background: #d60000;
+    font-size: 16px;
+    cursor: pointer;
 }
 
 
