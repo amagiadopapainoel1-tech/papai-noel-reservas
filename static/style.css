@@ -1,77 +1,96 @@
-/* Zera tudo */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
+/* Fundo preto geral */
 body {
+    margin: 0;
     background: #000;
-    height: 100vh;
-    overflow: hidden;
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start; /* importante: não centralizar verticalmente */
+    min-height: 100vh;
+    overflow-x: hidden;
 }
 
-/* --- MOLDURA --- */
+/* Moldura de fundo */
 .background-frame {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 360px;             /* TAMANHO FIXO QUE FUNCIONA EM CELULAR */
-    height: 640px;            /* ALTURA FIXA PARA MOSTRAR A MOLDURA TODA */
-    background-image: url("/static/moldura_natal.webp");
+    background-image: url("static/moldura_natal.webp");
     background-size: contain;
     background-repeat: no-repeat;
-    background-position: center;
+    background-position: top center;
+    width: 100%;
+    max-width: 480px;
+    height: 100vh;
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
     z-index: 1;
 }
 
-/* --- ÁREA DO FORMULÁRIO --- */
+/* Caixa do formulário */
 .form-wrapper {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 270px;           /* FICA DENTRO DA MOLDURA */
-    height: 500px;          /* PERMITIR ROLAGEM */
-    background: rgba(255,255,255,0.75);
+    position: relative;
+    width: 90%;
+    max-width: 360px;
+    background: rgba(255,255,255,0.85);
     border-radius: 15px;
     padding: 20px;
-    overflow-y: auto;       /* ROLAGEM FUNCIONANDO */
     z-index: 2;
+
+    /* 🔥 Aqui baixamos o formulário para não pegar o rosto do Noel */
+    margin-top: 120px;
+}
+
+/* Área rolável */
+.scroll-area {
+    max-height: 70vh;
+    overflow-y: auto;
+    padding-right: 10px;
 }
 
 /* Inputs */
-label {
-    font-size: 16px;
-    font-weight: bold;
-    color: #000;
-    display: block;
-    margin-top: 10px;
-}
-
-.input, textarea, select {
+.input, select, textarea {
     width: 100%;
     padding: 10px;
-    margin-top: 5px;
-    border-radius: 8px;
-    border: 1px solid #999;
+    border-radius: 6px;
+    border: 1px solid #000;
+    margin-bottom: 12px;
+    font-size: 16px;
+    color: #000;
     background: #fff;
+}
+
+.label {
+    font-weight: bold;
     color: #000;
 }
 
 button {
-    margin-top: 15px;
     width: 100%;
     padding: 12px;
-    background: #b30000;
+    background: #c00;
     color: #fff;
     border: none;
     border-radius: 8px;
+    font-size: 18px;
     cursor: pointer;
+}
+
+/* 📱 Ajuste especial para CELULAR */
+@media (max-width: 480px) {
+    .form-wrapper {
+        margin-top: 140px; /* um pouco mais para compensar monitores mais baixos */
+        max-width: 330px;
+    }
+
+    .scroll-area {
+        max-height: 65vh;
+    }
+}
+
+/* 🖥 Ajuste especial para PC */
+@media (min-width: 800px) {
+    .form-wrapper {
+        margin-top: 160px; /* PC costuma ter mais espaço */
+    }
 }
 
 
