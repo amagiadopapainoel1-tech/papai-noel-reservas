@@ -1,108 +1,98 @@
-/* Zera tudo */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
+/* Fundo preto */
 body {
+    margin: 0;
     background: #000;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
+    overflow: hidden;
 }
 
-/* --- ⬇ MOLDURA NO TAMANHO CORRETO ⬇ --- */
+/* Moldura */
 .background-frame {
     position: fixed;
     top: 50%;
     left: 50%;
-    width: 1080px;
-    height: 1920px;
+    width: 95vw;
+    height: auto;
+    max-width: 900px;
     transform: translate(-50%, -50%);
-    background-image: url("{{ url_for('static', filename='moldura_natal.webp') }}");
-    background-size: contain;     /* ❗ mantém proporção sem esticar */
+    background-image: url("moldura_natal.webp");
+    background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
-    z-index: -1;                  /* atrás do formulário */
+    z-index: 1;
 }
 
-/* --- ⬇ ÁREA DO FORMULÁRIO (960x1480 proporcional) ⬇ --- */
+/* Caixa do formulário */
 .form-wrapper {
     position: fixed;
     top: 50%;
     left: 50%;
-    width: 860px;      /* ligeiramente menor que a área real para encaixar */
-    height: 1480px;
+    width: 80vw;
+    max-width: 520px;
+    height: 70vh;
     transform: translate(-50%, -50%);
-    display: flex;
-    justify-content: center;
-    padding-top: 250px;     /* ajuste vertical para encaixar na moldura */
+    z-index: 2;
+    padding: 10px;
+    box-sizing: border-box;
 }
 
-/* Área da rolagem */
+/* Área com rolagem */
 .scroll-area {
-    width: 90%;
+    background: rgba(255, 255, 255, 0.92);
+    border-radius: 10px;
+    padding: 15px;
     height: 100%;
     overflow-y: auto;
-    padding: 20px;
 }
 
-/* Inputs e labels */
+/* Inputs */
 .label {
-    font-size: 32px;
-    color: white;
-    margin-top: 20px;
+    color: #000;
+    font-size: 16px;
+    margin-top: 12px;
     display: block;
 }
 
-.input, select, textarea {
+.input, textarea, select {
     width: 100%;
-    padding: 16px;
-    margin-top: 8px;
-    font-size: 28px;
-    border-radius: 12px;
-    border: none;
+    padding: 8px;
+    margin-top: 5px;
+    border-radius: 5px;
+    border: 1px solid #444;
+    font-size: 16px;
 }
 
+/* Botão */
 button {
     width: 100%;
-    padding: 22px;
-    font-size: 32px;
-    margin-top: 40px;
+    padding: 12px;
+    margin-top: 18px;
+    font-size: 18px;
     background: #b30000;
-    color: #fff;
     border: none;
-    border-radius: 15px;
+    border-radius: 5px;
+    color: #fff;
 }
 
-/* --- CELULAR: reduz tudo proporcionalmente --- */
-@media (max-width: 800px) {
+/* CELULAR */
+@media (max-width: 600px) {
+    .form-wrapper {
+        width: 85vw;
+        max-width: 360px;
+        height: 65vh;
+    }
 
     .background-frame {
-        width: 100vw;
-        height: 177vw; /* mantém proporção 1080x1920 */
+        width: 95vw;
+        max-width: 380px;
     }
 
-    .form-wrapper {
-        width: 84vw;
-        height: 130vw;
-        padding-top: 22vw; 
+    .scroll-area {
+        padding: 12px;
     }
+}
 
-    .label {
-        font-size: 5vw;
-    }
-
-    .input, select, textarea {
-        font-size: 4.2vw;
-        padding: 3vw;
-    }
-
-    button {
-        font-size: 5vw;
         padding: 4vw;
     }
 }
+
 
