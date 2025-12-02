@@ -6,7 +6,6 @@
     <title>Reserva Papai Noel</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
 </head>
-
 <body>
     <!-- MOLDURA -->
     <div class="background-frame"></div>
@@ -14,11 +13,9 @@
     <!-- CAIXA DO FORMULÁRIO -->
     <div class="form-wrapper">
         <div class="scroll-area">
-
             {% if mensagem %}
             <div class="msg">{{ mensagem }}</div>
             {% endif %}
-
             <form action="/enviar" method="POST">
 
                 <label class="label">Data</label>
@@ -37,7 +34,7 @@
                 <input type="text" name="responsavel" class="input" required />
 
                 <label class="label">Nº de crianças</label>
-                <input type="number" name="numero_criancas" class="input" required />
+                <input type="number" id="numCriancas" name="numero_criancas" class="input" required />
 
                 <label class="label">E-mail</label>
                 <input type="email" name="email" class="input" required />
@@ -46,7 +43,7 @@
                 <input type="text" name="telefone" class="input" />
 
                 <label class="label">Valor Total</label>
-                <input type="text" name="valor_total" class="input" />
+                <input type="text" id="valorTotal" name="valor_total" class="input" readonly />
 
                 <label class="label">Status do Pagamento</label>
                 <select name="status_pagamento" class="input">
@@ -68,7 +65,6 @@
 
                 <button type="submit">Enviar Reserva</button>
             </form>
-
         </div>
     </div>
 
@@ -97,6 +93,18 @@
                 select.appendChild(opt);
             });
         });
+    });
+</script>
+
+<!-- SCRIPT DO VALOR AUTOMÁTICO -->
+<script>
+    const numCriancas = document.getElementById("numCriancas");
+    const valorTotal = document.getElementById("valorTotal");
+
+    numCriancas.addEventListener("input", function () {
+        const quantidade = parseInt(this.value) || 0;
+        const total = quantidade * 50;
+        valorTotal.value = "R$ " + total.toFixed(2).replace(".", ",");
     });
 </script>
 
