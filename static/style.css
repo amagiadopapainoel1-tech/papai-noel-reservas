@@ -1,73 +1,96 @@
-/* ===== FUNDO DA PÁGINA ===== */
-body {
+/* ===== RESET ===== */
+* {
     margin: 0;
-    background-color: black; /* preto atrás da moldura */
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
     display: flex;
     justify-content: center;
-    padding-top: 40px; /* desce tudo */
+    align-items: flex-start;
+    min-height: 100vh;
+    background: black;
 }
 
 /* ===== MOLDURA ===== */
 .background-frame {
-    position: relative;
-    width: 360px;              /* tamanho fixo ideal p/ celular e PC */
-    height: 640px;
-    background-image: url("{{ url_for('static', filename='moldura_natal.webp') }}");
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: top center;
-}
-
-/* ===== CAIXA DO FORMULÁRIO ===== */
-.form-wrapper {
     position: absolute;
-    top: 110px;   /* <<< ALTERE ESTE VALOR PARA AJUSTAR ALTURA */
+    top: 0;
     left: 50%;
     transform: translateX(-50%);
-    width: 300px;
+    width: 380px;         /* tamanho ideal da moldura */
+    height: 760px;        /* incluímos a altura fixa novamente */
+    background-image: url("static/moldura_natal.webp");
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    z-index: 1;
 }
 
-.scroll-area {
-    background: rgba(255,255,255,0.90);
+/* ===== FORMULÁRIO ===== */
+.form-wrapper {
+    position: relative;
+    z-index: 2;
+
+    width: 300px;               /* largura ideal */
+    margin-top: 110px;          /* ↓↓↓ DESCE O FORMULÁRIO ↓↓↓ */
+    background: rgba(255,255,255,0.7);
     padding: 15px;
     border-radius: 10px;
-    max-height: 460px;
+}
+
+/* Área rolável */
+.scroll-area {
+    max-height: 520px;          /* controla o tamanho interno */
     overflow-y: auto;
-    box-shadow: 0 0 8px rgba(0,0,0,0.4);
 }
 
+/* Inputs e labels */
 .label {
-    font-weight: bold;
-    margin-top: 12px;
     display: block;
+    font-weight: bold;
+    margin-top: 10px;
 }
 
-.input,
-textarea,
-select {
+.input, select, textarea {
     width: 100%;
     padding: 10px;
-    margin-top: 4px;
-    border-radius: 6px;
-    border: 1px solid #999;
+    margin-top: 5px;
     font-size: 16px;
+    border: 1px solid #888;
+    border-radius: 6px;
+    background: white;
+    color: black;
 }
 
 button {
+    margin-top: 15px;
     width: 100%;
     padding: 12px;
-    margin-top: 20px;
-    background-color: darkred;
-    border: none;
+    background: #d10000;
     color: white;
-    font-size: 18px;
+    border: none;
     border-radius: 6px;
+    font-size: 18px;
 }
 
+/* ===== RESPONSIVO ===== */
+@media (max-width: 480px) {
 
+    .background-frame {
+        width: 330px;
+        height: 660px;
+    }
 
+    .form-wrapper {
+        width: 270px;
+        margin-top: 95px;   /* desce também no celular */
+    }
 
-
+    .scroll-area {
+        max-height: 480px;
+    }
+}
 
 
 
