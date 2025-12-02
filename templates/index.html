@@ -45,11 +45,8 @@
                 <label class="label">Valor Total</label>
                 <input type="text" id="valorTotal" name="valor_total" class="input" readonly />
 
-                <label class="label">Status do Pagamento</label>
-                <select name="status_pagamento" class="input">
-                    <option value="Pendente">Pendente</option>
-                    <option value="Pago">Pago</option>
-                </select>
+                <!-- status oculto: sempre "Pendente" -->
+                <input type="hidden" name="status_pagamento" value="Pendente">
 
                 <label class="label">Observações</label>
                 <textarea name="observacoes" class="input"></textarea>
@@ -78,12 +75,13 @@
         fetch("/horarios_indisponiveis", {
             method: "POST",
             headers: { "Content-Type": "application/x-www-form-urlencoded" },
-            body: "data=" + data
+            body: "data=" + encodeURIComponent(data)
         })
         .then(r => r.json())
         .then(json => {
-            const ocupados = json.ocupados;
-            const horarios = json.horarios_disponiveis;
+            const ocupados = json.ocupados || [];
+            const horarios = json.horarios_disponiveis || [];
+
             select.innerHTML = "";
             horarios.forEach(h => {
                 const opt = document.createElement("option");
@@ -92,6 +90,9 @@
                 if (ocupados.includes(h)) opt.disabled = true;
                 select.appendChild(opt);
             });
+        })
+        .catch(() => {
+            select.innerHTML = "<option>Erro ao carregar horários</option>";
         });
     });
 </script>
@@ -102,7 +103,7 @@
     const valorTotal = document.getElementById("valorTotal");
 
     numCriancas.addEventListener("input", function () {
-        const quantidade = parseInt(this.value) || 0;
+        const quantidade = parseInt(this.value, 10) || 0;
         const total = quantidade * 50;
         valorTotal.value = "R$ " + total.toFixed(2).replace(".", ",");
     });
