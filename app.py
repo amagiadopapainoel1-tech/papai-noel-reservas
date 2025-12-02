@@ -1,125 +1,170 @@
 from flask import Flask, render_template, request, jsonify
+import smtplib
+from email.message import EmailMessage
 import os
-import gspread
-from oauth2client.service_account import ServiceAccountCredentials
-import json
-from datetime import datetime, timedelta
+from datetime import datetime
 
 app = Flask(__name__)
 
-# ====== AUTENTICAÇÃO GOOGLE VIA VARIÁVEL DO RENDER ======
-google_credentials_json = os.getenv("GOOGLE_CREDENTIALS")
-if not google_credentials_json:
-    raise Exception("ERRO: A variável GOOGLE_CREDENTIALS não está definida no Render!")
+# --------------------------
+#  CONFIGURAÇÕES DO SISTEMA
+# --------------------------
 
-creds_dict = json.loads(google_credentials_json)
+EMAIL_ORIGEM = "amagiadopapainoel1@gmail.com"
+SENHA_EMAIL = "SUA_SENHA_DE_APP_AQUI"  # coloque aqui a senha de app do Gmail
 
-scope = [
-    "https://spreadsheets.google.com/feeds",
-    "https://www.googleapis.com/auth/drive"
+PIX_COPIA_COLA = """00020126360014br.gov.bcb.pix0114+55419975658825204000053039865802BR5912PAULO_DUARTE6008Curitiba610981550-bc1qruqmcx20vwhv5dav2hlr4yg9n20kqz0fescezh"""
+
+VALOR_POR_CRIANCA = 50
+
+# Horários padrão
+HORARIOS = [
+    "18:00", "18:30", "19:00",
+    "19:30", "20:00", "20:30",
+    "21:00", "21:30", "22:00",
 ]
 
-creds = ServiceAccountCredentials.from_json_keyfile_dict(creds_dict, scope)
-client = gspread.authorize(creds)
-
-# === SUA PLANILHA ===
-SHEET_ID = "10HFxgC2k_6VkFyUoTiPMg6h0aBUhUaESYg5knbapktM"
-sheet = client.open_by_key(SHEET_ID).sheet1
+# Armazena reservas em memória (substituível por banco depois)
+reservas = []
 
 
-# ===== GERAR HORÁRIOS DE 2 EM 2 MINUTOS =====
-def gerar_horarios():
-    horarios = []
+# ------------------------------------
+#  FUNÇÃO PARA ENVIAR O E‑MAIL
+# ------------------------------------
+def enviar_email_confirmacao(dados, anexo_krcode, anexo_noel):
+    msg = EmailMessage()
+    msg["Subject"] = "Confirmação do Agendamento - Papai Noel 🎅"
+    msg["From"] = EMAIL_ORIGEM
+    msg["To"] = dados["email"]
 
-    # 24/12 – das 14:00 até 23:59
-    inicio_24 = datetime(2025, 12, 24, 14, 0)
-    fim_24 = datetime(2025, 12, 24, 23, 59)
+    corpo = f"""
+Olá {dados['responsavel']},
 
-    atual = inicio_24
-    while atual <= fim_24:
-        horarios.append(atual.strftime("%H:%M"))
-        atual += timedelta(minutes=2)
+Sua reserva foi registrada com sucesso na
+**Central de Distribuição de Presentes do Papai Noel** 🎄✨
 
-    # 25/12 – das 00:00 até 11:00
-    inicio_25 = datetime(2025, 12, 25, 0, 0)
-    fim_25 = datetime(2025, 12, 25, 11, 0)
+Aqui estão os dados:
 
-    atual = inicio_25
-    while atual <= fim_25:
-        horarios.append(atual.strftime("%H:%M"))
-        atual += timedelta(minutes=2)
+📅 **Data:** {dados['data_formatada']}
+⏰ **Horário:** {dados['horario']}
+👧👦 **Número de crianças:** {dados['numero_criancas']}
+💰 **Valor Total:** R$ {dados['valor_total']:.2f}
 
-    return horarios
+---
+
+## 🔔 *Instruções de Pagamento*
+
+Você pode realizar o pagamento de duas formas:
+
+### ✔ Pix Copia e Cola:
+{PIX_COPIA_COLA}
+
+### ✔ KR Code (QR Code):
+(Imagem anexada neste e-mail)
+
+---
+
+Após o pagamento, envie o comprovante para:
+📧 *amagiadopapainoel1@gmail.com*  
+📱 *WhatsApp: (41) 99756-5882*
+
+E **não esqueça**:
+> "Ao enviar o comprovante, cite o nome da criança e descreva o presente.  
+> Assim nossa equipe personaliza o atendimento e torna mais especial  
+> a entrega do presente."  
+> — *Papai Noel Paulo Duarte* 🎅❤️
+
+Agradecemos pela confiança!  
+Boas festas! 🎄✨
+"""
+
+    msg.set_content(corpo)
+
+    # Anexar KR Code
+    with open(anexo_krcode, "rb") as f:
+        msg.add_attachment(
+            f.read(),
+            maintype="image",
+            subtype="jpeg",
+            filename="KRCode_Pix.jpg"
+        )
+
+    # Anexar Foto do Noel
+    with open(anexo_noel, "rb") as f:
+        msg.add_attachment(
+            f.read(),
+            maintype="image",
+            subtype="png",
+            filename="Papai_Noel.png"
+        )
+
+    # Envio de e-mail via Gmail
+    with smtplib.SMTP_SSL("smtp.gmail.com", 465) as smtp:
+        smtp.login(EMAIL_ORIGEM, SENHA_EMAIL)
+        smtp.send_message(msg)
 
 
-# LISTA COMPLETA DE HORÁRIOS
-TODOS_HORARIOS = gerar_horarios()
+# ------------------------------------
+#  ROTAS DA APLICAÇÃO
+# ------------------------------------
 
-
-# ===== ABRIR FORMULÁRIO =====
-@app.route("/", methods=["GET"])
+@app.route("/")
 def index():
-    return render_template("index.html", horarios=TODOS_HORARIOS, mensagem=None)
+    return render_template("index.html")
 
 
-# ===== RETORNAR HORÁRIOS OCUPADOS PARA O FRONT =====
 @app.route("/horarios_indisponiveis", methods=["POST"])
 def horarios_indisponiveis():
-    data = request.form.get("data")
+    data_solicitada = request.form.get("data")
+    ocupados = [r["horario"] for r in reservas if r["data"] == data_solicitada]
 
-    if not data:
-        return jsonify({"ocupados": []})
-
-    registros = sheet.get_all_records()
-
-    ocupados = []
-    for row in registros:
-        if str(row["data"]) == data:
-            ocupados.append(row["horario"])
-
-    return jsonify({"ocupados": ocupados})
+    return jsonify({
+        "ocupados": ocupados,
+        "horarios_disponiveis": HORARIOS
+    })
 
 
-# ===== RECEBER FORMULÁRIO DO SITE =====
 @app.route("/enviar", methods=["POST"])
 def enviar():
+    dados = {
+        "data": request.form["data"],
+        "horario": request.form["horario"],
+        "responsavel": request.form["responsavel"],
+        "numero_criancas": int(request.form["numero_criancas"]),
+        "email": request.form["email"],
+        "telefone": request.form.get("telefone", ""),
+        "observacoes": request.form.get("observacoes", ""),
+        "endereco": request.form.get("endereco", ""),
+        "bairro": request.form.get("bairro", ""),
+        "cidade": request.form.get("cidade", ""),
+        "status_pagamento": "Pendente",  # Sempre inicia pendente
+    }
 
-    data = request.form.get("data")
-    horario = request.form.get("horario")
+    # Calcular valor total
+    dados["valor_total"] = dados["numero_criancas"] * VALOR_POR_CRIANCA
 
-    # 🔒 Segurança: bloquear tentativa de agendar horário já ocupado
-    registros = sheet.get_all_records()
-    for row in registros:
-        if str(row["data"]) == data and str(row["horario"]) == horario:
-            return render_template(
-                "index.html",
-                horarios=TODOS_HORARIOS,
-                mensagem=f"⚠ O horário {horario} para {data} já foi reservado!"
-            )
+    # Formatar data para texto
+    data_obj = datetime.strptime(dados["data"], "%Y-%m-%d")
+    dados["data_formatada"] = data_obj.strftime("%d/%m/%Y")
 
-    # Coleta dos dados restantes
-    responsavel = request.form.get("responsavel")
-    numero_criancas = request.form.get("numero_criancas")
-    email = request.form.get("email")
-    telefone = request.form.get("telefone")
-    valor_total = request.form.get("valor_total")
-    status_pagamento = request.form.get("status_pagamento")
-    observacoes = request.form.get("observacoes")
-    endereco = request.form.get("endereco")
-    bairro = request.form.get("bairro")
-    cidade = request.form.get("cidade")
+    # Registrar no sistema (memória)
+    reservas.append(dados)
 
-    # gravação na planilha
-    sheet.append_row([
-        data, horario, responsavel, numero_criancas, email, telefone,
-        valor_total, status_pagamento, observacoes, endereco, bairro, cidade
-    ])
+    # Anexos
+    caminho_krcode = os.path.join("static", "KrCode pix Paulo.jpg")
+    caminho_noel = os.path.join("static", "noel.png")
 
-    mensagem = "🎅 Reserva enviada com sucesso!"
+    # Enviar o e-mail
+    enviar_email_confirmacao(dados, caminho_krcode, caminho_noel)
 
-    return render_template("index.html", horarios=TODOS_HORARIOS, mensagem=mensagem)
+    return render_template("index.html", mensagem="Reserva enviada com sucesso! ✔")
 
 
-# ===== EXECUÇÃO LOCAL =====
+# -------------------------
+#  EXECUTAR SERVIDOR
+# -------------------------
+
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=10000)
+    app.run(debug=True)
+
+
