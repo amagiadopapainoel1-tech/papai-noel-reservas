@@ -1,36 +1,79 @@
-/* FUNDO GERAL PRETO (OK) */
+/* === FUNDO COM A MOLDURA === */
 body {
-    background-color: black;
     margin: 0;
     padding: 0;
+    background: #000 url("moldura_natal.webp") center top no-repeat;
+    background-size: 430px auto;
+    background-attachment: scroll; /* impede bug no celular */
+    display: flex;
+    justify-content: center;
+    min-height: 100vh;
+    font-family: Arial, sans-serif;
 }
 
-/* —— MOLDURA —— */
-.container {
-    width: 360px;                    /* SEU TAMANHO ATUAL */
-    margin: 0 auto;                  /* CENTRALIZA */
-    margin-top: 40px;                /* MANUTÉM A POSIÇÃO QUE FICOU CERTA */
-    padding: 20px;
-    background-image: url("static/moldura_natal.webp");
-    background-size: 100% 100%;      /* GARANTE QUE A MOLDURA APAREÇA */
-    background-repeat: no-repeat;
-    background-position: center top; /* EVITA CORTAR A IMAGEM */
-    
+/* === CAIXA DO FORMULÁRIO === */
+.form-wrapper {
+    width: 320px;
+    margin-top: 130px; /* 🔹 Ajuste fino para NÃO pegar o rosto do Noel */
+    background: rgba(255,255,255,0.88);
+    border-radius: 12px;
+    padding: 18px;
     box-sizing: border-box;
+    max-height: 78vh;  /* mantém rolagem visível */
+    overflow-y: auto;
 }
 
-/* —— FORMULÁRIO — mantém rolagem — */
-.form-box {
-    max-height: 550px;               /* Altura que funciona no PC e celular */
-    overflow-y: auto;                /* Mantém a rolagem */
-    padding: 10px;
-    background-color: rgba(255,255,255,0.8);  /* Deixa tudo legível */
-    border-radius: 10px;
+/* BARRA DE ROLAGEM */
+.form-wrapper::-webkit-scrollbar {
+    width: 6px;
+}
+.form-wrapper::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 6px;
 }
 
+/* LABELS E INPUTS */
+.label {
+    font-weight: bold;
+    margin-top: 10px;
+    display: block;
+    color: #000;
+}
 
+.input, select, textarea {
+    width: 100%;
+    padding: 8px;
+    font-size: 15px;
+    border: 1px solid #bbb;
+    border-radius: 6px;
+    margin-top: 4px;
+    box-sizing: border-box;
+    color: #000;
+    background: #fff;
+}
 
+/* BOTÃO */
+button {
+    width: 100%;
+    padding: 12px;
+    margin-top: 12px;
+    background: #c20606;
+    color: white;
+    font-size: 17px;
+    border: none;
+    border-radius: 6px;
+}
 
+/* === AJUSTES PARA TELAS MAIORES === */
+@media (min-width: 768px) {
+    body {
+        background-size: 480px auto; /* moldura maior em PC */
+    }
 
-
+    .form-wrapper {
+        width: 350px;
+        margin-top: 150px; /* desce um pouco no PC */
+        max-height: 80vh;
+    }
+}
 
