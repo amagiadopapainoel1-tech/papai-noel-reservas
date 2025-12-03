@@ -8,7 +8,7 @@
 </head>
 <body>
 
-<!-- MOLDURA -->
+<!-- FUNDO -->
 <div class="background-frame"></div>
 
 <!-- FORMULÁRIO -->
@@ -39,6 +39,9 @@
             <label class="label">Idade</label>
             <input type="text" name="idade" class="input" required />
 
+            <label class="label">Nº de crianças</label>
+            <input type="number" id="numCriancas" name="num_criancas" class="input" min="1" required />
+
             <label class="label">E-mail</label>
             <input type="email" name="email" class="input" required />
 
@@ -56,16 +59,14 @@
 
             <button type="submit">Confirmar Reserva</button>
         </form>
-
     </div>
 </div>
 
-<!-- SCRIPT: CARREGAR HORÁRIOS -->
+<!-- SCRIPT PARA CARREGAR HORÁRIOS -->
 <script>
 document.getElementById("data").addEventListener("change", function () {
     const data = this.value;
     const select = document.getElementById("horario");
-
     select.innerHTML = "<option>Carregando horários...</option>";
 
     fetch("/horarios_indisponiveis", {
@@ -77,32 +78,25 @@ document.getElementById("data").addEventListener("change", function () {
     .then(json => {
         const ocupados = json.ocupados || [];
         const horarios = json.horarios_disponiveis || [];
-
         select.innerHTML = "";
 
         horarios.forEach(h => {
             const opt = document.createElement("option");
             opt.value = h;
-            opt.textContent = ocupados.includes(h)
-                ? h + " (indisponível)"
-                : h;
-
+            opt.textContent = ocupados.includes(h) ? `${h} (indisponível)` : h;
             if (ocupados.includes(h)) opt.disabled = true;
-
             select.appendChild(opt);
         });
     })
-    .catch(() => {
-        select.innerHTML = "<option>Erro ao carregar horários</option>";
-    });
+    .catch(() => select.innerHTML = "<option>Erro ao carregar horários</option>");
 });
 </script>
 
-<!-- SCRIPT: CALCULAR VALOR -->
+<!-- SCRIPT PARA CALCULAR VALOR AUTOMATICAMENTE -->
 <script>
-document.getElementById("numCriancas")?.addEventListener("input", function () {
+document.getElementById("numCriancas").addEventListener("input", function () {
     const quantidade = parseInt(this.value, 10) || 0;
-    const total = quantidade * 50;
+    const total = quantidade * 50; // VALOR POR CRIANÇA
     document.getElementById("valorTotal").value =
         "R$ " + total.toFixed(2).replace(".", ",");
 });
@@ -110,5 +104,4 @@ document.getElementById("numCriancas")?.addEventListener("input", function () {
 
 </body>
 </html>
-
 
