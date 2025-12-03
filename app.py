@@ -6,22 +6,19 @@ import smtplib
 from email.message import EmailMessage
 
 # ==========================
-# CONFIGURAÇÃO DO FLASK
+# CONFIG DO FLASK
 # ==========================
 app = Flask(__name__)
-app.secret_key = os.getenv("SECRET_KEY")
+app.secret_key = os.getenv("SECRET_KEY", "segredo123")
 
 # ==========================
 # VARIÁVEIS DE AMBIENTE
 # ==========================
 EMAIL_REMETENTE = os.getenv("EMAIL_REMETENTE")
 EMAIL_PASSWORD = os.getenv("EMAIL_PASSWORD")
-
 NOME_REMETENTE = "Central de Distribuição de Presentes do Papai Noel 🎅"
-
 QR_CODE_PATH = "static/KrCode pix Paulo.jpg"
 NOEL_FOTO_PATH = "static/noel.png"
-
 
 # ==========================
 # BANCO DE DADOS
@@ -29,101 +26,101 @@ NOEL_FOTO_PATH = "static/noel.png"
 def criar_tabela():
     conn = sqlite3.connect("database.db")
     cursor = conn.cursor()
-
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS agendamentos (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
-            nome TEXT,
-            idade TEXT,
             data TEXT,
-            horario_escolhido TEXT,
-            horario_real TEXT,
-            endereco TEXT,
+            horario TEXT,
+            responsavel TEXT,
+            numero_criancas INTEGER,
             email TEXT,
             telefone TEXT,
-            presente TEXT,
-            valor REAL,
-            status TEXT
+            valor_total REAL,
+            status_pagamento TEXT,
+            observacoes TEXT,
+            endereco TEXT,
+            bairro TEXT,
+            cidade TEXT
         )
     """)
-
     conn.commit()
     conn.close()
-
 
 criar_tabela()
 
 # ==========================
 # GERAR HORÁRIOS
 # ==========================
-def gerar_horarios_reais():
-    inicio = datetime(2025, 12, 24, 14, 0)
-    fim = datetime(2025, 12, 25, 11, 0)
+def gerar_horarios(data):
+    if data == "2024-12-24":
+        inicio = datetime(2024, 12, 24, 14, 0)
+        fim = datetime(2024, 12, 24, 23, 59)
+    elif data == "2024-12-25":
+        inicio = datetime(2024, 12, 25, 0, 0)
+        fim = datetime(2024, 12, 25, 11, 0)
+    else:
+        return []
 
     horarios = []
     atual = inicio
-
     while atual <= fim:
-        horarios.append(atual.strftime("%d/%m/%Y %H:%M"))
-        atual += timedelta(minutes=2)
+        horarios.append(atual.strftime("%H:%M"))
+        atual += timedelta(minutes=10)
 
     return horarios
 
 
-HORARIOS_REAIS = gerar_horarios_reais()
-
-
-def horarios_ocupados():
+def horarios_ocupados(data):
     conn = sqlite3.connect("database.db")
     cursor = conn.cursor()
-
-    cursor.execute("SELECT horario_real FROM agendamentos")
+    cursor.execute("SELECT horario FROM agendamentos WHERE data = ?", (data,))
     dados = cursor.fetchall()
-
     conn.close()
     return {linha[0] for linha in dados}
 
 
-def encontrar_horario_real(horario_desejado):
-    ocupados = horarios_ocupados()
+# ==========================
+# ROTA AJAX – HORÁRIOS
+# ==========================
+@app.route("/horarios_indisponiveis", methods=["POST"])
+def horarios_indisponiveis():
+    data = request.form.get("data")
+    if not data:
+        return jsonify({"erro": "data não enviada"})
 
-    h = datetime.strptime(horario_desejado, "%H:%M")
-    base = datetime(2025, 12, 24, h.hour, h.minute)
+    todos = gerar_horarios(data)
+    ocupados = horarios_ocupados(data)
 
-    for hr in HORARIOS_REAIS:
-        dt_hr = datetime.strptime(hr, "%d/%m/%Y %H:%M")
-
-        if dt_hr >= base and hr not in ocupados:
-            return hr
-
-    return None
-
+    return jsonify({
+        "horarios_disponiveis": todos,
+        "ocupados": list(ocupados)
+    })
 
 # ==========================
 # ENVIO DE EMAIL
 # ==========================
-def enviar_email(destinatario, nome, horario_real, valor):
+def enviar_email(destinatario, responsavel, data, horario, valor_total):
     msg = EmailMessage()
-    msg["Subject"] = "Confirmação de Agendamento - Papai Noel 🎅"
+    msg["Subject"] = "Confirmação de Reserva - Papai Noel 🎅"
     msg["From"] = f"{NOME_REMETENTE} <{EMAIL_REMETENTE}>"
     msg["To"] = destinatario
 
     corpo = f"""
-Olá {nome}!
+Olá {responsavel}!
 
-Sua visita do Papai Noel foi confirmada! 🎅✨
+Sua reserva com o Papai Noel foi confirmada! 🎅✨
 
-📅 **Horário confirmado:** {horario_real}  
-💰 **Valor da entrega:** R$ {valor:.2f}
+📅 Data: {data}  
+⏰ Horário: {horario}  
+👧👦 Crianças atendidas  
+💰 Valor total: R$ {valor_total:.2f}
 
-Finalize o pagamento via PIX para garantir sua reserva!
-
-A magia do Natal agradece sua confiança ❤️🎄
-"""
+Finalize o pagamento via PIX para garantir sua visita 🎄
+    """
 
     msg.set_content(corpo)
 
-    # anexos (opcional)
+    # anexos
     for caminho in [QR_CODE_PATH, NOEL_FOTO_PATH]:
         if os.path.exists(caminho):
             with open(caminho, "rb") as f:
@@ -134,61 +131,63 @@ A magia do Natal agradece sua confiança ❤️🎄
                     filename=os.path.basename(caminho)
                 )
 
-    # envio
     with smtplib.SMTP_SSL("smtp.gmail.com", 465) as smtp:
         smtp.login(EMAIL_REMETENTE, EMAIL_PASSWORD)
         smtp.send_message(msg)
 
-
 # ==========================
-# ROTAS
+# ROTAS PRINCIPAIS
 # ==========================
 @app.route("/")
 def index():
     return render_template("index.html")
 
 
-@app.route("/agendar", methods=["POST"])
-def agendar():
-    nome = request.form["nome"]
-    idade = request.form["idade"]
+@app.route("/enviar", methods=["POST"])
+def enviar():
     data = request.form["data"]
-    horario_escolhido = request.form["horario"]
-    endereco = request.form["endereco"]
+    horario = request.form["horario"]
+    responsavel = request.form["responsavel"]
+    numero_criancas = int(request.form["numero_criancas"])
     email = request.form["email"]
-    telefone = request.form["telefone"]
-    presente = request.form["presente"]
-    valor = float(request.form["valor"])
+    telefone = request.form.get("telefone", "")
+    observacoes = request.form.get("observacoes", "")
+    endereco = request.form.get("endereco", "")
+    bairro = request.form.get("bairro", "")
+    cidade = request.form.get("cidade", "")
+    status_pagamento = "Pendente"
 
-    horario_real = encontrar_horario_real(horario_escolhido)
-
-    if not horario_real:
-        return "Não há horário disponível!", 400
+    valor_total = numero_criancas * 50
 
     conn = sqlite3.connect("database.db")
     cursor = conn.cursor()
 
     cursor.execute("""
         INSERT INTO agendamentos
-        (nome, idade, data, horario_escolhido, horario_real, endereco, email, telefone, presente, valor, status)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-    """, (nome, idade, data, horario_escolhido, horario_real, endereco, email, telefone, presente, valor, "Pendente"))
+        (data, horario, responsavel, numero_criancas, email, telefone, valor_total,
+         status_pagamento, observacoes, endereco, bairro, cidade)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    """, (
+        data, horario, responsavel, numero_criancas, email, telefone,
+        valor_total, status_pagamento, observacoes, endereco, bairro, cidade
+    ))
 
     conn.commit()
     conn.close()
 
-    enviar_email(email, nome, horario_real, valor)
+    # envia o e-mail
+    enviar_email(email, responsavel, data, horario, valor_total)
 
     return redirect("/confirmado")
 
 
 @app.route("/confirmado")
 def confirmado():
-    return "Agendamento confirmado! Verifique seu e-mail."
-
+    return "<h2>Reserva confirmada! Verifique seu e-mail 🎅✨</h2>"
 
 # ==========================
 # INICIAR SERVIDOR
 # ==========================
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=10000)
+
