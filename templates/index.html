@@ -7,107 +7,108 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
 </head>
 <body>
-    <!-- MOLDURA -->
-    <div class="background-frame"></div>
 
-    <!-- CAIXA DO FORMULÁRIO -->
-    <div class="form-wrapper">
-        <div class="scroll-area">
-            {% if mensagem %}
-            <div class="msg">{{ mensagem }}</div>
-            {% endif %}
-            <form action="/enviar" method="POST">
+<!-- MOLDURA -->
+<div class="background-frame"></div>
 
-                <label class="label">Data</label>
-                <select name="data" id="data" class="input" required>
-                    <option value="">Selecione...</option>
-                    <option value="2024-12-24">24 de Dezembro</option>
-                    <option value="2024-12-25">25 de Dezembro</option>
-                </select>
+<!-- FORMULÁRIO -->
+<div class="form-wrapper">
+    <div class="scroll-area">
 
-                <label class="label">Horário</label>
-                <select name="horario" id="horario" class="input" required>
-                    <option value="">Selecione a data...</option>
-                </select>
+        {% if mensagem %}
+        <div class="msg">{{ mensagem }}</div>
+        {% endif %}
 
-                <label class="label">Responsável</label>
-                <input type="text" name="responsavel" class="input" required />
+        <form action="/agendar" method="POST">
 
-                <label class="label">Nº de crianças</label>
-                <input type="number" id="numCriancas" name="numero_criancas" class="input" required />
+            <label class="label">Data</label>
+            <select name="data" id="data" class="input" required>
+                <option value="">Selecione...</option>
+                <option value="2025-12-24">24 de Dezembro</option>
+                <option value="2025-12-25">25 de Dezembro</option>
+            </select>
 
-                <label class="label">E-mail</label>
-                <input type="email" name="email" class="input" required />
+            <label class="label">Horário</label>
+            <select name="horario" id="horario" class="input" required>
+                <option value="">Selecione uma data...</option>
+            </select>
 
-                <label class="label">Telefone</label>
-                <input type="text" name="telefone" class="input" />
+            <label class="label">Nome da criança / responsável</label>
+            <input type="text" name="nome" class="input" required />
 
-                <label class="label">Valor Total</label>
-                <input type="text" id="valorTotal" name="valor_total" class="input" readonly />
+            <label class="label">Idade</label>
+            <input type="text" name="idade" class="input" required />
 
-                <!-- status oculto: sempre "Pendente" -->
-                <input type="hidden" name="status_pagamento" value="Pendente">
+            <label class="label">E-mail</label>
+            <input type="email" name="email" class="input" required />
 
-                <label class="label">Observações</label>
-                <textarea name="observacoes" class="input"></textarea>
+            <label class="label">Telefone</label>
+            <input type="text" name="telefone" class="input" />
 
-                <label class="label">Endereço</label>
-                <input type="text" name="endereco" class="input" />
+            <label class="label">Presente</label>
+            <input type="text" name="presente" class="input" />
 
-                <label class="label">Bairro</label>
-                <input type="text" name="bairro" class="input" />
+            <label class="label">Valor Total</label>
+            <input type="text" id="valorTotal" name="valor" class="input" readonly required />
 
-                <label class="label">Cidade</label>
-                <input type="text" name="cidade" class="input" />
+            <label class="label">Endereço</label>
+            <input type="text" name="endereco" class="input" required />
 
-                <button type="submit">Enviar Reserva</button>
-            </form>
-        </div>
+            <button type="submit">Confirmar Reserva</button>
+        </form>
+
     </div>
+</div>
 
-<!-- SCRIPT DOS HORÁRIOS -->
+<!-- SCRIPT: CARREGAR HORÁRIOS -->
 <script>
-    document.getElementById("data").addEventListener("change", function () {
-        const data = this.value;
-        const select = document.getElementById("horario");
-        select.innerHTML = "<option>Carregando horários...</option>";
+document.getElementById("data").addEventListener("change", function () {
+    const data = this.value;
+    const select = document.getElementById("horario");
 
-        fetch("/horarios_indisponiveis", {
-            method: "POST",
-            headers: { "Content-Type": "application/x-www-form-urlencoded" },
-            body: "data=" + encodeURIComponent(data)
-        })
-        .then(r => r.json())
-        .then(json => {
-            const ocupados = json.ocupados || [];
-            const horarios = json.horarios_disponiveis || [];
+    select.innerHTML = "<option>Carregando horários...</option>";
 
-            select.innerHTML = "";
-            horarios.forEach(h => {
-                const opt = document.createElement("option");
-                opt.value = h;
-                opt.textContent = ocupados.includes(h) ? h + " (indisponível)" : h;
-                if (ocupados.includes(h)) opt.disabled = true;
-                select.appendChild(opt);
-            });
-        })
-        .catch(() => {
-            select.innerHTML = "<option>Erro ao carregar horários</option>";
+    fetch("/horarios_indisponiveis", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: "data=" + encodeURIComponent(data)
+    })
+    .then(r => r.json())
+    .then(json => {
+        const ocupados = json.ocupados || [];
+        const horarios = json.horarios_disponiveis || [];
+
+        select.innerHTML = "";
+
+        horarios.forEach(h => {
+            const opt = document.createElement("option");
+            opt.value = h;
+            opt.textContent = ocupados.includes(h)
+                ? h + " (indisponível)"
+                : h;
+
+            if (ocupados.includes(h)) opt.disabled = true;
+
+            select.appendChild(opt);
         });
+    })
+    .catch(() => {
+        select.innerHTML = "<option>Erro ao carregar horários</option>";
     });
+});
 </script>
 
-<!-- SCRIPT DO VALOR AUTOMÁTICO -->
+<!-- SCRIPT: CALCULAR VALOR -->
 <script>
-    const numCriancas = document.getElementById("numCriancas");
-    const valorTotal = document.getElementById("valorTotal");
-
-    numCriancas.addEventListener("input", function () {
-        const quantidade = parseInt(this.value, 10) || 0;
-        const total = quantidade * 50;
-        valorTotal.value = "R$ " + total.toFixed(2).replace(".", ",");
-    });
+document.getElementById("numCriancas")?.addEventListener("input", function () {
+    const quantidade = parseInt(this.value, 10) || 0;
+    const total = quantidade * 50;
+    document.getElementById("valorTotal").value =
+        "R$ " + total.toFixed(2).replace(".", ",");
+});
 </script>
 
 </body>
 </html>
+
+
